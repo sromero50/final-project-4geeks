@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 flask = "*"
 sqlalchemy = "*"
+eralchemy = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 flask-swagger = "*"
@@ -29,3 +30,4 @@ local="heroku local"
 upgrade="flask db upgrade"
 reset_db="bash ./docs/assets/reset_migrations.bash"
 deploy="echo 'Please follow this 3 steps to deploy: https://github.com/4GeeksAcademy/flask-rest-hello/blob/master/README.md#deploy-your-website-to-heroku' "
+diagram="python3 src/api/models.py"
