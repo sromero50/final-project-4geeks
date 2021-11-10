@@ -4,18 +4,44 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, Empresa, Parada, Linea, Horario, Administrador, Usuario
 from api.utils import generate_sitemap, APIException
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
+
 
 api = Blueprint('api', __name__)
 
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
 
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend"
-    }
+@api.route("/usuario/login", methods=["POST"])
+def login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
 
-    return jsonify(response_body), 200
+    usuario = Usuario.query.filter_by(email=email, password=password).first()
+
+    if usuario is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+
+    access_token = create_access_token(identity=usuario.id)
+    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario"   })
+
+@api.route("/empresa/login", methods=["POST"])
+def login_empresa():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    empresa = Empresa.query.filter_by(email=email, password=password).first()
+
+    if empresa is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+
+    access_token = create_access_token(identity=empresa.id)
+    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa"  })
+
 
 
 @api.route('/linea', methods=['GET'])
@@ -39,28 +65,45 @@ def get_horario():
 
     return jsonify(all_horarios), 200
 
-@api.route('/usuario', methods=['GET'])
-def get_usuario():
-    usuario_query = Usuario.query.all()
-    all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
+@api.route("/usuario/<email>", methods=["GET"])
+@jwt_required()
+def get_user(email):
+    logged_user = get_jwt_identity()
+    actual_user = Usuario.query.filter_by(id=logged_user, email=email).first()
+    user = actual_user.serialize()
+    return user, 200
 
-    return jsonify(all_usuarios), 200
+@api.route("/empresa/<email>", methods=["GET"])
+@jwt_required()
+def get_empresa(email):
+    logged_empresa = get_jwt_identity()
+    actual_empresa = Empresa.query.filter_by(id=logged_empresa, email=email).first()
+    empresa = actual_empresa.serialize()
+    return empresa, 200
+
+
+# @api.route('/usuario', methods=['GET'])
+# def get_usuario():
+#     usuario_query = Usuario.query.all()
+#     all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
+
+#     return jsonify(all_usuarios), 200
 
 
 @api.route('/linea', methods=['POST'])
+@jwt_required()
 def add_new_linea():
+    logged_empresa = get_jwt_identity()
     body = request.get_json()
     if body is None:
         raise APIException("You need to specify the request body as a json object", status_code=400)
-    if 'id_empresa' not in body:
-        raise APIException('You need to specify the id_empresa', status_code=400)
     if 'numero_linea' not in body:
         raise APIException('You need to specify the numero_linea', status_code=400)
     if 'origen' not in body:
         raise APIException('You need to specify the origen', status_code=400)
     if 'destino' not in body:
         raise APIException('You need to specify the destino', status_code=400)                                  
-    linea = Linea(id_empresa=body['id_empresa'], numero_linea=body['numero_linea'], origen=body['origen'], destino=body["destino"])
+    linea = Linea(id_empresa=logged_empresa, numero_linea=body['numero_linea'], origen=body['origen'], destino=body["destino"])
     db.session.add(linea)
     db.session.commit()
     linea_query = Linea.query.all()
@@ -69,6 +112,7 @@ def add_new_linea():
 
 
 @api.route('/parada', methods=['POST'])
+@jwt_required()
 def add_new_parada():
     body = request.get_json()
     if body is None:
@@ -85,6 +129,7 @@ def add_new_parada():
     return jsonify(all_paradas), 200
 
 @api.route('/horario', methods=['POST'])
+@jwt_required()
 def add_new_horario():
     body = request.get_json()
     if body is None:
@@ -123,9 +168,30 @@ def add_new_usuario():
     all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
     return jsonify(all_usuarios), 200
 
+@api.route('/empresa/registrar', methods=['POST'])
+def add_new_empresa():
+    body = request.get_json()
+    if body is None:
+        raise APIException("You need to specify the request body as a json object", status_code=400)
+    if 'nombre' not in body:
+        raise APIException('You need to specify the nombre', status_code=400)
+    if 'email' not in body:
+        raise APIException('You need to specify the email', status_code=400)
+    if 'password' not in body:
+        raise APIException('You need to specify the password', status_code=400)
+
+    empresa = Empresa(nombre=body['nombre'], email=body['email'], password=body['password'])
+    db.session.add(empresa)
+    db.session.commit()
+    empresa_query = Empresa.query.all()
+    all_empresas = list(map(lambda x: x.serialize(), empresa_query))
+    return jsonify(all_empresas), 200
+
 @api.route('/linea/<numero_linea>', methods=['DELETE'])
+@jwt_required()
 def delete_linea(numero_linea):
-    linea = Linea.query.filter_by(numero_linea=numero_linea).first()
+    logged_empresa = get_jwt_identity()
+    linea = Linea.query.filter_by(numero_linea=numero_linea, id_empresa=logged_empresa).first()
 
     if linea is None:
         raise APIException('linea not found', status_code=404)
@@ -136,6 +202,7 @@ def delete_linea(numero_linea):
     return jsonify(all_linea), 200
 
 @api.route('/parada/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_parada(id):
     parada = Parada.query.get(id)
 
@@ -148,6 +215,7 @@ def delete_parada(id):
     return jsonify(all_parada), 200
 
 @api.route('/horario/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_horario(id):
     horario = Horario.query.get(id)
 
@@ -160,7 +228,9 @@ def delete_horario(id):
     return jsonify(all_horario), 200
 
 @api.route('/usuario/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_usuario(id):
+    logged_user = get_jwt_identity()
     usuario = Usuario.query.get(id)
 
     if usuario is None:
@@ -172,9 +242,11 @@ def delete_usuario(id):
     return jsonify(all_usuario), 200
 
 @api.route('/linea/<numero_linea>', methods=['PUT'])
+@jwt_required()
 def modify_linea(numero_linea):
+    logged_empresa = get_jwt_identity()
     body = request.get_json()
-    linea =Linea.query.filter_by(numero_linea=numero_linea).first()
+    linea =Linea.query.filter_by(numero_linea=numero_linea, id_empresa=logged_empresa).first()
     if linea is None:
         raise APIException('linea not found', status_code=404)
     
@@ -189,6 +261,7 @@ def modify_linea(numero_linea):
     return jsonify(all_linea), 200    
 
 @api.route('/parada/<int:id>', methods=['PUT'])
+@jwt_required()
 def modify_parada(id):
     body = request.get_json()
     parada = Parada.query.get(id)
@@ -204,6 +277,7 @@ def modify_parada(id):
 
 
 @api.route('/horario/<int:id>', methods=['PUT'])
+@jwt_required()
 def modify_horario(id):
     body = request.get_json()
     horario = Horario.query.get(id)
@@ -221,6 +295,7 @@ def modify_horario(id):
     return jsonify(all_horarios), 200    
 
 @api.route('/usuario/<int:id>', methods=['PUT'])
+@jwt_required()
 def modify_usuario(id):
     body = request.get_json()
     usuario = Usuario.query.get(id)
