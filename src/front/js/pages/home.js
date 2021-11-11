@@ -19,6 +19,7 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
+			<button onClick={() => actions.addLinea("l5", "San Luis", "Carrasco")}>Prueba</button>
 		</div>
 	);
 };

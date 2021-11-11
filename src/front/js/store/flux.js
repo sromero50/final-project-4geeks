@@ -60,6 +60,81 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} else {
 					setStore({ lineas: JSON.parse(localStorage.getItem("lineas")) });
 				}
+			},
+			addLinea: async (numero_linea, origen, destino) => {
+				const token = localStorage.getItem("token");
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				myHeaders.append("Authorization", "Bearer" + token);
+
+				var raw = JSON.stringify({
+					numero_linea: numero_linea,
+					origen: origen,
+					destino: destino
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
+				const data = await response.json();
+				//.then(response => response.json())
+				//.then(result => localStorage.setItem("token", result.token))
+				//.catch(error => console.log("error", error));
+				console.log(data);
+			},
+			addHorario: async ubicacion => {
+				const token = localStorage.getItem("token");
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				myHeaders.append("Authorization", "Bearer" + token);
+
+				var raw = JSON.stringify({
+					ubicacion: ubicacion
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
+				const data = await response.json();
+				//.then(response => response.json())
+				//.then(result => localStorage.setItem("token", result.token))
+				//.catch(error => console.log("error", error));
+				console.log(data);
+			},
+			addHorario: async (dia, hora) => {
+				const token = localStorage.getItem("token");
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+				myHeaders.append("Authorization", "Bearer" + token);
+
+				var raw = JSON.stringify({
+					dia: dia,
+					hora: hora
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
+				const data = await response.json();
+				//.then(response => response.json())
+				//.then(result => localStorage.setItem("token", result.token))
+				//.catch(error => console.log("error", error));
+				console.log(data);
 			}
 		}
 	};
