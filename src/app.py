@@ -19,6 +19,9 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 jwt = JWTManager(app)
 
+app.config["JWT_SECRET_KEY"] = "proyecto4geeks" 
+jwt = JWTManager(app)
+
 # database condiguration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:

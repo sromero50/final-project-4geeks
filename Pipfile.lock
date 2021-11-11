@@ -41,10 +41,10 @@
         },
         "cloudinary": {
             "hashes": [
-                "sha256:c6778f14a47f632378be172bbd470088421ac7ee0ace01fc9658ac3ac0ecd82d"
+                "sha256:a0e3635e81bea2ccff807a4f44b4603bd5815248f0191393458d4aa5ceeef172"
             ],
             "index": "pypi",
-            "version": "==1.26.0"
+            "version": "==1.27.0"
         },
         "eralchemy": {
             "hashes": [
@@ -199,11 +199,11 @@
         },
         "jinja2": {
             "hashes": [
-                "sha256:827a0e32839ab1600d4eb1c4c33ec5a8edfbc5cb42dafa13b81f182f97784b45",
-                "sha256:8569982d3f0889eed11dd620c706d39b60c36d6d25843961f33f77fb6bc6b20c"
+                "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8",
+                "sha256:611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==3.0.2"
+            "version": "==3.0.3"
         },
         "mako": {
             "hashes": [
