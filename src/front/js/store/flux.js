@@ -60,6 +60,116 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} else {
 					setStore({ lineas: JSON.parse(localStorage.getItem("lineas")) });
 				}
+			},
+			loginUser: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("usuario", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+
+			loginEmpresa: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("empresa", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+
+			loginAdmin: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/admin/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("admin", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+
+			registroUsuario: (nombre, email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					nombre: nombre,
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			registroEmpresa: (nombre, email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					nombre: nombre,
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
 			}
 		}
 	};
