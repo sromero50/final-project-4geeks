@@ -2,12 +2,12 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
+
 from api.models import db, Empresa, Parada, Linea, Horario, Administrador, Usuario
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-
 
 
 api = Blueprint('api', __name__)
@@ -22,7 +22,7 @@ def login():
     usuario = Usuario.query.filter_by(email=email, password=password).first()
 
     if usuario is None:
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Email o password incorrectos"}), 401
 
 
     access_token = create_access_token(identity=usuario.id)
@@ -310,4 +310,3 @@ def modify_usuario(id):
     usuario_query = Usuario.query.all()
     all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
     return jsonify(all_usuarios), 200   
-
