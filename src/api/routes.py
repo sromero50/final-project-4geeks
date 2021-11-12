@@ -42,6 +42,20 @@ def login_empresa():
     access_token = create_access_token(identity=empresa.id)
     return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa"  })
 
+@api.route("/admin/login", methods=["POST"])
+def login_admin():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+
+    admin = Administrador.query.filter_by(email=email, password=password).first()
+
+    if admin is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+
+    access_token = create_access_token(identity=admin.id)
+    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin"  })
+
 
 
 @api.route('/linea', methods=['GET'])
