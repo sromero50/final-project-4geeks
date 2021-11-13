@@ -29,19 +29,7 @@ const RegistroForm = () => {
 		<>
 			<form action="" id="login" name="registroForm" onSubmit={handleSubmit}>
 				<div className="row">
-					<div className="form-group my-3 col">
-						<label className="h5">Email</label>
-						<input
-							className="form-control"
-							type="email"
-							value={form.email}
-							name="email"
-							placeholder="Ingrese su email"
-							onChange={handleChange}
-							required
-						/>
-					</div>
-					<div className="form-group my-3 col">
+					<div className="form-group my-3">
 						<label className="h5">Nombre</label>
 						<input
 							className="form-control"
@@ -53,9 +41,21 @@ const RegistroForm = () => {
 							required
 						/>
 					</div>
+					<div className="form-group my-3">
+						<label className="h5">Email</label>
+						<input
+							className="form-control"
+							type="email"
+							value={form.email}
+							name="email"
+							placeholder="Ingrese su email"
+							onChange={handleChange}
+							required
+						/>
+					</div>
 				</div>
 				<div className="row">
-					<div className="form-group my-3 col-6 mx-auto">
+					<div className="form-group my-3 mx-auto">
 						<label className="h5">Contraseña</label>
 						<input
 							className="form-control"
@@ -68,13 +68,7 @@ const RegistroForm = () => {
 						/>
 					</div>
 				</div>
-				<div className="text-center">
-					<button type="submit" className="btn btn-warning">
-						Registrarse
-					</button>
-				</div>
-
-				<div className="form-check">
+				<div className="form-check text-center my-3">
 					<input
 						type="checkbox"
 						className="form-check-input"
@@ -85,6 +79,11 @@ const RegistroForm = () => {
 					<label className="form-check-label" htmlFor="empresa">
 						Soy una empresa
 					</label>
+				</div>
+				<div className="text-center">
+					<button type="submit" className="btn btn-dark">
+						Registrarse
+					</button>
 				</div>
 			</form>
 		</>
