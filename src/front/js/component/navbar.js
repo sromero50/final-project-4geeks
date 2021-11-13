@@ -3,15 +3,34 @@ import { Link } from "react-router-dom";
 
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-light bg-light">
+		<nav className="navbar navbar-expand-lg navbar navbar-dark bg-dark">
 			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
+				<a className="navbar-brand" href="/">
+					SmartTravel
+				</a>
+				<div className="collapse navbar-collapse">
+					<ul className="navbar-nav">
+						<li className="nav-item">
+							<a className="nav-link" href="/quienes-somos/">
+								¿Quienes somos?
+							</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link" href="/consulta/">
+								Consulta de horarios
+							</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link" href="/login/">
+								Ingresá
+							</a>
+						</li>
+						<li className="nav-item">
+							<a className="nav-link " href="/registrate/">
+								Registrate
+							</a>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</nav>

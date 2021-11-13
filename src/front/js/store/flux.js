@@ -61,7 +61,117 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ lineas: JSON.parse(localStorage.getItem("lineas")) });
 				}
 			},
-			addLinea: async (numero_linea, origen, destino) => {
+
+			loginUser: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+        fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("usuario", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+      
+      loginEmpresa: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("empresa", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+      
+      loginAdmin: (email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/admin/login", requestOptions)
+					.then(response => response.json())
+					.then(result => localStorage.setItem("admin", JSON.stringify(result)))
+					.catch(error => console.log("error", error));
+			},
+      
+      	registroUsuario: (nombre, email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					nombre: nombre,
+					email: email,
+					password: password
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+        fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+      
+			registroEmpresa: (nombre, email, password) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					nombre: nombre,
+					email: email,
+					password: password  
+          });
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+        fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+      },
+
+      addLinea: async (numero_linea, origen, destino) => {
 				const token = localStorage.getItem("token");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
@@ -71,15 +181,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					numero_linea: numero_linea,
 					origen: origen,
 					destino: destino
-				});
-
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
 				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -87,23 +188,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.catch(error => console.log("error", error));
 				console.log(data);
 			},
-			addHorario: async ubicacion => {
+      
+			addParada: async ubicacion => {
 				const token = localStorage.getItem("token");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
 
 				var raw = JSON.stringify({
-					ubicacion: ubicacion
-				});
-
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
+				ubicacion: ubicacion
 				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -111,6 +204,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.catch(error => console.log("error", error));
 				console.log(data);
 			},
+      
 			addHorario: async (dia, hora) => {
 				const token = localStorage.getItem("token");
 				var myHeaders = new Headers();
@@ -120,21 +214,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				var raw = JSON.stringify({
 					dia: dia,
 					hora: hora
-				});
-
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
 				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
 				//.then(result => localStorage.setItem("token", result.token))
 				//.catch(error => console.log("error", error));
 				console.log(data);
+
 			}
 		}
 	};
