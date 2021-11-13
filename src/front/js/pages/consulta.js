@@ -9,71 +9,27 @@ export const Consulta = () => {
 		<div className="text-center body">
 			<h1 className="display-2 text-white p-5">Consulta de horarios</h1>
 			<div className="pb-5">
-				<div className="dropdown d-inline p-5 m-5">
-					<button
-						className="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false">
-						Línea
-					</button>
-					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a className="dropdown-item" href="#">
-							214
-						</a>
-						<a className="dropdown-item" href="#">
-							221
-						</a>
-						<a className="dropdown-item" href="#">
-							222
-						</a>
-					</div>
-				</div>
-				<div className="dropdown d-inline p-5 m-5">
-					<button
-						className="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false">
-						Destino
-					</button>
-					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a className="dropdown-item" href="#">
-							Pinar
-						</a>
-						<a className="dropdown-item" href="#">
-							Montevideo
-						</a>
-					</div>
-				</div>
-				<div className="dropdown d-inline p-5 m-5">
-					<button
-						className="btn btn-secondary dropdown-toggle"
-						type="button"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false">
-						Tipo de día
-					</button>
-					<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a className="dropdown-item" href="#">
-							Habil
-						</a>
-						<a className="dropdown-item" href="#">
-							Sabado
-						</a>
-						<a className="dropdown-item" href="#">
-							Domingo o feriado
-						</a>
-					</div>
+				<div className="row w-75 mx-auto">
+					<select className="form-select col mx-5 bg-dark text-light" aria-label="Default select example">
+						<option selected>Linea</option>
+						<option value="1">214</option>
+						<option value="2">221</option>
+						<option value="3">222</option>
+					</select>
+					<select className="form-select col mx-5 bg-dark text-light" aria-label="Default select example">
+						<option selected>Destino</option>
+						<option value="1">Montevideo</option>
+						<option value="2">Pinar</option>
+					</select>
+					<select className="form-select col mx-5 bg-dark text-light" aria-label="Default select example">
+						<option selected>Tipo de Día</option>
+						<option value="1">Habiles</option>
+						<option value="2">Sabados</option>
+						<option value="3">Domingos o Feriados</option>
+					</select>
 				</div>
 			</div>
-			<table className="table table-dark">
+			<table className="table table-dark w-75 mx-auto">
 				<thead>
 					<tr>
 						<th scope="col">Parada 1</th>

@@ -54,7 +54,7 @@ const LoginForm = () => {
 							required
 						/>
 					</div>
-					<div className="form-group my-3">
+					<div className="form-group mt-1">
 						<label className="h5">Contraseña</label>
 						<input
 							className="form-control"
@@ -66,12 +66,7 @@ const LoginForm = () => {
 							required
 						/>
 					</div>
-					<div className="text-center">
-						<button type="submit" className="btn btn-warning">
-							Ingresar
-						</button>
-					</div>
-					<div className="form-check">
+					<div className="form-check text-center my-3 mr-4|">
 						<input
 							type="checkbox"
 							className="form-check-input"
@@ -83,7 +78,7 @@ const LoginForm = () => {
 							Empresa
 						</label>
 					</div>
-					<div className="form-check">
+					<div className="form-check text-center my-3 ml-3">
 						<input
 							type="checkbox"
 							className="form-check-input"
@@ -94,6 +89,11 @@ const LoginForm = () => {
 						<label className="form-check-label" htmlFor="admin">
 							Administrador
 						</label>
+					</div>
+					<div className="text-center">
+						<button type="submit" className="btn btn-dark">
+							Ingresar
+						</button>
 					</div>
 				</form>
 			)}
