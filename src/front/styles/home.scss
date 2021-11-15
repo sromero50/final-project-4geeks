@@ -4,10 +4,11 @@ body{
     background-size: cover;
 }
 
-.body{
+.body {
+    
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.452);
-    height: 601px;
-}
+  }
 
 .quienes{
      font-size: 45px;
@@ -15,4 +16,8 @@ body{
 
 a{
     color: white;
+}
+
+.empresaInput{
+    width:200px;
 }

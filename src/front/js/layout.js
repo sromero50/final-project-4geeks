@@ -10,6 +10,7 @@ import Quienes from "./pages/quienes";
 import { Navbar } from "./component/navbar";
 import Login from "./pages/login";
 import Registro from "./pages/registro";
+import Admin from "./pages/admin";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -39,6 +40,9 @@ const Layout = () => {
 						</Route>
 						<Route exact path="/quienes-somos">
 							<Quienes />
+						</Route>
+						<Route exact path="/admin">
+							<Admin />
 						</Route>
 						<Route>
 							<h1>Not found!</h1>

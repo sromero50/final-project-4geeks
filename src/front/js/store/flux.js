@@ -3,7 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			horarios: [],
 			paradas: [],
-			lineas: []
+			lineas: [],
+			empresas: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -77,9 +78,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/login", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("usuario", JSON.stringify(result)))
+					.then(result => localStorage.setItem("token", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -99,9 +100,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/login", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("empresa", JSON.stringify(result)))
+					.then(result => localStorage.setItem("token", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -121,9 +122,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/admin/login", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("admin", JSON.stringify(result)))
+					.then(result => localStorage.setItem("token", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -144,7 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/usuario/registrar", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/usuario/registrar", requestOptions)
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
@@ -166,7 +167,67 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://3001-peach-smelt-s14f4mom.ws-us18.gitpod.io/api/empresa/registrar", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/empresa/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			getEmpresas: async () => {
+				const store = getStore();
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/empresa");
+					const responseBody = await response.json();
+					setStore({ empresas: responseBody });
+
+					console.log(responseBody);
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			deleteEmpresa: id => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = "";
+
+				var requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/empresa/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.empresas.filter(item => item.id !== id);
+				setStore({ empresas: newList });
+				if (newList.length === 0) {
+					setStore({ empresas: [] });
+				}
+			},
+			editEmpresa: (id, nombre) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					nombre: nombre
+				});
+
+				var requestOptions = {
+					method: "PUT",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/empresa/" + id, requestOptions)
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
