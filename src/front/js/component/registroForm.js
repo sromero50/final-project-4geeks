@@ -5,6 +5,7 @@ const RegistroForm = () => {
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "", nombre: "" });
 	const [checkbox, setCheckbox] = useState(false);
+	console.log(form);
 	const handleSubmit = event => {
 		event.preventDefault();
 		if (checkbox === true) {

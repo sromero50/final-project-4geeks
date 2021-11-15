@@ -1,0 +1,50 @@
+import React, { useState, useContext } from "react";
+import { Context } from "../store/appContext";
+const Empresas = props => {
+	const { store, actions } = useContext(Context);
+	const [form, setForm] = useState({ nombre: "" });
+	console.log(form);
+	const [edit, setEdit] = useState(true);
+
+	const handleChange = event => {
+		const name = event.target.name;
+		const value = event.target.value;
+		setForm({ ...form, [name]: value });
+	};
+
+	const handleSubmit = event => {
+		event.preventDefault();
+		setEdit(!edit);
+	};
+
+	return (
+		<>
+			<div className="empresaInput container">
+				<div>
+					<form
+						onSubmit={() => {
+							actions.editEmpresa(props.id, form.nombre);
+							handleSubmit(event);
+						}}>
+						<input
+							type="text"
+							className="form-control my-2"
+							name="nombre"
+							defaultValue={props.nombre}
+							readOnly={edit}
+							onChange={handleChange}
+						/>
+						<span onClick={() => actions.deleteEmpresa(props.id)}>
+							<i className="fas fa-times" />
+						</span>
+						<span className="ml-3" onClick={() => setEdit(!edit)}>
+							<i className="fas fa-pen-square" />
+						</span>
+					</form>
+				</div>
+			</div>
+		</>
+	);
+};
+
+export default Empresas;

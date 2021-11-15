@@ -87,13 +87,12 @@ def get_user(email):
     user = actual_user.serialize()
     return user, 200
 
-@api.route("/empresa/<email>", methods=["GET"])
-@jwt_required()
-def get_empresa(email):
-    logged_empresa = get_jwt_identity()
-    actual_empresa = Empresa.query.filter_by(id=logged_empresa, email=email).first()
-    empresa = actual_empresa.serialize()
-    return empresa, 200
+@api.route("/empresa/", methods=["GET"])
+
+def get_empresa():
+    empresa_query = Empresa.query.all()
+    all_empresas = list(map(lambda x: x.serialize(), empresa_query))
+    return jsonify(all_empresas), 200
 
 
 # @api.route('/usuario', methods=['GET'])
@@ -255,6 +254,20 @@ def delete_usuario(id):
     all_usuario = list(map(lambda x: x.serialize(), usuario_query))
     return jsonify(all_usuario), 200
 
+@api.route('/empresa/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_empresa(id):
+    logged_user = get_jwt_identity()
+    empresa = Empresa.query.get(id)
+
+    if empresa is None:
+        raise APIException('empresa not found', status_code=404)
+    db.session.delete(empresa)
+    db.session.commit()
+    empresa_query = Empresa.query.all()
+    all_empresa = list(map(lambda x: x.serialize(), empresa_query))
+    return jsonify(all_empresa), 200
+
 @api.route('/linea/<numero_linea>', methods=['PUT'])
 @jwt_required()
 def modify_linea(numero_linea):
@@ -323,4 +336,19 @@ def modify_usuario(id):
     db.session.commit()
     usuario_query = Usuario.query.all()
     all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
-    return jsonify(all_usuarios), 200   
+    return jsonify(all_usuarios), 200
+
+@api.route('/empresa/<int:id>', methods=['PUT'])
+@jwt_required()
+def modify_empresa(id):
+    body = request.get_json()
+    empresa = Empresa.query.get(id)
+    if empresa is None:
+        raise APIException('empresa not found', status_code=404)
+    
+    empresa.nombre = body["nombre"]
+
+    db.session.commit()
+    empresa_query = Empresa.query.all()
+    all_empresas = list(map(lambda x: x.serialize(), empresa_query))
+    return jsonify(all_empresas), 200     
