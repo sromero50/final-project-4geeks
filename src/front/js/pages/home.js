@@ -6,7 +6,6 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-
 		<div className="text-center">
 			<div className="jumbotron body">
 				<h1 className="display-2 text-white pb-3">SmartTravel</h1>
