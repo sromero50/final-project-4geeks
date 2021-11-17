@@ -232,6 +232,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			addLinea: async (numero_linea, origen, destino) => {
 				const token = localStorage.getItem("empresa");
+
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
@@ -282,6 +283,155 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.then(result => localStorage.setItem("token", result.token))
 				//.catch(error => console.log("error", error));
 				console.log(data);
+
+			},
+			deleteLinea: id => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = "";
+
+				var requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.lineas.filter(item => item.id !== id);
+				setStore({ lineas: newList });
+				if (newList.length === 0) {
+					setStore({ lineas: [] });
+				}
+			},
+			deleteParada: id => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = "";
+
+				var requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.paradas.filter(item => item.id !== id);
+				setStore({ paradas: newList });
+				if (newList.length === 0) {
+					setStore({ paradas: [] });
+				}
+			},
+			deleteHorario: id => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = "";
+
+				var requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.horarios.filter(item => item.id !== id);
+				setStore({ horarios: newList });
+				if (newList.length === 0) {
+					setStore({ horarios: [] });
+				}
+			},
+			editLinea: (id, numero_linea, origen, destino) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					id: id,
+					numero_linea: numero_linea,
+					origen: origen,
+					destino: destino
+				});
+
+				var requestOptions = {
+					method: "PUT",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			editParada: (id, ubicacion) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					ubicacion: ubicacion
+				});
+
+				var requestOptions = {
+					method: "PUT",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			editHorario: (id, id_linea, id_parada, tipo_dia, hora) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					id_linea: id_linea,
+					id_parada: id_parada,
+					tipo_dia: tipo_dia,
+					hora: hora
+				});
+
+				var requestOptions = {
+					method: "PUT",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
 			}
 		}
 	};
