@@ -75,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("usuario", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -97,7 +97,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("empresa", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -119,7 +119,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("admin", result.token))
 					.catch(error => console.log("error", error));
 			},
 
@@ -184,7 +184,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteEmpresa: id => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = "";
@@ -210,7 +210,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			editEmpresa: (id, nombre) => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
@@ -231,7 +231,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addLinea: async (numero_linea, origen, destino) => {
-				const token = localStorage.getItem("token");
+				const token = localStorage.getItem("empresa");
+
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
@@ -250,7 +251,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addParada: async ubicacion => {
-				const token = localStorage.getItem("token");
+				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
@@ -267,7 +268,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			addHorario: async (dia, hora) => {
-				const token = localStorage.getItem("token");
+				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
@@ -282,6 +283,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.then(result => localStorage.setItem("token", result.token))
 				//.catch(error => console.log("error", error));
 				console.log(data);
+
 			},
 			deleteLinea: id => {
 				var myHeaders = new Headers();
@@ -429,6 +431,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
+
 			}
 		}
 	};
