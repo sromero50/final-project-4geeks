@@ -12,9 +12,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				if (localStorage.getItem("horarios") == null) {
 					try {
-						const response = await fetch(
-							"https://3001-blush-grasshopper-6lpz9aqn.ws-us18.gitpod.io/api/horario"
-						);
+						const response = await fetch(process.env.BACKEND_URL + "/api/horario");
 						const responseBody = await response.json();
 						setStore({ horarios: responseBody });
 						localStorage.setItem("horarios", JSON.stringify(store.horarios));
@@ -30,9 +28,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				if (localStorage.getItem("paradas") == null) {
 					try {
-						const response = await fetch(
-							"https://3001-blush-grasshopper-6lpz9aqn.ws-us18.gitpod.io/api/parada"
-						);
+						const response = await fetch(process.env.BACKEND_URL + "/api/parada");
 						const responseBody = await response.json();
 						setStore({ paradas: responseBody });
 						localStorage.setItem("paradas", JSON.stringify(store.paradas));
@@ -48,9 +44,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				if (localStorage.getItem("lineas") == null) {
 					try {
-						const response = await fetch(
-							"https://3001-blush-grasshopper-6lpz9aqn.ws-us18.gitpod.io/api/linea"
-						);
+						const response = await fetch(process.env.BACKEND_URL + "/api/linea");
 						const responseBody = await response.json();
 						setStore({ lineas: responseBody });
 						localStorage.setItem("lineas", JSON.stringify(store.lineas));
@@ -81,11 +75,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("usuario", result.token))
 					.catch(error => console.log("error", error));
 			},
-      
-      loginEmpresa: (email, password) => {
+
+			loginEmpresa: (email, password) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 
@@ -103,11 +97,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("empresa", result.token))
 					.catch(error => console.log("error", error));
 			},
-      
-      loginAdmin: (email, password) => {
+
+			loginAdmin: (email, password) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 
@@ -125,11 +119,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions)
 					.then(response => response.json())
-					.then(result => localStorage.setItem("token", result.token))
+					.then(result => localStorage.setItem("admin", result.token))
 					.catch(error => console.log("error", error));
 			},
-      
-      	registroUsuario: (nombre, email, password) => {
+
+			registroUsuario: (nombre, email, password) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 
@@ -151,7 +145,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
 			},
-      
+
 			registroEmpresa: (nombre, email, password) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
@@ -159,8 +153,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				var raw = JSON.stringify({
 					nombre: nombre,
 					email: email,
-					password: password  
-          });
+					password: password
+				});
 
 				var requestOptions = {
 					method: "POST",
@@ -173,9 +167,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
+			},
 
-				},
-			
 			getEmpresas: async () => {
 				const store = getStore();
 
@@ -191,7 +184,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteEmpresa: id => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = "";
@@ -217,7 +210,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			editEmpresa: (id, nombre) => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
@@ -235,10 +228,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
-      },
+			},
 
-      addLinea: async (numero_linea, origen, destino) => {
-				const token = localStorage.getItem("token");
+			addLinea: async (numero_linea, origen, destino) => {
+				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
@@ -246,7 +239,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				var raw = JSON.stringify({
 					numero_linea: numero_linea,
 					origen: origen,
-					destino: destino})
+					destino: destino
+				});
 				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -254,15 +248,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.catch(error => console.log("error", error));
 				console.log(data);
 			},
-      
+
 			addParada: async ubicacion => {
-				const token = localStorage.getItem("token");
+				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
 
 				var raw = JSON.stringify({
-				ubicacion: ubicacion})
+					ubicacion: ubicacion
+				});
 				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -270,23 +265,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.catch(error => console.log("error", error));
 				console.log(data);
 			},
-      
+
 			addHorario: async (dia, hora) => {
-				const token = localStorage.getItem("token");
+				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
 				myHeaders.append("Authorization", "Bearer" + token);
 
 				var raw = JSON.stringify({
 					dia: dia,
-					hora: hora})
+					hora: hora
+				});
 				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
 				//.then(result => localStorage.setItem("token", result.token))
 				//.catch(error => console.log("error", error));
 				console.log(data);
-
 			}
 		}
 	};

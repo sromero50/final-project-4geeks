@@ -1,12 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router-dom";
 const LoginForm = () => {
+	const history = useHistory();
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "" });
-	const [auth, setAuth] = useState(false);
+	const [admin, setAdmin] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
 	const [checkboxAdmin, setCheckboxAdmin] = useState(false);
+
+	useEffect(() => {
+		if (localStorage.getItem("admin")) {
+			setAdmin(!admin);
+			history.push("/admin");
+		}
+	}, []);
 
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -14,11 +23,9 @@ const LoginForm = () => {
 			actions.loginEmpresa(form.email, form.password);
 		} else if (checkboxAdmin === true) {
 			actions.loginAdmin(form.email, form.password);
+			setAdmin(!admin);
 		} else {
 			actions.loginUser(form.email, form.password);
-			if (localStorage.getItem("usuario") != "") {
-				setAuth(true);
-			}
 		}
 	};
 
@@ -36,10 +43,14 @@ const LoginForm = () => {
 		setCheckboxAdmin(!checkboxAdmin);
 	};
 
+	// if (admin == true) {
+	// 	history.push("/admin");
+	// }
+
 	return (
 		<>
-			{auth ? (
-				<Redirect to="/consulta" />
+			{admin == true ? (
+				<Redirect to="/admin" />
 			) : (
 				<form action="" id="login" name="loginForm" onSubmit={handleSubmit}>
 					<div className="form-group my-3">

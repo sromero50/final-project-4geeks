@@ -8,7 +8,7 @@ const ListaEmpresas = () => {
 		<>
 			<div className="empresaInput container">
 				{store.empresas.map((item, index) => {
-					return <Empresas nombre={item.nombre} key={index} id={item.id} />;
+					return <Empresas nombre={item.nombre} key={index} id={item.id} email={item.email} />;
 				})}
 			</div>
 		</>

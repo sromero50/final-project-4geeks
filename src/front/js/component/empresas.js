@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 const Empresas = props => {
 	const { store, actions } = useContext(Context);
-	const [form, setForm] = useState({ nombre: "" });
+	const [form, setForm] = useState({ nombre: "", email: "" });
 	console.log(form);
 	const [edit, setEdit] = useState(true);
 
@@ -26,20 +26,39 @@ const Empresas = props => {
 							actions.editEmpresa(props.id, form.nombre);
 							handleSubmit(event);
 						}}>
-						<input
-							type="text"
-							className="form-control my-2"
-							name="nombre"
-							defaultValue={props.nombre}
-							readOnly={edit}
-							onChange={handleChange}
-						/>
-						<span onClick={() => actions.deleteEmpresa(props.id)}>
-							<i className="fas fa-times" />
-						</span>
-						<span className="ml-3" onClick={() => setEdit(!edit)}>
-							<i className="fas fa-pen-square" />
-						</span>
+						<div className="inputEmpresa">
+							<input
+								type="text"
+								className="form-control my-2"
+								name="nombre"
+								defaultValue={props.nombre}
+								readOnly={edit}
+								onChange={handleChange}
+							/>
+							<span onClick={() => actions.deleteEmpresa(props.id)}>
+								<i className="fas fa-times" />
+							</span>
+							<span
+								className="ml-3"
+								onClick={() => {
+									setEdit(!edit);
+									actions.editEmpresa(props.id, form.nombre);
+								}}>
+								<i className="fas fa-pen-square" />
+							</span>
+						</div>
+						{edit == false ? (
+							<input
+								type="text"
+								className="form-control my-2"
+								name="email"
+								defaultValue={props.email}
+								readOnly={edit}
+								onChange={handleChange}
+							/>
+						) : (
+							false
+						)}
 					</form>
 				</div>
 			</div>
