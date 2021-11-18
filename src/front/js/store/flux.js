@@ -283,7 +283,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				//.then(result => localStorage.setItem("token", result.token))
 				//.catch(error => console.log("error", error));
 				console.log(data);
-
 			},
 			deleteLinea: id => {
 				var myHeaders = new Headers();
@@ -431,7 +430,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
-
+			},
+			myFunction: item => {
+				//var x = document.getElementById("mySelect").value;
+				//return x;
+				console.log("Llegando", item);
 			}
 		}
 	};

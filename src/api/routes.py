@@ -110,13 +110,9 @@ def add_new_linea():
     body = request.get_json()
     if body is None:
         raise APIException("You need to specify the request body as a json object", status_code=400)
-    if 'numero_linea' not in body:
-        raise APIException('You need to specify the numero_linea', status_code=400)
-    if 'origen' not in body:
-        raise APIException('You need to specify the origen', status_code=400)
-    if 'destino' not in body:
-        raise APIException('You need to specify the destino', status_code=400)                                  
-    linea = Linea(id_empresa=logged_empresa, numero_linea=body['numero_linea'], origen=body['origen'], destino=body["destino"])
+    if 'nombre_linea' not in body:
+        raise APIException('You need to specify the nombre_linea', status_code=400)
+    linea = Linea(id_empresa=logged_empresa, nombre_linea=body['nombre_linea'])
     db.session.add(linea)
     db.session.commit()
     linea_query = Linea.query.all()
@@ -200,11 +196,11 @@ def add_new_empresa():
     all_empresas = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresas), 200
 
-@api.route('/linea/<numero_linea>', methods=['DELETE'])
+@api.route('/linea/<nombre_linea>', methods=['DELETE'])
 @jwt_required()
-def delete_linea(numero_linea):
+def delete_linea(nombre_linea):
     logged_empresa = get_jwt_identity()
-    linea = Linea.query.filter_by(numero_linea=numero_linea, id_empresa=logged_empresa).first()
+    linea = Linea.query.filter_by(nombre_linea=nombre_linea, id_empresa=logged_empresa).first()
 
     if linea is None:
         raise APIException('linea not found', status_code=404)
@@ -268,20 +264,18 @@ def delete_empresa(id):
     all_empresa = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresa), 200
 
-@api.route('/linea/<numero_linea>', methods=['PUT'])
+@api.route('/linea/<nombre_linea>', methods=['PUT'])
 @jwt_required()
-def modify_linea(numero_linea):
+def modify_linea(nombre_linea):
     logged_empresa = get_jwt_identity()
     body = request.get_json()
-    linea =Linea.query.filter_by(numero_linea=numero_linea, id_empresa=logged_empresa).first()
+    linea =Linea.query.filter_by(nombre_linea=nombre_linea, id_empresa=logged_empresa).first()
     if linea is None:
         raise APIException('linea not found', status_code=404)
     
     linea.id_empresa = body["id_empresa"]
-    linea.numero_linea = body["numero_linea"]
-    linea.origen = body["origen"]
-    linea.destino = body["destino"]
-
+    linea.nombre_linea = body["nombre_linea"]
+    
     db.session.commit()
     linea_query = Linea.query.all()
     all_linea = list(map(lambda x: x.serialize(), linea_query))
