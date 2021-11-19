@@ -341,6 +341,7 @@ def modify_empresa(id):
         raise APIException('empresa not found', status_code=404)
     
     empresa.nombre = body["nombre"]
+    empresa.email = body["email"]
 
     db.session.commit()
     empresa_query = Empresa.query.all()
