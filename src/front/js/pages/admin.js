@@ -5,7 +5,6 @@ import AuthContext from "../Auth/authContext";
 
 const Admin = () => {
 	const [add, setAdd] = useState(false);
-	const [auth, setAuth] = useState(false);
 
 	return (
 		<AuthContext.Consumer>
