@@ -11,6 +11,7 @@ import { Navbar } from "./component/navbar";
 import Login from "./pages/login";
 import Registro from "./pages/registro";
 import Admin from "./pages/admin";
+import AuthProvider from "./Auth/authProvider";
 //create your first component
 const Layout = () => {
 	//the basename is used when your project is published in a subdirectory and not in the root of the domain
@@ -21,33 +22,37 @@ const Layout = () => {
 		<div>
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
-					<Navbar />
-					<Switch>
-						<Route exact path="/">
-							<Home />
-						</Route>
-						<Route exact path="/consulta">
-							<Consulta />
-						</Route>
-						<Route exact path="/single/:theid">
-							<Single />
-						</Route>
-						<Route exact path="/login">
-							<Login />
-						</Route>
-						<Route exact path="/registrate">
-							<Registro />
-						</Route>
-						<Route exact path="/quienes-somos">
-							<Quienes />
-						</Route>
-						<Route exact path="/admin">
-							<Admin />
-						</Route>
-						<Route>
-							<h1>Not found!</h1>
-						</Route>
-					</Switch>
+					<AuthProvider>
+						<Navbar />
+						<Switch>
+							<Route exact path="/">
+								<Home />
+							</Route>
+							<Route exact path="/consulta">
+								<Consulta />
+							</Route>
+							<Route exact path="/single/:theid">
+								<Single />
+							</Route>
+							<Route exact path="/login">
+								<Login />
+							</Route>
+							<Route exact path="/registrate">
+								<Registro />
+							</Route>
+							<Route exact path="/quienes-somos">
+								<Quienes />
+							</Route>
+
+							<Route exact path="/admin">
+								<Admin />
+							</Route>
+
+							<Route>
+								<h1>Not found!</h1>
+							</Route>
+						</Switch>
+					</AuthProvider>
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>
