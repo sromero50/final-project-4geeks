@@ -208,13 +208,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ empresas: [] });
 				}
 			},
-			editEmpresa: (id, nombre) => {
+			editEmpresa: (id, nombre, email) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
-					nombre: nombre
+					nombre: nombre,
+					email: email
 				});
 
 				var requestOptions = {
