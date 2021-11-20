@@ -26,20 +26,20 @@ const Empresas = props => {
 							actions.editEmpresa(props.id, form.nombre, form.email);
 							handleSubmit(event);
 						}}>
-						<div className="inputEmpresa">
+						<div className="inputEmpresa row">
 							<input
 								type="text"
-								className="form-control my-2"
+								className="form-control my-2 col"
 								name="nombre"
 								defaultValue={props.nombre}
 								readOnly={edit}
 								onChange={handleChange}
 							/>
-							<span onClick={() => actions.deleteEmpresa(props.id)}>
+							<span className="col" onClick={() => actions.deleteEmpresa(props.id)}>
 								<i className="fas fa-times" />
 							</span>
 							<span
-								className="ml-3"
+								className="ml-3 col"
 								onClick={() => {
 									setEdit(!edit);
 									actions.editEmpresa(props.id, form.nombre, form.email);
