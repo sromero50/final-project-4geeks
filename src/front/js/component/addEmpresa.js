@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import { useHistory } from "react-router";
 const AddEmpresa = props => {
+	const history = useHistory();
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "", nombre: "" });
 
@@ -11,6 +13,7 @@ const AddEmpresa = props => {
 	};
 
 	const handleSubmit = event => {
+		event.preventDefault();
 		actions.registroEmpresa(form.nombre, form.email, form.password);
 	};
 

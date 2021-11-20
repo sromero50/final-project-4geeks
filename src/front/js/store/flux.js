@@ -4,7 +4,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			horarios: [],
 			paradas: [],
 			lineas: [],
-			empresas: []
+			empresas: [],
+			admin: localStorage.getItem("admin"),
+			user: localStorage.getItem("user"),
+			empresa: localStorage.getItem("empresa"),
+			login: localStorage.getItem("login"),
+			error: ""
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -57,70 +62,109 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			loginUser: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginUser: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
 
-				fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("usuario", result.token))
-					.catch(error => console.log("error", error));
+					const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						localStorage.setItem("user", responseBody.token);
+						localStorage.setItem("login", true);
+						setStore({ user: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
+
+					setStore({ error: error });
+				}
 			},
 
-			loginEmpresa: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginEmpresa: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
 
-				fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("empresa", result.token))
-					.catch(error => console.log("error", error));
+					const response = await fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						localStorage.setItem("empresa", responseBody.token);
+						localStorage.setItem("login", true);
+						setStore({ empresa: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
+
+					setStore({ error: error });
+				}
 			},
 
-			loginAdmin: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginAdmin: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						localStorage.setItem("admin", responseBody.token);
+						localStorage.setItem("login", true);
+						setStore({ admin: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
 
-				fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("admin", result.token))
-					.catch(error => console.log("error", error));
+					setStore({ error: error });
+				}
+			},
+			logout: () => {
+				const store = getStore();
+				setStore({ admin: localStorage.removeItem("admin") });
+				setStore({ user: localStorage.removeItem("user") });
+				setStore({ empresa: localStorage.removeItem("empresa") });
+				setStore({ login: localStorage.removeItem("login") });
 			},
 
 			registroUsuario: (nombre, email, password) => {

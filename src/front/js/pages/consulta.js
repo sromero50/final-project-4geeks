@@ -60,13 +60,13 @@ export const Consulta = () => {
 					</tr>
 				</tbody>
 			</table>
-			{localStorage.getItem("usuario") ? (
+			{!store.user && (
 				<div className="text-center">
 					<button type="submit" className="btn btn-dark mt-3">
 						Ingresar
 					</button>
 				</div>
-			) : null}
+			)}
 		</div>
 	);
 };

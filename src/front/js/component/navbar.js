@@ -1,56 +1,52 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
-import AuthContext from "../Auth/authContext";
+import { Context } from "../store/appContext";
+
 export const Navbar = () => {
-	const auth = useContext(AuthContext);
+	const { store, actions } = useContext(Context);
 	return (
-		<AuthContext.Consumer>
-			{context => (
-				<>
-					<nav className="navbar navbar-expand-lg navbar navbar-dark bg-dark">
-						<div className="container">
-							<a className="navbar-brand" href="/">
-								SmartTravel
-							</a>
-							<div className="collapse navbar-collapse">
-								<ul className="navbar-nav">
+		<>
+			<nav className="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+				<div className="container">
+					<a className="navbar-brand" href="/">
+						SmartTravel
+					</a>
+					<div className="collapse navbar-collapse">
+						<ul className="navbar-nav">
+							<li className="nav-item">
+								<a className="nav-link" href="/quienes-somos/">
+									¿Quienes somos?
+								</a>
+							</li>
+							<li className="nav-item">
+								<a className="nav-link" href="/consulta/">
+									Consulta de horarios
+								</a>
+							</li>
+							{store.login && (
+								<li className="nav-item">
+									<a className="nav-link" href="/consulta/" onClick={() => actions.logout()}>
+										Salir
+									</a>
+								</li>
+							)}
+							{!store.login && (
+								<>
 									<li className="nav-item">
-										<a className="nav-link" href="/quienes-somos/">
-											¿Quienes somos?
+										<a className="nav-link" href="/login/">
+											Ingresá
 										</a>
 									</li>
 									<li className="nav-item">
-										<a className="nav-link" href="/consulta/">
-											Consulta de horarios
+										<a className="nav-link " href="/registrate/">
+											Registrate
 										</a>
 									</li>
-									{context.login && (
-										<li className="nav-item">
-											<button className="nav-link btn" onClick={() => auth.logout()}>
-												Salir
-											</button>
-										</li>
-									)}
-									{!context.login && (
-										<>
-											<li className="nav-item">
-												<a className="nav-link" href="/login/">
-													Ingresá
-												</a>
-											</li>
-											<li className="nav-item">
-												<a className="nav-link " href="/registrate/">
-													Registrate
-												</a>
-											</li>
-										</>
-									)}
-								</ul>
-							</div>
-						</div>
-					</nav>
-				</>
-			)}
-		</AuthContext.Consumer>
+								</>
+							)}
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</>
 	);
 };

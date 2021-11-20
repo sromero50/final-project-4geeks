@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useState, useContext } from "react";
+
 import { Context } from "../store/appContext";
 const RegistroForm = () => {
 	const { store, actions } = useContext(Context);
