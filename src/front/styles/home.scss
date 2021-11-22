@@ -19,42 +19,8 @@ a{
 }
 
 .empresaInput{
-    width:200px;
+    width:400px;
 }
-
-// seleccionar horarios y que cambie de color
-
-// label {
-//     display:block;
-  
-    
-   
-    
-    
-// }
-
-// input[type=checkbox] {
-//     display: none;
-// }
-
-
-// input:checked + label:before {
-//     content: "\2713 ";
-// }
-
-
-// /* new stuff */
-// .check {
-//     visibility: hidden;
-// }
-
-// input:checked + label .check {
-//     visibility: visible;
-// }
-
-// input.checkbox:checked + label:before {
-//     content: "";
-// }
 
 .labelReserva {
     display:block;
@@ -76,5 +42,9 @@ a{
 .inputReserva:checked + .labelReserva:before {
     content: "\2713 ";
 }
+
+
+i{color:white;
+font-size:150%;}
 
 

@@ -22,7 +22,7 @@ const AddEmpresa = props => {
 			<div className="empresaInput container">
 				<div>
 					<form onSubmit={handleSubmit}>
-						<div className="inputEmpresa">
+						<div className="empresaInput row">
 							<input
 								type="text"
 								className="form-control my-2"

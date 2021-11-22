@@ -19,7 +19,7 @@ const Admin = () => {
 					{add == true ? <AddEmpresa /> : null}
 				</div>
 			)}
-			{!store.admin && <h1 className="display-2 text-white pb-3">NO DISPONIBLE</h1>}
+			{!store.admin && <NotFound />}
 		</Loading>
 	);
 };

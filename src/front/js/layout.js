@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
+import NotFound from "./component/notFound";
 import { Home } from "./pages/home";
 import { Consulta } from "./pages/consulta";
 import injectContext from "./store/appContext";
@@ -50,11 +51,10 @@ const Layout = () => {
 						<Route exact path="/admin">
 							<Admin />
 						</Route>
-
-						<Route>
-							<h1>Not found!</h1>
-						</Route>
-					</Switch>
+							<Route>
+								<NotFound />
+							</Route>
+						</Switch>
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

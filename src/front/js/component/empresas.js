@@ -18,7 +18,7 @@ const Empresas = props => {
 
 	return (
 		<>
-			<div className="empresaInput container">
+			<div className="empresaInput">
 				<div>
 					<form
 						onSubmit={() => {
@@ -34,30 +34,30 @@ const Empresas = props => {
 								readOnly={edit}
 								onChange={handleChange}
 							/>
-							<span className="col" onClick={() => actions.deleteEmpresa(props.id)}>
-								<i className="fas fa-times" />
+							<span className="col-1 my-3" onClick={() => actions.deleteEmpresa(props.id)}>
+								<i className="far fa-trash-alt" />
 							</span>
 							<span
-								className="ml-3 col"
+								className="my-3 col-1"
 								onClick={() => {
 									setEdit(!edit);
 									actions.editEmpresa(props.id, form.nombre, form.email);
 								}}>
-								<i className="fas fa-pen-square" />
+								<i className="far fa-edit" />
 							</span>
+							{edit == false ? (
+								<input
+									type="text"
+									className="form-control my-3"
+									name="email"
+									defaultValue={props.email}
+									readOnly={edit}
+									onChange={handleChange}
+								/>
+							) : (
+								false
+							)}
 						</div>
-						{edit == false ? (
-							<input
-								type="text"
-								className="form-control my-2"
-								name="email"
-								defaultValue={props.email}
-								readOnly={edit}
-								onChange={handleChange}
-							/>
-						) : (
-							false
-						)}
 					</form>
 				</div>
 			</div>
