@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ListaEmpresas from "../component/listaEmpresas";
 import AddEmpresa from "../component/addEmpresa";
 import AuthContext from "../Auth/authContext";
+import NotFound from "../component/notFound";
 
 const Admin = () => {
 	const [add, setAdd] = useState(false);
@@ -10,17 +11,11 @@ const Admin = () => {
 		<AuthContext.Consumer>
 			{context => (
 				<>
-					{!context.admin && (
-						<>
-							<div className="text-center body">
-								<h1 className="display-2 text-white pb-3">Vista disponible solo para administrador</h1>
-							</div>
-						</>
-					)}
+					{!context.admin && <NotFound />}
 					{context.admin && (
 						<>
 							<div className="text-center body">
-								<h1 className="display-2 text-white pb-3">Administración</h1>
+								<h1 className="display-2 text-white p-3">Administración</h1>
 								<ListaEmpresas />
 								<span onClick={() => setAdd(!add)}>
 									<i className="fas fa-plus" />
