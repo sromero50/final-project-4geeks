@@ -3,7 +3,6 @@ import { Context } from "../store/appContext";
 const Empresas = props => {
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ nombre: props.nombre, email: props.email });
-	console.log(form);
 	const [edit, setEdit] = useState(true);
 
 	const handleChange = event => {

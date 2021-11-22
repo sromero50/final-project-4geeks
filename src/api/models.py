@@ -64,6 +64,7 @@ class Linea(db.Model):
     id_empresa = db.Column(db.Integer, db.ForeignKey('empresa.id'))
     nombre_linea = db.Column(db.String(120), unique=True, nullable=False)
     horario = db.relationship("Horario", backref="linea")
+    parada = db.relationship("Parada", backref="linea")
     reserva = db.relationship("Reserva", backref="linea")
 
     def __repr__(self):
@@ -73,6 +74,7 @@ class Linea(db.Model):
         return {
             "id": self.id,
             "nombre_linea": self.nombre_linea,
+            "id_empresa": self.id_empresa
                        
         }
 
@@ -81,6 +83,7 @@ class Parada(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ubicacion = db.Column(db.String(120), unique=True, nullable=False)
     horario = db.relationship("Horario", backref="parada")
+    id_linea = db.Column(db.Integer, db.ForeignKey('linea.id'))
 
     def __repr__(self):
         return '<Parada %r>' % self.ubicacion
@@ -88,7 +91,8 @@ class Parada(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "ubicacion": self.ubicacion
+            "ubicacion": self.ubicacion,
+            "id_linea": self.id_linea
            
         }
 
