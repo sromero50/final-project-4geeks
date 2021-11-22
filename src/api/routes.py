@@ -26,7 +26,7 @@ def login():
 
 
     access_token = create_access_token(identity=usuario.id)
-    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario"   })
+    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario", "nombre":usuario.nombre  })
 
 @api.route("/empresa/login", methods=["POST"])
 def login_empresa():
@@ -40,7 +40,7 @@ def login_empresa():
 
 
     access_token = create_access_token(identity=empresa.id)
-    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa"  })
+    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa","nombre": empresa.nombre  })
 
 @api.route("/admin/login", methods=["POST"])
 def login_admin():
@@ -54,7 +54,7 @@ def login_admin():
 
 
     access_token = create_access_token(identity=admin.id)
-    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin"  })
+    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
 
 
 

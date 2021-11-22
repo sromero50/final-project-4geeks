@@ -9,7 +9,10 @@ import { Navbar } from "./component/navbar";
 import Login from "./pages/login";
 import Registro from "./pages/registro";
 import Admin from "./pages/admin";
+import Usuario from "./pages/usuario";
+import { Empresa } from "./pages/empresa";
 import { Context } from "./store/appContext";
+
 //create your first component
 const Layout = () => {
 	const { store, actions } = useContext(Context);
@@ -38,7 +41,12 @@ const Layout = () => {
 						<Route exact path="/quienes-somos">
 							<Quienes />
 						</Route>
-
+						<Route exact path="/usuario">
+							<Usuario />
+						</Route>
+						<Route exact path="/empresa">
+							<Empresa />
+						</Route>
 						<Route exact path="/admin">
 							<Admin />
 						</Route>

@@ -23,11 +23,23 @@ export const Navbar = () => {
 								</a>
 							</li>
 							{store.login && (
-								<li className="nav-item">
-									<a className="nav-link" href="/consulta/" onClick={() => actions.logout()}>
-										Salir
-									</a>
-								</li>
+								<>
+									{store.info.map(item => {
+										return (
+											<li className="nav-item" key={item.id}>
+												<a className="nav-link" href="/usuario/">
+													{item.nombre}
+												</a>
+											</li>
+										);
+									})}
+									<></>
+									<li className="nav-item">
+										<a className="nav-link" href="/consulta/" onClick={() => actions.logout()}>
+											Salir
+										</a>
+									</li>
+								</>
 							)}
 							{!store.login && (
 								<>

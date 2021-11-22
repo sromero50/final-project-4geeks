@@ -15,6 +15,11 @@ const Login = () => {
 					<h4>¿Olvidaste tu contraseña?</h4>
 				</Link>
 			</div>
+			<div className="text-center m-2">
+				<Link to="/registrate">
+					<h4>¿Aún no tienes cuenta? Registrate!</h4>
+				</Link>
+			</div>
 		</div>
 	);
 };

@@ -1,9 +1,13 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.scss";
-
+import { useHistory } from "react-router";
 export const Consulta = () => {
+	const history = useHistory();
 	const { store, actions } = useContext(Context);
+
+	const [linea, setLinea] = useState();
+	const [parada, setParada] = useState();
 
 	return (
 		<div className="text-center body">
@@ -13,12 +17,11 @@ export const Consulta = () => {
 					<select
 						id="mySelect"
 						className="form-select col mx-5 bg-dark text-light"
-						aria-label="Default select example"
-						onChange={e => console.log(e.target.value)}>
+						onChange={e => setLinea(e.target.value)}>
 						<option selected>Linea</option>
 						{store.lineas.map((item, index) => {
 							return (
-								<option key={index} value={item.nombre_linea}>
+								<option key={index} value={item.id}>
 									{item.nombre_linea}
 								</option>
 							);
@@ -36,14 +39,56 @@ export const Consulta = () => {
 					</select>
 				</div>
 			</div>
-			<table className="table table-dark w-75 mx-auto">
+			<div className="row container">
+				{store.paradas.map(parada => {
+					return (
+						<>
+							{linea == parada.id_linea ? (
+								<>
+									<div className="col container bg-dark text-light border">
+										<div className="border my-2">{parada.ubicacion}</div>
+										{store.horarios.map(horario => {
+											return (
+												<>
+													{parada.id == horario.id_parada ? (
+														<>
+															<input
+																className="inputReserva"
+																id={horario.hora}
+																type="checkbox"
+																name={horario.hora}
+																value={horario.hora}
+																onClick={e =>
+																	console.log(e.target.value, parada.ubicacion, linea)
+																}
+															/>
+															<label className="labelReserva" htmlFor={horario.hora}>
+																{horario.hora}
+															</label>
+														</>
+													) : null}
+												</>
+											);
+										})}
+									</div>
+								</>
+							) : null}
+						</>
+					);
+				})}
+			</div>
+			{/* <table className="table table-dark w-75 mx-auto">
 				<thead>
 					<tr>
 						{store.paradas.map((item, index) => {
 							return (
-								<th scope="col" key={index}>
-									{item.ubicacion}
-								</th>
+								<>
+									{linea == item.id_linea ? (
+										<td scope="col" key={index}>
+											{item.ubicacion}
+										</td>
+									) : null}
+								</>
 							);
 						})}
 					</tr>
@@ -52,17 +97,21 @@ export const Consulta = () => {
 					<tr>
 						{store.horarios.map((item, index) => {
 							return (
-								<td scope="col" key={index}>
-									{item.hora}
-								</td>
+								<>
+									{linea == item.id_linea ? (
+										<td scope="col" key={index}>
+											{item.hora}
+										</td>
+									) : null}
+								</>
 							);
 						})}
 					</tr>
 				</tbody>
-			</table>
-			{!store.user && (
+			</table> */}
+			{!store.login && (
 				<div className="text-center">
-					<button type="submit" className="btn btn-dark mt-3">
+					<button type="submit" className="btn btn-dark mt-3" onClick={() => history.push("/login")}>
 						Ingresar
 					</button>
 				</div>

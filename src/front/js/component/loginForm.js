@@ -94,7 +94,7 @@ const LoginForm = () => {
 				</form>
 			)}
 			{store.admin && <Redirect to="/admin/" />}
-			{store.user && <Redirect to="/consulta/" />}
+			{store.user && <Redirect to="/usuario/" />}
 			{store.empresa && <Redirect to="/empresa/" />}
 		</>
 	);
