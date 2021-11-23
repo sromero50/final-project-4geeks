@@ -5,123 +5,160 @@ const getState = ({ getStore, getActions, setStore }) => {
 			paradas: [],
 			lineas: [],
 			empresas: [],
-			reservas: []
+
+			reservas: [],
+
+			admin: localStorage.getItem("admin"),
+			user: localStorage.getItem("user"),
+			empresa: localStorage.getItem("empresa"),
+			login: JSON.parse(localStorage.getItem("login")),
+			error: "",
+			info: [JSON.parse(localStorage.getItem("info"))]
+
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
 			getHorarios: async () => {
 				const store = getStore();
-				if (localStorage.getItem("horarios") == null) {
-					try {
-						const response = await fetch(process.env.BACKEND_URL + "/api/horario");
-						const responseBody = await response.json();
-						setStore({ horarios: responseBody });
-						localStorage.setItem("horarios", JSON.stringify(store.horarios));
-						console.log(responseBody);
-					} catch (error) {
-						console.log(error);
-					}
-				} else {
-					setStore({ horarios: JSON.parse(localStorage.getItem("horarios")) });
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/horario");
+					const responseBody = await response.json();
+					setStore({ horarios: responseBody });
+				} catch (error) {
+					console.log(error);
 				}
 			},
 			getParadas: async () => {
 				const store = getStore();
-				if (localStorage.getItem("paradas") == null) {
-					try {
-						const response = await fetch(process.env.BACKEND_URL + "/api/parada");
-						const responseBody = await response.json();
-						setStore({ paradas: responseBody });
-						localStorage.setItem("paradas", JSON.stringify(store.paradas));
-						console.log(responseBody);
-					} catch (error) {
-						console.log(error);
-					}
-				} else {
-					setStore({ paradas: JSON.parse(localStorage.getItem("paradas")) });
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/parada");
+					const responseBody = await response.json();
+					setStore({ paradas: responseBody });
+				} catch (error) {
+					console.log(error);
 				}
 			},
 			getLineas: async () => {
 				const store = getStore();
-				if (localStorage.getItem("lineas") == null) {
-					try {
-						const response = await fetch(process.env.BACKEND_URL + "/api/linea");
-						const responseBody = await response.json();
-						setStore({ lineas: responseBody });
-						localStorage.setItem("lineas", JSON.stringify(store.lineas));
-						console.log(responseBody);
-					} catch (error) {
-						console.log(error);
-					}
-				} else {
-					setStore({ lineas: JSON.parse(localStorage.getItem("lineas")) });
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/linea");
+					const responseBody = await response.json();
+					setStore({ lineas: responseBody });
+				} catch (error) {
+					console.log(error);
 				}
 			},
 
-			loginUser: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginUser: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
 
-				fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("usuario", result.token))
-					.catch(error => console.log("error", error));
+					const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						console.log([responseBody]);
+						localStorage.setItem("user", responseBody.token);
+						localStorage.setItem("login", true);
+						localStorage.setItem("info", JSON.stringify(responseBody));
+						setStore({ info: [responseBody] });
+						setStore({ user: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
+
+					setStore({ error: error });
+				}
 			},
 
-			loginEmpresa: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginEmpresa: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
 
-				fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("empresa", result.token))
-					.catch(error => console.log("error", error));
+					const response = await fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						localStorage.setItem("empresa", responseBody.token);
+						localStorage.setItem("login", true);
+						localStorage.setItem("info", JSON.stringify(responseBody));
+						setStore({ info: [responseBody] });
+						setStore({ empresa: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
+
+					setStore({ error: error });
+				}
 			},
 
-			loginAdmin: (email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			loginAdmin: async (email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody.token) {
+						localStorage.setItem("admin", responseBody.token);
+						localStorage.setItem("login", true);
+						localStorage.setItem("info", JSON.stringify(responseBody));
+						setStore({ info: [responseBody] });
+						setStore({ admin: true });
+						setStore({ login: true });
+					}
+				} catch (error) {
+					console.log("error", error);
 
-				fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions)
-					.then(response => response.json())
-					.then(result => localStorage.setItem("admin", result.token))
-					.catch(error => console.log("error", error));
+					setStore({ error: error });
+				}
+			},
+			logout: () => {
+				const store = getStore();
+				setStore({ admin: localStorage.removeItem("admin") });
+				setStore({ user: localStorage.removeItem("user") });
+				setStore({ empresa: localStorage.removeItem("empresa") });
+				setStore({ login: localStorage.removeItem("login") });
+				setStore({ login: localStorage.removeItem("info") });
 			},
 
 			registroUsuario: (nombre, email, password) => {
@@ -172,13 +209,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			getEmpresas: async () => {
 				const store = getStore();
-
 				try {
 					const response = await fetch(process.env.BACKEND_URL + "/api/empresa");
 					const responseBody = await response.json();
 					setStore({ empresas: responseBody });
-
-					console.log(responseBody);
 				} catch (error) {
 					console.log(error);
 				}
@@ -209,13 +243,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ empresas: [] });
 				}
 			},
-			editEmpresa: (id, nombre) => {
+			editEmpresa: (id, nombre, email) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
-					nombre: nombre
+					nombre: nombre,
+					email: email
 				});
 
 				var requestOptions = {
@@ -236,7 +271,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
-				myHeaders.append("Authorization", "Bearer" + token);
+				myHeaders.append("Authorization", "Bearer " + token);
 
 				var raw = JSON.stringify({
 					numero_linea: numero_linea,
@@ -255,7 +290,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
-				myHeaders.append("Authorization", "Bearer" + token);
+				myHeaders.append("Authorization", "Bearer " + token);
 
 				var raw = JSON.stringify({
 					ubicacion: ubicacion
@@ -268,14 +303,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				console.log(data);
 			},
 
-			addHorario: async (dia, hora) => {
+			addHorario: async (id_linea, id_parada, tipo_dia, hora) => {
 				const token = localStorage.getItem("empresa");
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
-				myHeaders.append("Authorization", "Bearer" + token);
+				myHeaders.append("Authorization", "Bearer " + token);
 
 				var raw = JSON.stringify({
-					dia: dia,
+					id_linea: id_linea,
+					id_parada: id_parada,
+					tipo_dia: tipo_dia,
 					hora: hora
 				});
 				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
@@ -287,7 +324,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteLinea: id => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = "";
@@ -313,7 +350,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteParada: id => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = "";
@@ -339,7 +376,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteHorario: id => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = "";
@@ -363,16 +400,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ horarios: [] });
 				}
 			},
-			editLinea: (id, numero_linea, origen, destino) => {
+			editLinea: (id, nombre_linea) => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
 					id: id,
-					numero_linea: numero_linea,
-					origen: origen,
-					destino: destino
+					nombre_linea: nombre_linea
 				});
 
 				var requestOptions = {
@@ -389,7 +424,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			editParada: (id, ubicacion) => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
@@ -410,7 +445,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			editHorario: (id, id_linea, id_parada, tipo_dia, hora) => {
 				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({

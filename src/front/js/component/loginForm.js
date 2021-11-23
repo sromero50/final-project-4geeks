@@ -1,21 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Context } from "../store/appContext";
-import { useHistory } from "react-router-dom";
+
 const LoginForm = () => {
-	const history = useHistory();
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "" });
-	const [admin, setAdmin] = useState(false);
 	const [checkbox, setCheckbox] = useState(false);
 	const [checkboxAdmin, setCheckboxAdmin] = useState(false);
-
-	useEffect(() => {
-		if (localStorage.getItem("admin")) {
-			setAdmin(!admin);
-			history.push("/admin");
-		}
-	}, []);
 
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -23,7 +14,7 @@ const LoginForm = () => {
 			actions.loginEmpresa(form.email, form.password);
 		} else if (checkboxAdmin === true) {
 			actions.loginAdmin(form.email, form.password);
-			setAdmin(!admin);
+			console.log(store.error);
 		} else {
 			actions.loginUser(form.email, form.password);
 		}
@@ -43,15 +34,9 @@ const LoginForm = () => {
 		setCheckboxAdmin(!checkboxAdmin);
 	};
 
-	// if (admin == true) {
-	// 	history.push("/admin");
-	// }
-
 	return (
 		<>
-			{admin == true ? (
-				<Redirect to="/admin" />
-			) : (
+			{!store.login && (
 				<form action="" id="login" name="loginForm" onSubmit={handleSubmit}>
 					<div className="form-group my-3">
 						<label className="h5">Email</label>
@@ -108,6 +93,9 @@ const LoginForm = () => {
 					</div>
 				</form>
 			)}
+			{store.admin && <Redirect to="/admin/" />}
+			{store.user && <Redirect to="/usuario/" />}
+			{store.empresa && <Redirect to="/empresa/" />}
 		</>
 	);
 };

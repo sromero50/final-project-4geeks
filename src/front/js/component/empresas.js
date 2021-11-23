@@ -2,8 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 const Empresas = props => {
 	const { store, actions } = useContext(Context);
-	const [form, setForm] = useState({ nombre: "", email: "" });
-	console.log(form);
+	const [form, setForm] = useState({ nombre: props.nombre, email: props.email });
 	const [edit, setEdit] = useState(true);
 
 	const handleChange = event => {
@@ -19,46 +18,46 @@ const Empresas = props => {
 
 	return (
 		<>
-			<div className="empresaInput container">
+			<div className="empresaInput">
 				<div>
 					<form
 						onSubmit={() => {
-							actions.editEmpresa(props.id, form.nombre);
+							actions.editEmpresa(props.id, form.nombre, form.email);
 							handleSubmit(event);
 						}}>
-						<div className="inputEmpresa">
+						<div className="inputEmpresa row">
 							<input
 								type="text"
-								className="form-control my-2"
+								className="form-control my-2 col"
 								name="nombre"
 								defaultValue={props.nombre}
 								readOnly={edit}
 								onChange={handleChange}
 							/>
-							<span onClick={() => actions.deleteEmpresa(props.id)}>
-								<i className="fas fa-times" />
+							<span className="col-1 my-3" onClick={() => actions.deleteEmpresa(props.id)}>
+								<i className="far fa-trash-alt" />
 							</span>
 							<span
-								className="ml-3"
+								className="my-3 col-1"
 								onClick={() => {
 									setEdit(!edit);
-									actions.editEmpresa(props.id, form.nombre);
+									actions.editEmpresa(props.id, form.nombre, form.email);
 								}}>
-								<i className="fas fa-pen-square" />
+								<i className="far fa-edit" />
 							</span>
+							{edit == false ? (
+								<input
+									type="text"
+									className="form-control my-3"
+									name="email"
+									defaultValue={props.email}
+									readOnly={edit}
+									onChange={handleChange}
+								/>
+							) : (
+								false
+							)}
 						</div>
-						{edit == false ? (
-							<input
-								type="text"
-								className="form-control my-2"
-								name="email"
-								defaultValue={props.email}
-								readOnly={edit}
-								onChange={handleChange}
-							/>
-						) : (
-							false
-						)}
 					</form>
 				</div>
 			</div>

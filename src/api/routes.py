@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 
-from api.models import db, Empresa, Parada, Linea, Horario, Administrador, Usuario
+from api.models import db, Empresa, Parada, Linea, Horario, Administrador, Usuario, Reserva
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
@@ -26,7 +26,7 @@ def login():
 
 
     access_token = create_access_token(identity=usuario.id)
-    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario"   })
+    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario", "nombre":usuario.nombre  })
 
 @api.route("/empresa/login", methods=["POST"])
 def login_empresa():
@@ -40,7 +40,7 @@ def login_empresa():
 
 
     access_token = create_access_token(identity=empresa.id)
-    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa"  })
+    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa","nombre": empresa.nombre  })
 
 @api.route("/admin/login", methods=["POST"])
 def login_admin():
@@ -54,7 +54,7 @@ def login_admin():
 
 
     access_token = create_access_token(identity=admin.id)
-    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin"  })
+    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
 
 
 
@@ -94,6 +94,13 @@ def get_empresa():
     all_empresas = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresas), 200
 
+
+@api.route("/reserva/", methods=["GET"])
+
+def get_reservas():
+    reserva_query = Reserva.query.all()
+    all_reservas = list(map(lambda x: x.serialize(), reserva_query))
+    return jsonify(all_reservas), 200
 
 # @api.route('/usuario', methods=['GET'])
 # def get_usuario():
@@ -196,6 +203,28 @@ def add_new_empresa():
     all_empresas = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresas), 200
 
+@api.route('/reserva', methods=['POST'])
+@jwt_required()
+def add_new_reserva():
+    body = request.get_json()
+    if body is None:
+        raise APIException("You need to specify the request body as a json object", status_code=400)
+    if 'id_linea' not in body:
+        raise APIException('You need to specify the id_linea', status_code=400)
+    if 'id_horario' not in body:
+        raise APIException('You need to specify the id_horario', status_code=400)
+    if 'id_usuario' not in body:
+        raise APIException('You need to specify the id_usuario', status_code=400)
+    if 'asiento' not in body:
+        raise APIException('You need to specify the asiento', status_code=400)                                   
+    reserva = Reserva(id_linea=body['id_linea'], id_horario=body['id_horario'], id_usuario=body['id_usuario'], asiento=body['asiento'])
+    db.session.add(reserva)
+    db.session.commit()
+    reserva_query = Reserva.query.all()
+    all_reservas = list(map(lambda x: x.serialize(), reserva_query))
+    return jsonify(all_reservas), 200
+
+
 @api.route('/linea/<nombre_linea>', methods=['DELETE'])
 @jwt_required()
 def delete_linea(nombre_linea):
@@ -263,6 +292,20 @@ def delete_empresa(id):
     empresa_query = Empresa.query.all()
     all_empresa = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresa), 200
+
+
+@api.route('/reserva/<int:id>', methods=['DELETE'])
+@jwt_required()
+def delete_reserva(id):
+    reserva = Reserva.query.get(id)
+
+    if reserva is None:
+        raise APIException('reserva not found', status_code=404)
+    db.session.delete(reserva)
+    db.session.commit()
+    reserva_query = Reserva.query.all()
+    all_reserva = list(map(lambda x: x.serialize(), reserva_query))
+    return jsonify(all_reserva), 200
 
 @api.route('/linea/<nombre_linea>', methods=['PUT'])
 @jwt_required()
@@ -341,8 +384,26 @@ def modify_empresa(id):
         raise APIException('empresa not found', status_code=404)
     
     empresa.nombre = body["nombre"]
+    empresa.email = body["email"]
 
     db.session.commit()
     empresa_query = Empresa.query.all()
     all_empresas = list(map(lambda x: x.serialize(), empresa_query))
     return jsonify(all_empresas), 200     
+
+@api.route('/reserva/<int:id>', methods=['PUT'])
+@jwt_required()
+def modify_reserva(id):
+    body = request.get_json()
+    reserva = Reserva.query.get(id)
+    if reserva is None:
+        raise APIException('reserva not found', status_code=404)
+    
+    reserva.id_linea = body["id_linea"]
+    reserva.id_horario = body["id_horario"]
+    reserva.asiento = body["asiento"]
+
+    db.session.commit()
+    empresa_query = Empresa.query.all()
+    all_empresas = list(map(lambda x: x.serialize(), empresa_query))
+    return jsonify(all_empresas), 200 

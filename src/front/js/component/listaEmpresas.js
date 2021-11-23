@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import Empresas from "./empresas";
 const ListaEmpresas = () => {
@@ -7,8 +7,8 @@ const ListaEmpresas = () => {
 	return (
 		<>
 			<div className="empresaInput container">
-				{store.empresas.map((item, index) => {
-					return <Empresas nombre={item.nombre} key={index} id={item.id} email={item.email} />;
+				{store.empresas.map(item => {
+					return <Empresas nombre={item.nombre} key={item.id} id={item.id} email={item.email} />;
 				})}
 			</div>
 		</>

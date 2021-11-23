@@ -19,6 +19,32 @@ a{
 }
 
 .empresaInput{
-    width:200px;
+    width:400px;
 }
+
+.labelReserva {
+    display:block;
+    border:solid 1px gray;
+    border-radius:10px;
+    color:white;
+   
+}
+
+.inputReserva[type=checkbox] {
+    display: none;
+}
+
+.inputReserva:checked + .labelReserva {
+    border: solid 1px red;
+    color: #F00;
+}
+
+.inputReserva:checked + .labelReserva:before {
+    content: "\2713 ";
+}
+
+
+i{color:white;
+font-size:150%;}
+
 
