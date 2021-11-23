@@ -51,10 +51,10 @@ const Layout = () => {
 						<Route exact path="/admin">
 							<Admin />
 						</Route>
-							<Route>
-								<NotFound />
-							</Route>
-						</Switch>
+						<Route>
+							<NotFound />
+						</Route>
+					</Switch>
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

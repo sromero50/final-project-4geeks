@@ -81,7 +81,44 @@ export const Empresa = () => {
 					</div>
 				</div>
 			</div>
-			<table className="table table-dark w-75 mx-auto">
+			<div className="row container">
+				{store.paradas.map(parada => {
+					return (
+						<>
+							{linea == parada.id_linea ? (
+								<>
+									<div className="col container bg-dark text-light border">
+										<div className="border my-2">{parada.ubicacion}</div>
+										{store.horarios.map(horario => {
+											return (
+												<>
+													{parada.id == horario.id_parada ? (
+														<>
+															<input
+																type="text"
+																value={horario.hora}
+																className="form-control text-center"
+																readOnly
+															/>
+															<span className="col-1" onClick={() => setEdit(!edit)}>
+																<i className="fas fa-pen-square" />
+															</span>
+															<span className="col-1">
+																<i className="fas fa-times" />
+															</span>
+														</>
+													) : null}
+												</>
+											);
+										})}
+									</div>
+								</>
+							) : null}
+						</>
+					);
+				})}
+			</div>
+			{/* <table className="table table-dark w-75 mx-auto">
 				<thead>
 					<tr>
 						{store.paradas.map((item, index) => {
@@ -127,7 +164,7 @@ export const Empresa = () => {
 						})}
 					</tr>
 				</tbody>
-			</table>
+			</table> */}
 			<span className="col-1" onClick={() => setAddHorario(!addHorario)}>
 				<i className="fas fa-plus" />
 			</span>
