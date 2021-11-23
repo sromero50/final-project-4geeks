@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import ListaEmpresas from "../component/listaEmpresas";
+import NotFound from "../component/notFound";
 import AddEmpresa from "../component/addEmpresa";
 import { Context } from "../store/appContext";
 import Loading from "../component/loading";

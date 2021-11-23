@@ -11,6 +11,7 @@ import Login from "./pages/login";
 import Registro from "./pages/registro";
 import Admin from "./pages/admin";
 import Usuario from "./pages/usuario";
+import { Reserva } from "./pages/reserva";
 import { Empresa } from "./pages/empresa";
 import { Context } from "./store/appContext";
 
@@ -51,10 +52,13 @@ const Layout = () => {
 						<Route exact path="/admin">
 							<Admin />
 						</Route>
-							<Route>
-								<NotFound />
-							</Route>
-						</Switch>
+						<Route exact path="/reserva">
+							<Reserva />
+						</Route>
+						<Route>
+							<NotFound />
+						</Route>
+					</Switch>
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>
