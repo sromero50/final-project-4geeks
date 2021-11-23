@@ -41,15 +41,17 @@ export const Empresa = () => {
 								);
 							})}
 						</select>
-						<span className="col-1" onClick={() => setAdd(!add)}>
-							<i className="fas fa-plus" />
-						</span>
-						<span className="col-1" onClick={() => setEdit(!edit)}>
-							<i className="fas fa-pen-square" />
-						</span>
-						<span className="col-1">
-							<i className="fas fa-times" />
-						</span>
+						<div className="text-center">
+							<span className="col-1" onClick={() => setAdd(!add)}>
+								<i className="fas fa-plus" />
+							</span>
+							<span className="col-1" onClick={() => setEdit(!edit)}>
+								<i className="far fa-trash-alt" />
+							</span>
+							<span className="col-1">
+								<i className="far fa-edit" />
+							</span>
+						</div>
 						<div className="w-75">{add && <AddLinea />}</div>
 						<div className="w-75">
 							{edit && (
@@ -81,7 +83,7 @@ export const Empresa = () => {
 					</div>
 				</div>
 			</div>
-			<div className="row container">
+			<div className="row container m-auto">
 				{store.paradas.map(parada => {
 					return (
 						<>
@@ -118,53 +120,6 @@ export const Empresa = () => {
 					);
 				})}
 			</div>
-			{/* <table className="table table-dark w-75 mx-auto">
-				<thead>
-					<tr>
-						{store.paradas.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<>
-											<td scope="col" key={index}>
-												{item.ubicacion}
-											</td>
-										</>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						{store.horarios.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<>
-											<td scope="col" key={index}>
-												<input
-													type="text"
-													value={item.hora}
-													className="form-control text-center"
-													readOnly
-												/>
-												<span className="col-1" onClick={() => setEdit(!edit)}>
-													<i className="fas fa-pen-square" />
-												</span>
-												<span className="col-1">
-													<i className="fas fa-times" />
-												</span>
-											</td>
-										</>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</tbody>
-			</table> */}
 			<span className="col-1" onClick={() => setAddHorario(!addHorario)}>
 				<i className="fas fa-plus" />
 			</span>

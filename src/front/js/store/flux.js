@@ -46,24 +46,24 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			loginUser: async (email, password) => {
 				const store = getStore();
-				try {
-					var myHeaders = new Headers();
-					myHeaders.append("Content-Type", "application/json");
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
 
-					var raw = JSON.stringify({
-						email: email,
-						password: password
-					});
+				var raw = JSON.stringify({
+					email: email,
+					password: password
+				});
 
-					var requestOptions = {
-						method: "POST",
-						headers: myHeaders,
-						body: raw,
-						redirect: "follow"
-					};
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
 
-					const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
-					const responseBody = await response.json();
+				const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
+				const responseBody = await response.json();
+				if (response == 200) {
 					if (responseBody.token) {
 						console.log([responseBody]);
 						localStorage.setItem("user", responseBody.token);
@@ -73,10 +73,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						setStore({ user: true });
 						setStore({ login: true });
 					}
-				} catch (error) {
-					console.log("error", error);
-
-					setStore({ error: error });
+				} else {
+					setStore({ error: responseBody.msg });
 				}
 			},
 
