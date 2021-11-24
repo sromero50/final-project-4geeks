@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
-
+import Swal from "sweetalert2";
 const LoginForm = () => {
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "" });
@@ -39,6 +39,10 @@ const LoginForm = () => {
 	// const handleCheckAdmin = () => {
 	// 	setCheckboxAdmin(!checkboxAdmin);
 	// };
+
+	useEffect(() => {
+		console.log(store.error);
+	}, []);
 
 	return (
 		<>
@@ -104,6 +108,16 @@ const LoginForm = () => {
 					</div>
 				</form>
 			)}
+			{/* {store.error && (
+				<>
+					{Swal.fire({
+						title: "Error!",
+						text: "Do you want to continue",
+						icon: "error",
+						confirmButtonText: "Cool"
+					})}{" "}
+				</>
+			)} */}
 			{store.admin && <Redirect to="/admin/" />}
 			{store.user && <Redirect to="/usuario/" />}
 			{store.empresa && <Redirect to="/empresa/" />}

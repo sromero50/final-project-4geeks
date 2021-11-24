@@ -86,6 +86,7 @@
 		"react-polyfills": "0.0.1",
 		"react-router-dom": "^5.2.0",
 		"react-seatmap": "^0.1.2",
+		"sweetalert2": "^11.2.0",
 		"typeface-roboto": "^1.1.13"
 	}
 }

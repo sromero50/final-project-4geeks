@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -11,7 +12,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			login: JSON.parse(localStorage.getItem("login")),
 			error: "",
 			info: [JSON.parse(localStorage.getItem("info"))],
-			signup: false
+			signup: false,
+			reload: false
 		},
 		actions: {
 			getHorarios: async () => {
@@ -63,92 +65,110 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
+				const response = await fetch(process.env.BACKEND_URL + "/api/login", requestOptions);
 				const responseBody = await response.json();
 
-				if (responseBody.token) {
+				if (responseBody.rol == "usuario") {
 					localStorage.setItem("user", responseBody.token);
 					localStorage.setItem("login", true);
 					localStorage.setItem("info", JSON.stringify(responseBody));
 					setStore({ info: [responseBody] });
 					setStore({ user: true });
 					setStore({ login: true });
+				} else if (responseBody.rol == "empresa") {
+					localStorage.setItem("empresa", responseBody.token);
+					localStorage.setItem("login", true);
+					localStorage.setItem("info", JSON.stringify(responseBody));
+					setStore({ info: [responseBody] });
+					setStore({ empresa: true });
+					setStore({ login: true });
+				} else if (responseBody.rol == "admin") {
+					localStorage.setItem("admin", responseBody.token);
+					localStorage.setItem("login", true);
+					localStorage.setItem("info", JSON.stringify(responseBody));
+					setStore({ info: [responseBody] });
+					setStore({ admin: true });
+					setStore({ login: true });
 				} else {
+					console.log(responseBody.msg);
 					setStore({ error: responseBody.msg });
-					if (store.error == "Email o password incorrectos") {
-						actions.loginAdmin(email, password);
-						actions.loginEmpresa(email, password);
-					}
-				}
-			},
-			loginEmpresa: async (email, password) => {
-				const store = getStore();
-				try {
-					var myHeaders = new Headers();
-					myHeaders.append("Content-Type", "application/json");
-
-					var raw = JSON.stringify({
-						email: email,
-						password: password
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Contraseña o usuario incorrecto",
+						footer: '<a className="alerta" href="">¿Olvidaste tu contraseña?</a>',
+						width: "350px"
 					});
-
-					var requestOptions = {
-						method: "POST",
-						headers: myHeaders,
-						body: raw,
-						redirect: "follow"
-					};
-
-					const response = await fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions);
-					const responseBody = await response.json();
-					if (responseBody.token) {
-						localStorage.setItem("empresa", responseBody.token);
-						localStorage.setItem("login", true);
-						localStorage.setItem("info", JSON.stringify(responseBody));
-						setStore({ info: [responseBody] });
-						setStore({ empresa: true });
-						setStore({ login: true });
-					}
-				} catch (error) {
-					console.log("error", error);
-
-					setStore({ error: error });
 				}
 			},
+			// loginEmpresa: async (email, password) => {
+			// 	const store = getStore();
+			// 	try {
+			// 		var myHeaders = new Headers();
+			// 		myHeaders.append("Content-Type", "application/json");
 
-			loginAdmin: async (email, password) => {
-				const store = getStore();
-				try {
-					var myHeaders = new Headers();
-					myHeaders.append("Content-Type", "application/json");
+			// 		var raw = JSON.stringify({
+			// 			email: email,
+			// 			password: password
+			// 		});
 
-					var raw = JSON.stringify({
-						email: email,
-						password: password
-					});
+			// 		var requestOptions = {
+			// 			method: "POST",
+			// 			headers: myHeaders,
+			// 			body: raw,
+			// 			redirect: "follow"
+			// 		};
 
-					var requestOptions = {
-						method: "POST",
-						headers: myHeaders,
-						body: raw,
-						redirect: "follow"
-					};
-					const response = await fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions);
-					const responseBody = await response.json();
-					if (responseBody.token) {
-						localStorage.setItem("admin", responseBody.token);
-						localStorage.setItem("login", true);
-						localStorage.setItem("info", JSON.stringify(responseBody));
-						setStore({ info: [responseBody] });
-						setStore({ admin: true });
-						setStore({ login: true });
-					}
-				} catch (error) {
-					console.log("error", error);
+			// 		const response = await fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions);
+			// 		const responseBody = await response.json();
+			// 		if (responseBody.token) {
+			// 			localStorage.setItem("empresa", responseBody.token);
+			// 			localStorage.setItem("login", true);
+			// 			localStorage.setItem("info", JSON.stringify(responseBody));
+			// 			setStore({ info: [responseBody] });
+			// 			setStore({ empresa: true });
+			// 			setStore({ login: true });
+			// 		}
+			// 	} catch (error) {
+			// 		console.log("error", error);
 
-					setStore({ error: error });
-				}
-			},
+			// 		setStore({ error: error });
+			// 	}
+			// },
+
+			// loginAdmin: async (email, password) => {
+			// 	const store = getStore();
+			// 	try {
+			// 		var myHeaders = new Headers();
+			// 		myHeaders.append("Content-Type", "application/json");
+
+			// 		var raw = JSON.stringify({
+			// 			email: email,
+			// 			password: password
+			// 		});
+
+			// 		var requestOptions = {
+			// 			method: "POST",
+			// 			headers: myHeaders,
+			// 			body: raw,
+			// 			redirect: "follow"
+			// 		};
+			// 		const response = await fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions);
+			// 		const responseBody = await response.json();
+			// 		if (responseBody.token) {
+			// 			localStorage.setItem("admin", responseBody.token);
+			// 			localStorage.setItem("login", true);
+			// 			localStorage.setItem("info", JSON.stringify(responseBody));
+			// 			setStore({ info: [responseBody] });
+			// 			setStore({ admin: true });
+			// 			setStore({ login: true });
+			// 		}
+			// 	} catch (error) {
+			// 		console.log("error", error);
+
+			// 		setStore({ error: error });
+			// 	}
+			// },
 			logout: () => {
 				const store = getStore();
 				setStore({ admin: localStorage.removeItem("admin") });
@@ -210,6 +230,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const responseBody = await response.json();
 					if (responseBody) {
 						setStore({ signup: true });
+						setStore({ reload: true });
 					}
 				} catch (error) {
 					console.log("error", error);
@@ -246,6 +267,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.empresas.filter(item => item.id !== id);
+				setStore({ empresas: newList });
+				if (newList.length === 0) {
+					setStore({ empresas: [] });
+				}
 			},
 			editEmpresa: (id, nombre, email) => {
 				var myHeaders = new Headers();
@@ -351,6 +379,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
+				const store = getStore();
+				const newList = store.lineas.filter(item => item.id !== id);
+				setStore({ lineas: newList });
 			},
 			deleteParada: id => {
 				var myHeaders = new Headers();
@@ -374,9 +405,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const newList = store.paradas.filter(item => item.id !== id);
 				setStore({ paradas: newList });
-				if (newList.length === 0) {
-					setStore({ paradas: [] });
-				}
 			},
 			deleteHorario: id => {
 				var myHeaders = new Headers();
@@ -400,9 +428,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				const newList = store.horarios.filter(item => item.id !== id);
 				setStore({ horarios: newList });
-				if (newList.length === 0) {
-					setStore({ horarios: [] });
-				}
 			},
 			editLinea: (id_empresa, id, nombre_linea) => {
 				var myHeaders = new Headers();

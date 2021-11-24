@@ -14,47 +14,57 @@ api = Blueprint('api', __name__)
 
 
 
-@api.route("/usuario/login", methods=["POST"])
+@api.route("/login", methods=["POST"])
 def login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
 
     usuario = Usuario.query.filter_by(email=email, password=password).first()
+    empresa = Empresa.query.filter_by(email=email, password=password).first()
+    admin   = Administrador.query.filter_by(email=email, password=password).first()
 
     if usuario is None:
-        return jsonify({"msg": "Email o password incorrectos"}), 401
+        if empresa is None:
+            if admin is None:
+                return jsonify({"msg": "Email o password incorrectos"}), 401
+
+    if usuario:
+        access_token = create_access_token(identity=usuario.id)
+        return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario", "nombre":usuario.nombre  })
+    if empresa:
+        access_token = create_access_token(identity=empresa.id)
+        return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa", "nombre": empresa.nombre  })
+    if admin: 
+         access_token = create_access_token(identity=admin.id)
+         return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
+
+# @api.route("/empresa/login", methods=["POST"])
+# def login_empresa():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+
+#     empresa = Empresa.query.filter_by(email=email, password=password).first()
+
+#     if empresa is None:
+#         return jsonify({"msg": "Email o password incorrectos"}), 401
 
 
-    access_token = create_access_token(identity=usuario.id)
-    return jsonify({ "token": access_token, "usuario_id": usuario.id, "email": usuario.email,"rol":"usuario", "nombre":usuario.nombre  })
+#     access_token = create_access_token(identity=empresa.id)
+#     return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa","nombre": empresa.nombre  })
 
-@api.route("/empresa/login", methods=["POST"])
-def login_empresa():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
+# @api.route("/admin/login", methods=["POST"])
+# def login_admin():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
 
-    empresa = Empresa.query.filter_by(email=email, password=password).first()
+#     admin = Administrador.query.filter_by(email=email, password=password).first()
 
-    if empresa is None:
-        return jsonify({"msg": "Email o password incorrectos"}), 401
-
-
-    access_token = create_access_token(identity=empresa.id)
-    return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa","nombre": empresa.nombre  })
-
-@api.route("/admin/login", methods=["POST"])
-def login_admin():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-
-    admin = Administrador.query.filter_by(email=email, password=password).first()
-
-    if admin is None:
-        return jsonify({"msg": "Email o password incorrectos"}), 401
+#     if admin is None:
+#         return jsonify({"msg": "Email o password incorrectos"}), 401
 
 
-    access_token = create_access_token(identity=admin.id)
-    return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
+#     access_token = create_access_token(identity=admin.id)
+#     return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
 
 
 
