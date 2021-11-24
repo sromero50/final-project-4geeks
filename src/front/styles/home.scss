@@ -1,7 +1,10 @@
+
 body{
     background-image: url(https://i.pinimg.com/originals/b6/a4/20/b6a420803f582395034f7d45970517e5.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+  
+
 }
 
 .body {
@@ -15,7 +18,7 @@ body{
 }
 
 a{
-    color: white;
+    color: black;
 }
 
 .empresaInput{
@@ -42,6 +45,78 @@ a{
 
 
 i{color:white;
-font-size:150%;}
+font-size:150%;
+}
+
+.labelAsiento {
+    display:block;
+    color:white;
+    line-height: 25px;
+}
+
+.inputAsiento[type=checkbox] {
+    display: none;
+}
+
+.inputAsiento:checked + .labelAsiento {
+    background-color: grey;
+    color: rgba(0, 255, 64, 0.705);
+}
+
+.login{
+    
+    width: 400px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.recover{
+    font-size: 13px;
+    display: left;
+    color: rgba(78, 78, 78, 0.801);
+    font-weight: bold;
+}
+
+.tabla{
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+select{
+    font-weight: 300 !important;
+    font-size: 20px !important;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.boton{
+    font-weight: lighter !important;
+}
 
 
+
+.parada{
+    font-weight: 300;
+    font-size: 25px;
+}
+
+.hora{
+    font-size: 20px;
+}
+
+.horaEmpresa{
+    font-size: 20px;
+    display: inline-flex;
+    
+}
+
+.editLinea{
+    display: inline-flex;
+    width: 500px;
+}
+
+.hora:hover{
+    background-color: rgba(114, 114, 114, 0.459) !important;
+}
+
+.alerta{
+    color: black !important;
+}

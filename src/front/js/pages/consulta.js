@@ -16,19 +16,21 @@ export const Consulta = () => {
 				<div className="row w-75 mx-auto">
 					<select
 						id="mySelect"
-						className="form-select col mx-5 bg-dark text-light"
+						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded "
 						onChange={e => setLinea(e.target.value)}>
-						<option selected>Linea</option>
+						<option defaultValue>Linea</option>
 						{store.lineas.map((item, index) => {
 							return (
-								<option key={index} value={item.id}>
+								<option key={item.nombre_linea} value={item.id}>
 									{item.nombre_linea}
 								</option>
 							);
 						})}
 					</select>
-					<select className="form-select col mx-5 bg-dark text-light" aria-label="Default select example">
-						<option selected>Tipo de Día</option>
+					<select
+						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded "
+						aria-label="Default select example">
+						<option defaultValue>Tipo de Día</option>
 						{store.horarios.map((item, index) => {
 							return (
 								<option key={index} value={item.tipo_dia}>
@@ -39,27 +41,33 @@ export const Consulta = () => {
 					</select>
 				</div>
 			</div>
-			<div className="row container m-auto">
+			<div className="row container m-auto w-50">
 				{store.paradas.map(parada => {
 					return (
 						<>
 							{linea == parada.id_linea ? (
 								<>
-									<div className="col container bg-dark text-light">
-										<div className="border-bottom my-2">{parada.ubicacion}</div>
-										{store.horarios.map(horario => {
-											return (
-												<>
-													{parada.id == horario.id_parada ? (
-														<>
-															<label className="labelReserva my-2" htmlFor={horario.hora}>
-																{horario.hora}
-															</label>
-														</>
-													) : null}
-												</>
-											);
-										})}
+									<div
+										key={parada.ubicacion}
+										className="col border border-secondary rounded tabla container bg-dark text-light ">
+										<ul className="parada list-group  my-2 list-group-flush">
+											{parada.ubicacion}
+											{store.horarios.map(horario => {
+												return (
+													<>
+														{parada.id == horario.id_parada ? (
+															<>
+																<li
+																	key={horario.hora}
+																	className="hora border border-secondary rounded list-group-item text-light bg-dark my-2">
+																	{horario.hora}
+																</li>
+															</>
+														) : null}
+													</>
+												);
+											})}
+										</ul>
 									</div>
 								</>
 							) : null}
@@ -101,7 +109,10 @@ export const Consulta = () => {
 			</table> */}
 			{!store.login && (
 				<div className="text-center">
-					<button type="submit" className="btn btn-dark mt-3" onClick={() => history.push("/login")}>
+					<button
+						type="submit"
+						className="btn btn-dark mt-3 btn-lg boton"
+						onClick={() => history.push("/login")}>
 						Ingresar
 					</button>
 				</div>

@@ -11,14 +11,42 @@ const AddHorario = props => {
 		setForm({ ...form, [name]: value });
 	};
 
+	// const handleClick = () => {
+	// 	for (let i = 0; i < store.lineas.length; i++) {
+	// 		const datos = store.lineas[i];
+	// 		if (datos) {
+	// 			for (const id in datos) {
+	// 				if (datos.nombre_linea == form.id_linea) {
+	// 					console.log("el id de la linea es", datos.id);
+	// 					let id = datos.id;
+	// 					setForm({ ...form, id_linea: datos.id });
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+
+	// 	for (let i = 0; i < store.paradas.length; i++) {
+	// 		const datosParada = store.paradas[i];
+	// 		if (datosParada) {
+	// 			for (const id in datosParada) {
+	// 				if (datosParada.ubicacion == form.id_parada) {
+	// 					console.log("el id de parada es ", datosParada.id);
+	// 					let id = datosParada.id;
+	// 					setForm({ ...form, id_parada: id });
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// };
+
 	const handleSubmit = event => {
 		event.preventDefault();
-		actions.addLinea(form.nombre_linea);
+		actions.addHorario(form.id_linea, form.id_parada, form.tipo_dia, form.hora);
 	};
 
 	return (
 		<>
-			<div className="container w-50">
+			<div className="container w-25">
 				<div>
 					<form onSubmit={handleSubmit}>
 						<div>
