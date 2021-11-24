@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			paradas: [],
 			lineas: [],
 			empresas: [],
+			reservas: [],
 			admin: localStorage.getItem("admin"),
 			user: localStorage.getItem("user"),
 			empresa: localStorage.getItem("empresa"),
@@ -13,7 +14,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			error: "",
 			info: [JSON.parse(localStorage.getItem("info"))],
 			signup: false,
-			reload: false
+			reload: false,
+
+
 		},
 		actions: {
 			getHorarios: async () => {
@@ -509,6 +512,95 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
+			},
+			getReservas: async () => {
+				const store = getStore();
+				if (localStorage.getItem("reservas") == null) {
+					try {
+						const response = await fetch(process.env.BACKEND_URL + "/api/reserva");
+						const responseBody = await response.json();
+						setStore({ reservas: responseBody });
+						localStorage.setItem("reservas", JSON.stringify(store.reservas));
+						console.log(responseBody);
+					} catch (error) {
+						console.log(error);
+					}
+				} else {
+					setStore({ reservas: JSON.parse(localStorage.getItem("reservas")) });
+				}
+			},
+			addReserva: (id_linea, id_horario, id_usuario, asiento) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					id_linea: id_linea,
+					id_horario: id_horario,
+					id_usuario: id_usuario,
+					asiento: asiento
+				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/reserva/registrar", requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			editReserva: (id_linea, id_horario, id_usuario, asiento) => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = JSON.stringify({
+					id_linea: id_linea,
+					id_horario: id_horario,
+					id_usuario: id_usuario,
+					asiento: asiento
+				});
+
+				var requestOptions = {
+					method: "PUT",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+			},
+			deleteReserva: id => {
+				var myHeaders = new Headers();
+				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+				myHeaders.append("Content-Type", "application/json");
+
+				var raw = "";
+
+				var requestOptions = {
+					method: "DELETE",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
+				fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions)
+					.then(response => response.text())
+					.then(result => console.log(result))
+					.catch(error => console.log("error", error));
+
+				const store = getStore();
+				const newList = store.reservas.filter(item => item.id !== id);
+				setStore({ reservas: newList });
+				if (newList.length === 0) {
+					setStore({ reservas: [] });
+				}
 			},
 			myFunction: item => {
 				//var x = document.getElementById("mySelect").value;
