@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.scss";
 import { useHistory } from "react-router";
-export const Consulta = () => {
+export const Reserva = () => {
 	const history = useHistory();
 	const { store, actions } = useContext(Context);
 
@@ -11,7 +11,7 @@ export const Consulta = () => {
 
 	return (
 		<div className="text-center body">
-			<h1 className="display-2 text-white p-5">Consulta de horarios</h1>
+			<h1 className="display-2 text-white p-5">Reservas</h1>
 			<div className="pb-5">
 				<div className="row w-75 mx-auto">
 					<select
@@ -52,6 +52,16 @@ export const Consulta = () => {
 												<>
 													{parada.id == horario.id_parada ? (
 														<>
+															<input
+																className="inputReserva"
+																id={horario.hora}
+																type="checkbox"
+																name={horario.hora}
+																value={horario.hora}
+																onClick={e =>
+																	console.log(e.target.value, parada.ubicacion, linea)
+																}
+															/>
 															<label className="labelReserva my-2" htmlFor={horario.hora}>
 																{horario.hora}
 															</label>
@@ -67,45 +77,6 @@ export const Consulta = () => {
 					);
 				})}
 			</div>
-			{/* <table className="table table-dark w-75 mx-auto">
-				<thead>
-					<tr>
-						{store.paradas.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<td scope="col" key={index}>
-											{item.ubicacion}
-										</td>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						{store.horarios.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<td scope="col" key={index}>
-											{item.hora}
-										</td>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</tbody>
-			</table> */}
-			{!store.login && (
-				<div className="text-center">
-					<button type="submit" className="btn btn-dark mt-3" onClick={() => history.push("/login")}>
-						Ingresar
-					</button>
-				</div>
-			)}
 		</div>
 	);
 };
