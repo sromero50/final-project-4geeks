@@ -8,12 +8,14 @@ const EditLinea = props => {
 	const handleChange = event => {
 		const name = event.target.name;
 		const value = event.target.value;
+
 		setForm({ ...form, [name]: value });
 	};
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		actions.editLinea(form.nombre_linea);
+		actions.editLinea(props.id_empresa, props.id, form.nombre_linea);
+		console.log(form.nombre_linea, props.id);
 	};
 
 	return (
@@ -24,7 +26,7 @@ const EditLinea = props => {
 						<div>
 							<input
 								type="text"
-								className="form-control my-2"
+								className="form-control my-2 text-center"
 								name="nombre_linea"
 								value={form.nombre_linea}
 								onChange={handleChange}

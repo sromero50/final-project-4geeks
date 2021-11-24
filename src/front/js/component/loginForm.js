@@ -1,23 +1,29 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
 	const { store, actions } = useContext(Context);
 	const [form, setForm] = useState({ email: "", password: "" });
-	const [checkbox, setCheckbox] = useState(false);
-	const [checkboxAdmin, setCheckboxAdmin] = useState(false);
+	// const [checkbox, setCheckbox] = useState(false);
+	// const [checkboxAdmin, setCheckboxAdmin] = useState(false);
+
+	// const handleSubmit = event => {
+	// 	event.preventDefault();
+	// 	if (checkbox === true) {
+	// 		actions.loginEmpresa(form.email, form.password);
+	// 	} else if (checkboxAdmin === true) {
+	// 		actions.loginAdmin(form.email, form.password);
+	// 		console.log(store.error);
+	// 	} else {
+	// 		actions.loginUser(form.email, form.password);
+	// 	}
+	// };
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		if (checkbox === true) {
-			actions.loginEmpresa(form.email, form.password);
-		} else if (checkboxAdmin === true) {
-			actions.loginAdmin(form.email, form.password);
-			console.log(store.error);
-		} else {
-			actions.loginUser(form.email, form.password);
-		}
+		actions.loginUser(form.email, form.password);
 	};
 
 	const handleChange = event => {
@@ -26,13 +32,13 @@ const LoginForm = () => {
 		setForm({ ...form, [name]: value });
 	};
 
-	const handleCheck = () => {
-		setCheckbox(!checkbox);
-	};
+	// const handleCheck = () => {
+	// 	setCheckbox(!checkbox);
+	// };
 
-	const handleCheckAdmin = () => {
-		setCheckboxAdmin(!checkboxAdmin);
-	};
+	// const handleCheckAdmin = () => {
+	// 	setCheckboxAdmin(!checkboxAdmin);
+	// };
 
 	return (
 		<>
@@ -61,8 +67,13 @@ const LoginForm = () => {
 							onChange={handleChange}
 							required
 						/>
+						<div className="mt-2">
+							<Link to="/recuperacion">
+								<span className="text-dark recover">¿Olvidaste tu contraseña?</span>
+							</Link>
+						</div>
 					</div>
-					<div className="form-check text-center my-3 mr-4|">
+					{/* <div className="form-check text-center my-3 mr-4|">
 						<input
 							type="checkbox"
 							className="form-check-input"
@@ -85,9 +96,9 @@ const LoginForm = () => {
 						<label className="form-check-label" htmlFor="admin">
 							Administrador
 						</label>
-					</div>
+					</div> */}
 					<div className="text-center">
-						<button type="submit" className="btn btn-dark">
+						<button type="submit" className="btn btn-dark btn-block">
 							Ingresar
 						</button>
 					</div>

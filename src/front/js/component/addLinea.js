@@ -13,31 +13,29 @@ const AddLinea = props => {
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		actions.addLinea(form.nombre_linea);
+		actions.addLinea(props.id_empresa, form.nombre_linea);
 	};
 
 	return (
 		<>
-			<div className="container w-50">
-				<div>
-					<form onSubmit={handleSubmit}>
-						<div>
-							<input
-								type="text"
-								className="form-control my-2"
-								name="nombre_linea"
-								value={form.nombre_linea}
-								onChange={handleChange}
-								placeholder="Nombre de la linea"
-							/>
-						</div>
-						<div className="text-center">
-							<button type="submit" className="btn btn-dark">
-								Registrar
-							</button>
-						</div>
-					</form>
-				</div>
+			<div className="container">
+				<form onSubmit={handleSubmit}>
+					<div>
+						<input
+							type="text"
+							className="form-control my-2 text-center"
+							name="nombre_linea"
+							value={form.nombre_linea}
+							onChange={handleChange}
+							placeholder="Nombre de la linea"
+						/>
+					</div>
+					<div className="text-center">
+						<button type="submit" className="btn btn-dark">
+							Registrar
+						</button>
+					</div>
+				</form>
 			</div>
 		</>
 	);

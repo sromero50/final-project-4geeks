@@ -36,7 +36,7 @@ def login_empresa():
     empresa = Empresa.query.filter_by(email=email, password=password).first()
 
     if empresa is None:
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Email o password incorrectos"}), 401
 
 
     access_token = create_access_token(identity=empresa.id)
@@ -50,7 +50,7 @@ def login_admin():
     admin = Administrador.query.filter_by(email=email, password=password).first()
 
     if admin is None:
-        return jsonify({"msg": "Bad username or password"}), 401
+        return jsonify({"msg": "Email o password incorrectos"}), 401
 
 
     access_token = create_access_token(identity=admin.id)
@@ -225,11 +225,11 @@ def add_new_reserva():
     return jsonify(all_reservas), 200
 
 
-@api.route('/linea/<nombre_linea>', methods=['DELETE'])
+@api.route('/linea/<int:id>', methods=['DELETE'])
 @jwt_required()
-def delete_linea(nombre_linea):
+def delete_linea(id):
     logged_empresa = get_jwt_identity()
-    linea = Linea.query.filter_by(nombre_linea=nombre_linea, id_empresa=logged_empresa).first()
+    linea = Linea.query.filter_by(id=id, id_empresa=logged_empresa).first()
 
     if linea is None:
         raise APIException('linea not found', status_code=404)
@@ -307,12 +307,12 @@ def delete_reserva(id):
     all_reserva = list(map(lambda x: x.serialize(), reserva_query))
     return jsonify(all_reserva), 200
 
-@api.route('/linea/<nombre_linea>', methods=['PUT'])
+@api.route('/linea/<int:id>', methods=['PUT'])
 @jwt_required()
-def modify_linea(nombre_linea):
+def modify_linea(id):
     logged_empresa = get_jwt_identity()
     body = request.get_json()
-    linea =Linea.query.filter_by(nombre_linea=nombre_linea, id_empresa=logged_empresa).first()
+    linea =Linea.query.filter_by(id=id, id_empresa=logged_empresa).first()
     if linea is None:
         raise APIException('linea not found', status_code=404)
     

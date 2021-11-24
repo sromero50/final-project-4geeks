@@ -10,7 +10,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			empresa: localStorage.getItem("empresa"),
 			login: JSON.parse(localStorage.getItem("login")),
 			error: "",
-			info: [JSON.parse(localStorage.getItem("info"))]
+			info: [JSON.parse(localStorage.getItem("info"))],
+			signup: false
 		},
 		actions: {
 			getHorarios: async () => {
@@ -45,6 +46,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			loginUser: async (email, password) => {
+				const actions = getActions();
 				const store = getStore();
 				var myHeaders = new Headers();
 				myHeaders.append("Content-Type", "application/json");
@@ -63,21 +65,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const response = await fetch(process.env.BACKEND_URL + "/api/usuario/login", requestOptions);
 				const responseBody = await response.json();
-				if (response == 200) {
-					if (responseBody.token) {
-						console.log([responseBody]);
-						localStorage.setItem("user", responseBody.token);
-						localStorage.setItem("login", true);
-						localStorage.setItem("info", JSON.stringify(responseBody));
-						setStore({ info: [responseBody] });
-						setStore({ user: true });
-						setStore({ login: true });
-					}
+
+				if (responseBody.token) {
+					localStorage.setItem("user", responseBody.token);
+					localStorage.setItem("login", true);
+					localStorage.setItem("info", JSON.stringify(responseBody));
+					setStore({ info: [responseBody] });
+					setStore({ user: true });
+					setStore({ login: true });
 				} else {
 					setStore({ error: responseBody.msg });
+					if (store.error == "Email o password incorrectos") {
+						actions.loginAdmin(email, password);
+						actions.loginEmpresa(email, password);
+					}
 				}
 			},
-
 			loginEmpresa: async (email, password) => {
 				const store = getStore();
 				try {
@@ -155,50 +158,64 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ login: localStorage.removeItem("info") });
 			},
 
-			registroUsuario: (nombre, email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			registroUsuario: async (nombre, email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					nombre: nombre,
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						nombre: nombre,
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/usuario/registrar", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody) {
+						setStore({ signup: true });
+					}
+				} catch (error) {
+					console.log("error", error);
 
-				fetch(process.env.BACKEND_URL + "/api/usuario/registrar", requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+					setStore({ error: error });
+				}
 			},
 
-			registroEmpresa: (nombre, email, password) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			registroEmpresa: async (nombre, email, password) => {
+				const store = getStore();
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					nombre: nombre,
-					email: email,
-					password: password
-				});
+					var raw = JSON.stringify({
+						nombre: nombre,
+						email: email,
+						password: password
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/empresa/registrar", requestOptions);
+					const responseBody = await response.json();
+					if (responseBody) {
+						setStore({ signup: true });
+					}
+				} catch (error) {
+					console.log("error", error);
 
-				fetch(process.env.BACKEND_URL + "/api/empresa/registrar", requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+					setStore({ error: error });
+				}
 			},
 
 			getEmpresas: async () => {
@@ -229,13 +246,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
-
-				const store = getStore();
-				const newList = store.empresas.filter(item => item.id !== id);
-				setStore({ empresas: newList });
-				if (newList.length === 0) {
-					setStore({ empresas: [] });
-				}
 			},
 			editEmpresa: (id, nombre, email) => {
 				var myHeaders = new Headers();
@@ -260,7 +270,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.catch(error => console.log("error", error));
 			},
 
-			addLinea: async (numero_linea, origen, destino) => {
+			addLinea: async (id_empresa, nombre_linea) => {
 				const token = localStorage.getItem("empresa");
 
 				var myHeaders = new Headers();
@@ -268,10 +278,17 @@ const getState = ({ getStore, getActions, setStore }) => {
 				myHeaders.append("Authorization", "Bearer " + token);
 
 				var raw = JSON.stringify({
-					numero_linea: numero_linea,
-					origen: origen,
-					destino: destino
+					id_empresa: id_empresa,
+					nombre_linea: nombre_linea
 				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
 				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -334,13 +351,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					.then(response => response.text())
 					.then(result => console.log(result))
 					.catch(error => console.log("error", error));
-
-				const store = getStore();
-				const newList = store.lineas.filter(item => item.id !== id);
-				setStore({ lineas: newList });
-				if (newList.length === 0) {
-					setStore({ lineas: [] });
-				}
 			},
 			deleteParada: id => {
 				var myHeaders = new Headers();
@@ -394,13 +404,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					setStore({ horarios: [] });
 				}
 			},
-			editLinea: (id, nombre_linea) => {
+			editLinea: (id_empresa, id, nombre_linea) => {
 				var myHeaders = new Headers();
 				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
 				myHeaders.append("Content-Type", "application/json");
 
 				var raw = JSON.stringify({
-					id: id,
+					id_empresa: id_empresa,
 					nombre_linea: nombre_linea
 				});
 

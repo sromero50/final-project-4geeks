@@ -4,7 +4,7 @@ import NotFound from "../component/notFound";
 import AddEmpresa from "../component/addEmpresa";
 import { Context } from "../store/appContext";
 import Loading from "../component/loading";
-import NotFound from "../component/notFound";
+
 const Admin = () => {
 	const [add, setAdd] = useState(false);
 	const { store, actions } = useContext(Context);

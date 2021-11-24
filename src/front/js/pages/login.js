@@ -6,19 +6,9 @@ import "../../styles/home.scss";
 const Login = () => {
 	return (
 		<div className="body p-5">
-			<div className="container text-light p-3 mt-4 w-50">
-				<h2 className="text-light text-center display-4">Ingresá</h2>
+			<div className="container text-dark p-3 mt-4 login border rounded">
+				<h2 className="text-dark text-center display-4">Ingresa</h2>
 				<LoginForm />
-			</div>
-			<div className="text-center m-2">
-				<Link to="/recuperacion">
-					<h4>¿Olvidaste tu contraseña?</h4>
-				</Link>
-			</div>
-			<div className="text-center m-2">
-				<Link to="/registrate">
-					<h4>¿Aún no tienes cuenta? Registrate!</h4>
-				</Link>
 			</div>
 		</div>
 	);

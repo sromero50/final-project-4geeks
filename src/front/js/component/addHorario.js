@@ -18,7 +18,7 @@ const AddHorario = props => {
 
 	return (
 		<>
-			<div className="container w-50">
+			<div className="container w-25">
 				<div>
 					<form onSubmit={handleSubmit}>
 						<div>

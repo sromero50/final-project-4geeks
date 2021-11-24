@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useHistory } from "react-router-dom";
 import Loading from "../component/loading";
-
+import NotFound from "../component/notFound";
 const Usuario = () => {
 	const { store, actions } = useContext(Context);
 	let history = useHistory();
@@ -40,7 +40,7 @@ const Usuario = () => {
 					})}
 				</>
 			)}
-			{!store.user && <h1 className="display-2 text-white pb-3">NO DISPONIBLE</h1>}
+			{!store.user && <NotFound />}
 		</Loading>
 	);
 };
