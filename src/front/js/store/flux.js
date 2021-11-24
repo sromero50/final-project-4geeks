@@ -334,6 +334,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				var raw = JSON.stringify({
 					ubicacion: ubicacion
 				});
+
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
@@ -354,6 +361,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					tipo_dia: tipo_dia,
 					hora: hora
 				});
+				var requestOptions = {
+					method: "POST",
+					headers: myHeaders,
+					body: raw,
+					redirect: "follow"
+				};
+
 				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
 				const data = await response.json();
 				//.then(response => response.json())
