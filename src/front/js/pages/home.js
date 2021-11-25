@@ -14,11 +14,13 @@ export const Home = () => {
 					asientos y más. <br />
 					¡Animate a conocernos!
 				</p>
-				<p className="lead p-5">
-					<a className="btn btn-light btn-lg" href="#" role="button">
-						Registrate
-					</a>
-				</p>
+				{!store.login && (
+					<p className="lead p-5">
+						<a className="btn btn-light btn-lg" href="#" role="button">
+							Registrate
+						</a>
+					</p>
+				)}
 			</div>
 		</div>
 	);

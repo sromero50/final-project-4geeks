@@ -113,7 +113,17 @@ export const Consulta = () => {
 						type="submit"
 						className="btn btn-dark mt-3 btn-lg boton"
 						onClick={() => history.push("/login")}>
-						Ingresar
+						Reservar
+					</button>
+				</div>
+			)}
+			{store.login && (
+				<div className="text-center">
+					<button
+						type="submit"
+						className="btn btn-dark mt-3 btn-lg boton"
+						onClick={() => history.push("/reserva")}>
+						Reservar
 					</button>
 				</div>
 			)}

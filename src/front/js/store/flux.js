@@ -14,9 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			error: "",
 			info: [JSON.parse(localStorage.getItem("info"))],
 			signup: false,
-			reload: false,
-
-
+			reload: false
 		},
 		actions: {
 			getHorarios: async () => {
@@ -24,7 +22,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const response = await fetch(process.env.BACKEND_URL + "/api/horario");
 					const responseBody = await response.json();
-					setStore({ horarios: responseBody });
+					const horarios = responseBody.sort((a, b) => parseFloat(a.hora) - parseFloat(b.hora));
+					setStore({ horarios: horarios });
 				} catch (error) {
 					console.log(error);
 				}
@@ -601,11 +600,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (newList.length === 0) {
 					setStore({ reservas: [] });
 				}
-			},
-			myFunction: item => {
-				//var x = document.getElementById("mySelect").value;
-				//return x;
-				console.log("Llegando", item);
 			}
 		}
 	};
