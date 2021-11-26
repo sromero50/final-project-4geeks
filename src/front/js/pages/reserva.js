@@ -4,88 +4,122 @@ import "../../styles/home.scss";
 import { useHistory } from "react-router";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { Link } from "react-router-dom";
+import { Redirect } from "react-router";
 export const Reserva = () => {
 	const history = useHistory();
 	const { store, actions } = useContext(Context);
-
+	const [usuario, setUsuario] = useState(false);
 	const [linea, setLinea] = useState();
-	const [parada, setParada] = useState();
-	const [value, onChange] = useState(new Date());
+	const [asiento, setAsiento] = useState(1);
 
-	console.log(value);
+	const [form, setForm] = useState();
+	console.log(store.reservaConfirmada);
+	useEffect(() => {
+		setUsuario(JSON.parse(localStorage.getItem("info")).usuario_id);
+	}, []);
+
+	const handleSubmit = event => {
+		event.preventDefault();
+		actions.addReserva(linea, form, usuario, asiento);
+	};
 
 	return (
-		<div className="text-center body">
-			<h1 className="display-2 text-white p-5">Reservas</h1>
-			<div className="pb-5">
-				<div className="row w-75 mx-auto">
-					<select
-						id="mySelect"
-						className="form-select col mx-5 bg-dark text-light"
-						onChange={e => setLinea(e.target.value)}>
-						<option selected>Linea</option>
-						{store.lineas.map((item, index) => {
+		<>
+			<div className="text-center body">
+				<h1 className="display-2 text-white p-5">Reservas</h1>
+				<form onSubmit={handleSubmit}>
+					<div className="pb-5">
+						<div className="row w-75 mx-auto">
+							<select
+								id="mySelect"
+								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
+								onChange={e => setLinea(e.target.value)}>
+								<option defaultValue>Linea</option>
+								{store.lineas.map((item, index) => {
+									return (
+										<option className="text-center" key={index} value={item.id}>
+											{item.nombre_linea}
+										</option>
+									);
+								})}
+							</select>
+							<select
+								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
+								aria-label="Default select example">
+								<option defaultValue>Tipo de Día</option>
+								{store.horarios.map((item, index) => {
+									return (
+										<option className="text-center" key={index} value={item.tipo_dia}>
+											{item.tipo_dia}
+										</option>
+									);
+								})}
+							</select>
+						</div>
+					</div>
+					<div className="row container m-auto w-50">
+						{store.paradas.map(parada => {
 							return (
-								<option key={index} value={item.id}>
-									{item.nombre_linea}
-								</option>
-							);
-						})}
-					</select>
-					<select className="form-select col mx-5 bg-dark text-light" aria-label="Default select example">
-						<option selected>Tipo de Día</option>
-						{store.horarios.map((item, index) => {
-							return (
-								<option key={index} value={item.tipo_dia}>
-									{item.tipo_dia}
-								</option>
-							);
-						})}
-					</select>
-				</div>
-			</div>
-			<div className="row container m-auto">
-				{store.paradas.map(parada => {
-					return (
-						<>
-							{linea == parada.id_linea ? (
 								<>
-									<div className="col container bg-dark text-light">
-										<div className="border-bottom my-2">{parada.ubicacion}</div>
-										{store.horarios.map(horario => {
-											return (
-												<>
-													{parada.id == horario.id_parada ? (
-														<>
-															<input
-																className="inputReserva"
-																id={horario.hora}
-																type="checkbox"
-																name={horario.hora}
-																value={horario.hora}
-																onClick={e =>
-																	console.log(e.target.value, parada.ubicacion, linea)
-																}
-															/>
-															<label className="labelReserva my-2" htmlFor={horario.hora}>
-																{horario.hora}
-															</label>
-														</>
-													) : null}
-												</>
-											);
-										})}
-									</div>
+									{linea == parada.id_linea ? (
+										<>
+											<div
+												key={parada.ubicacion}
+												className="col border border-secondary rounded tabla container bg-dark text-light ">
+												<ul className="parada list-group  my-2 list-group-flush">
+													{parada.ubicacion}
+													{store.horarios.map(horario => {
+														return (
+															<>
+																{parada.id == horario.id_parada ? (
+																	<li className="list-group-item text-light bg-dark">
+																		<input
+																			className="inputReserva"
+																			id={horario.hora}
+																			type="checkbox"
+																			name={horario.hora_id}
+																			value={horario.id}
+																			onClick={e => setForm(e.target.value)}
+																		/>
+																		<label
+																			className="labelReserva pt-1 hora border border-secondary rounded"
+																			htmlFor={horario.hora}>
+																			{horario.hora}
+																		</label>
+																	</li>
+																) : null}
+															</>
+														);
+													})}
+												</ul>
+											</div>
+										</>
+									) : null}
 								</>
-							) : null}
-						</>
-					);
-				})}
-			</div>
-			<div className="container mt-5">
+							);
+						})}
+					</div>
+					<div className="container selectorAsientos tabla bg-dark border-secondary border rounded  mt-5 m-auto">
+						<div className="text-light d-flex align-items-center">
+							<div className="ms-3 mt-2">
+								<p className="asientos"> Cantidad de asientos: {asiento} </p>
+							</div>
+							<span className="ms-3 mb-1" onClick={() => setAsiento(asiento + 1)}>
+								<i className="fas fa-plus botonAsiento" />
+							</span>
+							<span className="ms-3 mb-1 " onClick={() => setAsiento(asiento - 1)}>
+								<i className="fas fa-minus botonAsiento" />
+							</span>
+						</div>
+						<button type="submit" className="btn btn-light btn-block mb-1">
+							Reservar
+						</button>
+					</div>
+					{/* <div className="container mt-5">
 				<Calendar className="m-auto" onChange={onChange} value={value} />
-			</div>
-			<div className="m-auto container text-light w-25 mt-5">
+			</div> */}
+					{/* <div className="m-auto container text-light w-25 mt-5">
 				<div className="row bg-dark ">
 					<input className="inputAsiento" id="1" type="checkbox" name="1" value="1" />
 					<label className="labelAsiento col border" htmlFor="1">
@@ -186,7 +220,10 @@ export const Reserva = () => {
 						20
 					</label>
 				</div>
+			</div> */}
+				</form>
 			</div>
-		</div>
+			{store.reload && <Redirect to="/confirmacion/" />}
+		</>
 	);
 };

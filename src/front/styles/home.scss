@@ -3,8 +3,14 @@ body{
     background-image: url(https://i.pinimg.com/originals/b6/a4/20/b6a420803f582395034f7d45970517e5.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-  
+    padding-bottom: 35px;
 
+}
+
+.footer {
+    font-weight: lighter;
+    height: 30px;
+    line-height: 30px;
 }
 
 .body {
@@ -26,8 +32,11 @@ a{
 }
 
 .labelReserva {
-    display:block;
-    color:white;
+    height: 45px;
+    display: block;
+    box-sizing: border-box !important;
+    color:white !important;
+    
 }
 
 .inputReserva[type=checkbox] {
@@ -35,46 +44,41 @@ a{
 }
 
 .inputReserva:checked + .labelReserva {
-    border: solid 1px red;
-    color: #F00;
+    border: solid 1px rgb(253, 196, 7) !important;
+    color: rgb(253, 196, 7) !important;
 }
 
 .inputReserva:checked + .labelReserva:before {
-    content: "\2713 ";
+    content: "\2713 " !important;
 }
 
 
 i{color:white;
 font-size:150%;
 }
-
-.labelAsiento {
-    display:block;
-    color:white;
-    line-height: 25px;
+.iconoParada{
+color:white;
+font-size:80%
 }
 
-.inputAsiento[type=checkbox] {
-    display: none;
-}
 
-.inputAsiento:checked + .labelAsiento {
-    background-color: grey;
-    color: rgba(0, 255, 64, 0.705);
+.labelRegistros{
+    font-size: 25px;
+    font-weight: 200;
 }
 
 .login{
     
     width: 400px;
-    background-color: rgb(255, 255, 255);
+   
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-.recover{
+.olvidasteAnchor{
     font-size: 13px;
-    display: left;
-    color: rgba(78, 78, 78, 0.801);
+    
     font-weight: bold;
+    text-decoration: none !important;
 }
 
 .tabla{
@@ -102,6 +106,7 @@ select{
     font-size: 20px;
 }
 
+
 .horaEmpresa{
     font-size: 20px;
     display: inline-flex;
@@ -119,4 +124,69 @@ select{
 
 .alerta{
     color: black !important;
+}
+
+.asientos{
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.selectorAsientos{
+    width: 350px;
+}
+
+.botonAsiento{
+    font-size: 120%;
+}
+
+.reservas{
+    width: 280px;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+.datosReserva{
+    font-weight: 200;
+}
+
+.infoReserva:hover{
+    background-color: rgba(114, 114, 114, 0.459) !important;
+}
+
+.fa-user{
+    font-size: 18px;
+}
+
+.me-auto{
+    margin-left: 500px;
+}
+
+.irAtras{
+    font-size: 30px;
+    font-weight: 100;
+    text-decoration: none;
+}
+
+.irAtras:hover{
+    text-decoration: none;
+    color: white
+}
+
+.iconoInput{
+    color: rgba(0, 0, 0, 0.699)
+}
+
+.recover{
+    width: 420px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.olvidaste{
+    font-size: 35px;
+ font-weight: 100;
+}
+
+.restablecer{
+font-size: 20px;
+ font-weight: 100;
 }

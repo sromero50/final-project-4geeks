@@ -15,6 +15,7 @@ export const Empresa = () => {
 	const [add, setAdd] = useState(false);
 	const [edit, setEdit] = useState(false);
 	const [empresa, setEmpresa] = useState(false);
+	const [addHorario, setAddHorario] = useState(false);
 
 	useEffect(() => {
 		setEmpresa(JSON.parse(localStorage.getItem("info")).empresa_id);
@@ -31,7 +32,7 @@ export const Empresa = () => {
 								<div className="editLinea">
 									<select
 										id="mySelect"
-										className="form-select mx-2 bg-dark text-light border border-secondary rounded text-center"
+										className="form-select ms-5 bg-dark text-light border border-secondary rounded text-center w-50"
 										onChange={e => setLinea(e.target.value)}>
 										<option defaultValue>Linea</option>
 										{store.lineas.map((item, index) => {
@@ -47,7 +48,7 @@ export const Empresa = () => {
 										})}
 									</select>
 
-									<span className="mt-2" onClick={() => setAdd(!add)}>
+									<span className="mt-2 ms-1" onClick={() => setAdd(!add)}>
 										<i className="fas fa-plus" />
 									</span>
 									<span className="mx-2 mt-2" onClick={() => actions.deleteLinea(linea)}>
@@ -57,8 +58,8 @@ export const Empresa = () => {
 										<i className="far fa-edit" />
 									</span>
 								</div>
-								<div className="w-75 ms-3">{add && <AddLinea id_empresa={empresa} />}</div>
-								<div className="w-75">
+								<div className="w-75 ms-4">{add && <AddLinea id_empresa={empresa} />}</div>
+								<div className="w-75 ms-4">
 									{edit && (
 										<>
 											{store.lineas.map((item, index) => {
@@ -103,6 +104,12 @@ export const Empresa = () => {
 											<div className="col border border-secondary rounded tabla container bg-dark text-light">
 												<ul className="parada list-group  my-2 list-group-flush">
 													{parada.ubicacion}
+													<span onClick={() => setAddHorario(!addHorario)}>
+														<i className="fas fa-plus iconoParada" />
+													</span>
+													{addHorario && (
+														<AddHorario id_linea={linea} id_parada={parada.id} />
+													)}
 													{store.horarios.map(horario => {
 														return (
 															<>
@@ -129,7 +136,6 @@ export const Empresa = () => {
 								</>
 							);
 						})}
-						<AddHorario />
 					</div>
 				</div>
 			</Loading>

@@ -75,43 +75,11 @@ export const Consulta = () => {
 					);
 				})}
 			</div>
-			{/* <table className="table table-dark w-75 mx-auto">
-				<thead>
-					<tr>
-						{store.paradas.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<td scope="col" key={index}>
-											{item.ubicacion}
-										</td>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						{store.horarios.map((item, index) => {
-							return (
-								<>
-									{linea == item.id_linea ? (
-										<td scope="col" key={index}>
-											{item.hora}
-										</td>
-									) : null}
-								</>
-							);
-						})}
-					</tr>
-				</tbody>
-			</table> */}
 			{!store.login && (
 				<div className="text-center">
 					<button
 						type="submit"
-						className="btn btn-dark mt-3 btn-lg boton"
+						className="btn btn-light mt-3 btn-lg boton"
 						onClick={() => history.push("/login")}>
 						Reservar
 					</button>
@@ -121,7 +89,7 @@ export const Consulta = () => {
 				<div className="text-center">
 					<button
 						type="submit"
-						className="btn btn-dark mt-3 btn-lg boton"
+						className="btn btn-light mt-3 btn-lg boton"
 						onClick={() => history.push("/reserva")}>
 						Reservar
 					</button>

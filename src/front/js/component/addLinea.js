@@ -18,7 +18,7 @@ const AddLinea = props => {
 
 	return (
 		<>
-			<div className="container">
+			<div className="container w-50">
 				<form onSubmit={handleSubmit}>
 					<div>
 						<input

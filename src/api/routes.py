@@ -1,18 +1,19 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
-from flask import Flask, request, jsonify, url_for, Blueprint
+from flask import Flask, request, jsonify, url_for, Blueprint, current_app
 
 from api.models import db, Empresa, Parada, Linea, Horario, Administrador, Usuario, Reserva
 from api.utils import generate_sitemap, APIException
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+from flask_mail import Message
 
 api = Blueprint('api', __name__)
 
-
+s = URLSafeTimedSerializer('proyectofinal')
 
 @api.route("/login", methods=["POST"])
 def login():
@@ -38,33 +39,54 @@ def login():
          access_token = create_access_token(identity=admin.id)
          return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
 
-# @api.route("/empresa/login", methods=["POST"])
-# def login_empresa():
-#     email = request.json.get("email", None)
-#     password = request.json.get("password", None)
+@api.route("/recuperar", methods=['POST'])
+def recover_contraseña():
+    email = request.json.get("email", None)
 
-#     empresa = Empresa.query.filter_by(email=email, password=password).first()
+    usuario = Usuario.query.filter_by(email=email).first()
+    empresa = Empresa.query.filter_by(email=email).first()
+    admin   = Administrador.query.filter_by(email=email).first()
 
-#     if empresa is None:
-#         return jsonify({"msg": "Email o password incorrectos"}), 401
+    if usuario is None:
+        if empresa is None:
+            if admin is None:
+                return jsonify({"msg": "Email incorrecto"}), 401
+    
+    if usuario or empresa or admin:
+        tokenUser = s.dumps([email], salt='emailconfirm')
+        link = f"https://3000-salmon-koi-9tn6avbq.ws-us17.gitpod.io/resetcontraseña/{tokenUser}"
+        msg = Message()
+        msg.subject = "Recupera tu contraseña"
+        msg.recipients = [email]
+        msg.sender = "smartravel2021@gmail.com"
+        msg.html = f'<h3>Recupere su contraseña haciendo click <a href={link}>aquí</a></h3>'
+        current_app.mail.send(msg)
+        return jsonify({ "msg": "email enviado"  }), 200
 
+@api.route("/resetcontraseña", methods=['PUT'])
+def reset_contraseña(): 
+    token = request.json.get("token", None)
+    nueva_contraseña = request.json.get("nueva_contraseña", None)
+    usuario = s.loads(token, salt='emailconfirm')
+    email = usuario[0]
 
-#     access_token = create_access_token(identity=empresa.id)
-#     return jsonify({ "token": access_token, "empresa_id": empresa.id, "email": empresa.email,"rol":"empresa","nombre": empresa.nombre  })
+    user = Usuario.query.filter_by(email=email).first()
+    empresa = Empresa.query.filter_by(email=email).first()
+    admin   = Administrador.query.filter_by(email=email).first()
 
-# @api.route("/admin/login", methods=["POST"])
-# def login_admin():
-#     email = request.json.get("email", None)
-#     password = request.json.get("password", None)
+    if user:
+        user.password = nueva_contraseña
+        db.session.commit()
+        return jsonify({ "msg": "contraseña cambiada"  }), 200
+    if empresa:
+        empresa.password = nueva_contraseña
+        db.session.commit()
+        return jsonify({ "msg": "contraseña cambiada"  }), 200
+    if admin:
+        admin.password = nueva_contraseña
+        db.session.commit()
+        return jsonify({ "msg": "contraseña cambiada"  }), 200
 
-#     admin = Administrador.query.filter_by(email=email, password=password).first()
-
-#     if admin is None:
-#         return jsonify({"msg": "Email o password incorrectos"}), 401
-
-
-#     access_token = create_access_token(identity=admin.id)
-#     return jsonify({ "token": access_token, "admin_id": admin.id, "email": admin.email,"rol":"admin", "nombre": admin.nombre  })
 
 
 
@@ -111,13 +133,6 @@ def get_reservas():
     reserva_query = Reserva.query.all()
     all_reservas = list(map(lambda x: x.serialize(), reserva_query))
     return jsonify(all_reservas), 200
-
-# @api.route('/usuario', methods=['GET'])
-# def get_usuario():
-#     usuario_query = Usuario.query.all()
-#     all_usuarios = list(map(lambda x: x.serialize(), usuario_query))
-
-#     return jsonify(all_usuarios), 200
 
 
 @api.route('/linea', methods=['POST'])

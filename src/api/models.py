@@ -133,7 +133,8 @@ class Reserva(db.Model):
             "id": self.id,
             "id_linea": self.id_linea,
             "id_horario": self.id_horario,
-            "asiento": self.asiento
+            "asiento": self.asiento,
+            "id_usuario": self.id_usuario
            
         }
 
