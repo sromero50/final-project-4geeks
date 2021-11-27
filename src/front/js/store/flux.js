@@ -732,7 +732,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteReserva: id => {
 				Swal.fire({
-					title: "Estas seguro?",
+					title: "Deseas borrar esta reserva?",
 					text: "No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
@@ -762,6 +762,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						Swal.fire("Borrado!", "La reserva ha sido borrada.", "success");
 						const store = getStore();
+						setStore();
 						const newList = store.reservas.filter(item => item.id !== id);
 						setStore({ reservas: newList });
 						if (newList.length === 0) {

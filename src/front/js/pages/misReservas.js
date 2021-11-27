@@ -111,6 +111,9 @@ export const MisReservas = () => {
 															</>
 														);
 													})}
+													<span onClick={() => actions.deleteReserva(reserva.id)}>
+														<i className="fas fa-trash-alt" />
+													</span>
 												</div>
 											) : null}
 										</>

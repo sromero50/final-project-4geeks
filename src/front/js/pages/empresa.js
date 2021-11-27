@@ -17,6 +17,7 @@ export const Empresa = () => {
 	const [edit, setEdit] = useState(false);
 	const [empresa, setEmpresa] = useState(false);
 	const [addHorario, setAddHorario] = useState(false);
+	const [tipoDia, setTipoDia] = useState();
 
 	useEffect(() => {
 		setEmpresa(JSON.parse(localStorage.getItem("info")).empresa_id);
@@ -82,16 +83,14 @@ export const Empresa = () => {
 							</div>
 							<div className="col-5">
 								<select
-									className="w-50 form-select bg-dark text-light border border-secondary rounded text-center"
-									aria-label="Default select example ">
+									className="form-select ms-5 bg-dark text-light border border-secondary rounded text-center w-50"
+									aria-label="Default select example"
+									onChange={e => setTipoDia(e.target.value)}>
 									<option defaultValue>Tipo de Día</option>
-									{store.horarios.map((item, index) => {
-										return (
-											<option key={index} value={item.tipo_dia}>
-												{item.tipo_dia}
-											</option>
-										);
-									})}
+
+									<option value="Habil">Habil</option>
+									<option value="Feriado">Feriado</option>
+									<option value="Fin de semana">Fin de semana</option>
 								</select>
 							</div>
 						</div>
@@ -137,18 +136,22 @@ export const Empresa = () => {
 													{store.horarios.map(horario => {
 														return (
 															<>
-																{parada.id == horario.id_parada ? (
-																	<li
-																		key={horario.hora}
-																		className="list-group-item text-light bg-dark my-2">
-																		<EditHora
-																			id={horario.id}
-																			id_linea={linea}
-																			id_parada={parada.id}
-																			tipo_dia={horario.tipo_dia}
-																			hora={horario.hora}
-																		/>
-																	</li>
+																{horario.tipo_dia == tipoDia ? (
+																	<>
+																		{parada.id == horario.id_parada ? (
+																			<li
+																				key={horario.hora}
+																				className="list-group-item text-light bg-dark my-2">
+																				<EditHora
+																					id={horario.id}
+																					id_linea={linea}
+																					id_parada={parada.id}
+																					tipo_dia={horario.tipo_dia}
+																					hora={horario.hora}
+																				/>
+																			</li>
+																		) : null}
+																	</>
 																) : null}
 															</>
 														);

@@ -8,7 +8,7 @@ export const Consulta = () => {
 	const { store, actions } = useContext(Context);
 
 	const [linea, setLinea] = useState();
-	const [parada, setParada] = useState();
+	const [tipoDia, setTipoDia] = useState();
 
 	return (
 		<div className="text-center body">
@@ -17,85 +17,81 @@ export const Consulta = () => {
 				<div className="row w-75 mx-auto">
 					<select
 						id="mySelect"
-						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded "
+						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
 						onChange={e => setLinea(e.target.value)}>
 						<option defaultValue>Linea</option>
 						{store.lineas.map((item, index) => {
 							return (
-								<option key={item.nombre_linea} value={item.id}>
+								<option key={item.id} value={item.id}>
 									{item.nombre_linea}
 								</option>
 							);
 						})}
 					</select>
 					<select
-						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded "
-						aria-label="Default select example">
+						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
+						aria-label="Default select example"
+						onChange={e => setTipoDia(e.target.value)}>
 						<option defaultValue>Tipo de Día</option>
-						{store.horarios.map((item, index) => {
-							return (
-								<option key={index} value={item.tipo_dia}>
-									{item.tipo_dia}
-								</option>
-							);
-						})}
+
+						<option value="Habil">Habil</option>
+						<option value="Feriado">Feriado</option>
+						<option value="Fin de semana">Fin de semana</option>
 					</select>
 				</div>
 			</div>
 			<div className="row container m-auto w-50">
 				{store.paradas.map(parada => {
 					return (
-						<>
+						<React.Fragment key={parada.id}>
 							{linea == parada.id_linea ? (
-								<>
-									<div
-										key={parada.ubicacion}
-										className="col border border-secondary rounded tabla container bg-dark text-light ">
-										<ul className="parada list-group  my-2 list-group-flush">
-											<span className="form-inline m-auto">
-												{parada.ubicacion}{" "}
-												<i
-													className="fas fa-map-marker-alt fa-sm ms-2"
-													data-toggle="modal"
-													data-target={"#" + parada.id}
-												/>
-												<div
-													className="modal fade"
-													id={parada.id}
-													tabIndex="-1"
-													role="dialog"
-													aria-hidden="true">
-													<div className="modal-dialog" role="document">
-														<div className="modal-content">
-															<Mapa
-																latitud={parada.latitud}
-																longitud={parada.longitud}
-																ubicacion={parada.ubicacion}
-															/>
-														</div>
+								<div className="col border border-secondary rounded tabla container bg-dark text-light ">
+									<ul className="parada list-group  my-2 list-group-flush">
+										<span className="form-inline m-auto">
+											{parada.ubicacion}{" "}
+											<i
+												className="fas fa-map-marker-alt fa-sm ms-2"
+												data-toggle="modal"
+												data-target={"#" + parada.id}
+											/>
+											<div
+												className="modal fade"
+												id={parada.id}
+												tabIndex="-1"
+												role="dialog"
+												aria-hidden="true">
+												<div className="modal-dialog" role="document">
+													<div className="modal-content">
+														<Mapa
+															latitud={parada.latitud}
+															longitud={parada.longitud}
+															ubicacion={parada.ubicacion}
+														/>
 													</div>
 												</div>
-											</span>
-											{store.horarios.map(horario => {
-												return (
-													<>
-														{parada.id == horario.id_parada ? (
-															<>
+											</div>
+										</span>
+										{store.horarios.map(horario => {
+											return (
+												<>
+													{horario.tipo_dia == tipoDia ? (
+														<>
+															{parada.id == horario.id_parada ? (
 																<li
-																	key={horario.hora}
+																	key={horario.id}
 																	className="hora border border-secondary rounded list-group-item text-light bg-dark my-2">
 																	{horario.hora}
 																</li>
-															</>
-														) : null}
-													</>
-												);
-											})}
-										</ul>
-									</div>
-								</>
+															) : null}
+														</>
+													) : null}
+												</>
+											);
+										})}
+									</ul>
+								</div>
 							) : null}
-						</>
+						</React.Fragment>
 					);
 				})}
 			</div>
