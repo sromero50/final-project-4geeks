@@ -48,8 +48,8 @@ const AddEmpresa = props => {
 								placeholder="Contraseña"
 							/>
 						</div>
-						<div className="text-center">
-							<button type="submit" className="btn btn-dark">
+						<div className="text-center mt-2">
+							<button type="submit" className="btn btn-light btn-lg">
 								Registrar
 							</button>
 						</div>

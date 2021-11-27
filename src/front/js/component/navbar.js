@@ -5,10 +5,11 @@ export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	return (
 		<>
-			<nav className="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+			<nav className="navbar sticky-top navbar-expand-lg navbar navbar-dark bg-dark">
 				<div className="container">
 					<a className="navbar-brand" href="/">
 						SmartTravel
+						<i className="fas fa-bus ms-3" />
 					</a>
 					<button
 						className="navbar-toggler"
@@ -21,8 +22,8 @@ export const Navbar = () => {
 						<span className="navbar-toggler-icon" />
 					</button>
 
-					<div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-						<ul className="navbar-nav">
+					<div className="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+						<ul className="navbar-nav ">
 							<li className="nav-item">
 								<a className="nav-link" href="/quienes-somos/">
 									¿Quienes somos?
@@ -33,38 +34,94 @@ export const Navbar = () => {
 									Consulta de horarios
 								</a>
 							</li>
-							{store.login && (
+							{store.user && (
 								<>
+									<li className="nav-item">
+										<a className="nav-link" href="/reserva/">
+											Reservar
+										</a>
+									</li>
+									<div className="form-inline">
+										{store.info.map(item => {
+											return (
+												<li className="nav-item form-inline " key={item.id}>
+													<i className="fas fa-user ms-1" />
+													<a className="nav-link ms-1" href="/usuario/">
+														{item.nombre}
+													</a>
+												</li>
+											);
+										})}
+										<></>
+										<li className="nav-item">
+											<a
+												className="nav-link ms-1"
+												href="/consulta/"
+												onClick={() => actions.logout()}>
+												Salir
+											</a>
+										</li>
+									</div>
+								</>
+							)}
+							{store.admin && (
+								<>
+									<div className="form-inline">
+										{store.info.map(item => {
+											return (
+												<li className="nav-item form-inline" key={item.id}>
+													<i className="fas fa-user-tie ms-2" />
+													<a className="nav-link ms-1" href="/administrador/">
+														{item.nombre}
+													</a>
+												</li>
+											);
+										})}
+										<></>
+										<li className="nav-item form-inline">
+											<a
+												className="nav-link ms-1"
+												href="/consulta/"
+												onClick={() => actions.logout()}>
+												Salir
+											</a>
+										</li>
+									</div>
+								</>
+							)}
+							{store.empresa && (
+								<div className="form-inline">
 									{store.info.map(item => {
 										return (
-											<li className="nav-item m-start" key={item.id}>
-												<a className="nav-link" href="/usuario/">
+											<li className="nav-item m-start form-inline" key={item.id}>
+												<i className="fas fa-user-tie ms-2" />
+												<a className="nav-link ms-1" href="/empresa">
 													{item.nombre}
 												</a>
 											</li>
 										);
 									})}
 									<></>
-									<li className="nav-item">
-										<a className="nav-link" href="/consulta/" onClick={() => actions.logout()}>
+									<li className="nav-item form-inline">
+										<a className="nav-link ms-1" href="/consulta/" onClick={() => actions.logout()}>
 											Salir
 										</a>
 									</li>
-								</>
+								</div>
 							)}
 							{!store.login && (
-								<>
+								<div className="form-inline">
 									<li className="nav-item">
 										<a className="nav-link" href="/login/">
 											Ingresa
 										</a>
 									</li>
 									<li className="nav-item">
-										<a className="nav-link" href="/registrate/">
+										<a className="nav-link ms-1" href="/registrate/">
 											Registrate
 										</a>
 									</li>
-								</>
+								</div>
 							)}
 						</ul>
 					</div>

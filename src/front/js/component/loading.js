@@ -8,15 +8,9 @@ const Loading = props => {
 				<>{props.children}</>
 			) : (
 				<div className="d-flex justify-content-center body">
-					<div className="spinner-grow text-dark mt-3 mx-2" role="status">
-						<span className="sr-only">Loading...</span>
-					</div>
-					<div className="spinner-grow text-dark mt-3 mx-2" role="status">
-						<span className="sr-only">Loading...</span>
-					</div>
-					<div className="spinner-grow text-dark mt-3 mx-2" role="status">
-						<span className="sr-only">Loading...</span>
-					</div>
+					<div className="spinner-grow text-dark mt-3 mx-2" role="status" />
+					<div className="spinner-grow text-dark mt-3 mx-2" role="status" />
+					<div className="spinner-grow text-dark mt-3 mx-2" role="status" />
 				</div>
 			)}
 		</>

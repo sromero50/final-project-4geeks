@@ -7,13 +7,18 @@ import { Consulta } from "./pages/consulta";
 import injectContext from "./store/appContext";
 import Quienes from "./pages/quienes";
 import { Navbar } from "./component/navbar";
+import Footer from "./component/footer";
 import Login from "./pages/login";
 import Registro from "./pages/registro";
 import Admin from "./pages/admin";
 import Usuario from "./pages/usuario";
+import { MisReservas } from "./pages/misReservas";
 import { Reserva } from "./pages/reserva";
 import { Empresa } from "./pages/empresa";
 import { Context } from "./store/appContext";
+import Confirmacion from "./pages/confirmacion";
+import RecuperarPassword from "./pages/recuperarPassword";
+import NuevaContraseña from "./pages/nuevaContraseña";
 
 //create your first component
 const Layout = () => {
@@ -55,10 +60,23 @@ const Layout = () => {
 						<Route exact path="/reserva">
 							<Reserva />
 						</Route>
+						<Route exact path="/confirmacion">
+							<Confirmacion />
+						</Route>
+						<Route exact path="/misreservas">
+							<MisReservas />
+						</Route>
+						<Route exact path="/recuperar">
+							<RecuperarPassword />
+						</Route>
+						<Route exact path="/resetcontraseña/:token">
+							<NuevaContraseña />
+						</Route>
 						<Route>
 							<NotFound />
 						</Route>
 					</Switch>
+					<Footer />
 				</ScrollToTop>
 			</BrowserRouter>
 		</div>

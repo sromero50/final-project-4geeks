@@ -4,7 +4,7 @@ import NotFound from "../component/notFound";
 import AddEmpresa from "../component/addEmpresa";
 import { Context } from "../store/appContext";
 import Loading from "../component/loading";
-import { Redirect } from "react-router";
+
 const Admin = () => {
 	const [add, setAdd] = useState(false);
 	const { store, actions } = useContext(Context);

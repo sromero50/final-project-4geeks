@@ -14,7 +14,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			error: "",
 			info: [JSON.parse(localStorage.getItem("info"))],
 			signup: false,
-			reload: false
+			reload: false,
+			reservaConfirmada: localStorage.getItem("infoReserva")
 		},
 		actions: {
 			getHorarios: async () => {
@@ -103,74 +104,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					});
 				}
 			},
-			// loginEmpresa: async (email, password) => {
-			// 	const store = getStore();
-			// 	try {
-			// 		var myHeaders = new Headers();
-			// 		myHeaders.append("Content-Type", "application/json");
-
-			// 		var raw = JSON.stringify({
-			// 			email: email,
-			// 			password: password
-			// 		});
-
-			// 		var requestOptions = {
-			// 			method: "POST",
-			// 			headers: myHeaders,
-			// 			body: raw,
-			// 			redirect: "follow"
-			// 		};
-
-			// 		const response = await fetch(process.env.BACKEND_URL + "/api/empresa/login", requestOptions);
-			// 		const responseBody = await response.json();
-			// 		if (responseBody.token) {
-			// 			localStorage.setItem("empresa", responseBody.token);
-			// 			localStorage.setItem("login", true);
-			// 			localStorage.setItem("info", JSON.stringify(responseBody));
-			// 			setStore({ info: [responseBody] });
-			// 			setStore({ empresa: true });
-			// 			setStore({ login: true });
-			// 		}
-			// 	} catch (error) {
-			// 		console.log("error", error);
-
-			// 		setStore({ error: error });
-			// 	}
-			// },
-
-			// loginAdmin: async (email, password) => {
-			// 	const store = getStore();
-			// 	try {
-			// 		var myHeaders = new Headers();
-			// 		myHeaders.append("Content-Type", "application/json");
-
-			// 		var raw = JSON.stringify({
-			// 			email: email,
-			// 			password: password
-			// 		});
-
-			// 		var requestOptions = {
-			// 			method: "POST",
-			// 			headers: myHeaders,
-			// 			body: raw,
-			// 			redirect: "follow"
-			// 		};
-			// 		const response = await fetch(process.env.BACKEND_URL + "/api/admin/login", requestOptions);
-			// 		const responseBody = await response.json();
-			// 		if (responseBody.token) {
-			// 			localStorage.setItem("admin", responseBody.token);
-			// 			localStorage.setItem("login", true);
-			// 			localStorage.setItem("info", JSON.stringify(responseBody));
-			// 			setStore({ info: [responseBody] });
-			// 			setStore({ admin: true });
-			// 			setStore({ login: true });
-			// 		}
-			// 	} catch (error) {
-			// 		console.log("error", error);
-
-			// 		setStore({ error: error });
-			// 	}
-			// },
 			logout: () => {
 				const store = getStore();
 				setStore({ admin: localStorage.removeItem("admin") });
@@ -202,6 +135,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const responseBody = await response.json();
 					if (responseBody) {
 						setStore({ signup: true });
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Registro exitoso!",
+							showConfirmButton: false,
+							timer: 1500
+						});
 					}
 				} catch (error) {
 					console.log("error", error);
@@ -233,6 +173,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (responseBody) {
 						setStore({ signup: true });
 						setStore({ reload: true });
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Registro exitoso!",
+							showConfirmButton: false,
+							timer: 1500
+						});
+						setStore({ reload: true });
 					}
 				} catch (error) {
 					console.log("error", error);
@@ -252,52 +200,89 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			deleteEmpresa: id => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
-				myHeaders.append("Content-Type", "application/json");
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "No podras revertir este cambio!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = "";
+						var raw = "";
 
-				var requestOptions = {
-					method: "DELETE",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+						var requestOptions = {
+							method: "DELETE",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
 
-				fetch(process.env.BACKEND_URL + "/api/empresa/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+						fetch(process.env.BACKEND_URL + "/api/empresa/" + id, requestOptions)
+							.then(response => response.text())
+							.then(result => console.log(result))
+							.catch(error => console.log("error", error));
 
-				const store = getStore();
-				const newList = store.empresas.filter(item => item.id !== id);
-				setStore({ empresas: newList });
-				if (newList.length === 0) {
-					setStore({ empresas: [] });
-				}
-			},
-			editEmpresa: (id, nombre, email) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
-				myHeaders.append("Content-Type", "application/json");
-
-				var raw = JSON.stringify({
-					nombre: nombre,
-					email: email
+						const store = getStore();
+						const newList = store.empresas.filter(item => item.id !== id);
+						setStore({ empresas: newList });
+						if (newList.length === 0) {
+							setStore({ empresas: [] });
+						}
+						Swal.fire("Borrado!", "La empresa ha sido borrada.", "success");
+					}
 				});
+			},
+			editEmpresa: async (id, nombre, email) => {
+				const store = getStore();
+				try {
+					Swal.fire({
+						title: "Estas seguro?",
+						text: "Deseas modificar los datos de la empresa?",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						cancelButtonText: "Cancelar",
+						confirmButtonText: "Confirmar!"
+					}).then(async result => {
+						if (result.isConfirmed) {
+							var myHeaders = new Headers();
+							myHeaders.append("Authorization", "Bearer " + localStorage.getItem("admin"));
+							myHeaders.append("Content-Type", "application/json");
 
-				var requestOptions = {
-					method: "PUT",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+							var raw = JSON.stringify({
+								nombre: nombre,
+								email: email
+							});
 
-				fetch(process.env.BACKEND_URL + "/api/empresa/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+							var requestOptions = {
+								method: "PUT",
+								headers: myHeaders,
+								body: raw,
+								redirect: "follow"
+							};
+
+							const response = await fetch(
+								process.env.BACKEND_URL + "/api/empresa/" + id,
+								requestOptions
+							);
+							const responseBody = await response.json();
+							if (responseBody) {
+								setStore({ reload: true });
+								Swal.fire("Modificados!", "La empresa ha sido modificada.", "success");
+							}
+						}
+					});
+				} catch (error) {
+					console.log(error);
+				}
 			},
 
 			addLinea: async (id_empresa, nombre_linea) => {
@@ -321,10 +306,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
 				const data = await response.json();
-				//.then(response => response.json())
-				//.then(result => localStorage.setItem("token", result.token))
-				//.catch(error => console.log("error", error));
-				console.log(data);
+				if (data) {
+					setStore({ reload: true });
+					Swal.fire({
+						position: "center",
+						icon: "success",
+						title: "Registro exitoso!",
+						showConfirmButton: false,
+						timer: 1500
+					});
+				} else if (response.status == 401) {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Fallo al crear la linea!"
+					});
+				}
 			},
 
 			addParada: async ubicacion => {
@@ -345,9 +342,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
 				const data = await response.json();
-				//.then(response => response.json())
-				//.then(result => localStorage.setItem("token", result.token))
-				//.catch(error => console.log("error", error));
+				if (data) {
+					setStore({ reload: true });
+					Swal.fire({
+						position: "center",
+						icon: "success",
+						title: "Registro exitoso!",
+						showConfirmButton: false,
+						timer: 1500
+					});
+				} else if (response.status == 401) {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Fallo al crear la parada!"
+					});
+				}
 				console.log(data);
 			},
 
@@ -372,233 +382,458 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const response = await fetch(process.env.BACKEND_URL + "/api/horario/", requestOptions);
 				const data = await response.json();
-				//.then(response => response.json())
-				//.then(result => localStorage.setItem("token", result.token))
-				//.catch(error => console.log("error", error));
+				if (response.status == 200) {
+					setStore({ reload: true });
+					Swal.fire({
+						position: "center",
+						icon: "success",
+						title: "Registro exitoso!",
+						showConfirmButton: false,
+						timer: 1500
+					});
+				} else if (response.status == 401) {
+					Swal.fire({
+						icon: "error",
+						title: "Oops...",
+						text: "Fallo al crear el horario!"
+					});
+				}
 				console.log(data);
 			},
-			deleteLinea: id => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
+			deleteLinea: async id => {
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "No podras revertir este cambio!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(async result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = "";
+						var raw = "";
 
-				var requestOptions = {
-					method: "DELETE",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+						var requestOptions = {
+							method: "DELETE",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
 
-				fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
-				const store = getStore();
-				const newList = store.lineas.filter(item => item.id !== id);
-				setStore({ lineas: newList });
+						const response = await fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions);
+						const responseBody = await response.json();
+						if (responseBody) {
+							Swal.fire("Borrado!", "La linea ha sido borrada.", "success");
+							setStore({ reload: true });
+						}
+					}
+				});
 			},
 			deleteParada: id => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "No podras revertir este cambio!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = "";
+						var raw = "";
 
-				var requestOptions = {
-					method: "DELETE",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+						var requestOptions = {
+							method: "DELETE",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
 
-				fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
-
-				const store = getStore();
-				const newList = store.paradas.filter(item => item.id !== id);
-				setStore({ paradas: newList });
+						fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions)
+							.then(response => response.text())
+							.then(result => console.log(result))
+							.catch(error => console.log("error", error));
+						Swal.fire("Borrado!", "La parada ha sido borrada.", "success");
+						const store = getStore();
+						const newList = store.paradas.filter(item => item.id !== id);
+						setStore({ paradas: newList });
+					}
+				});
 			},
 			deleteHorario: id => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "No podras revertir este cambio!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = "";
+						var raw = "";
 
-				var requestOptions = {
-					method: "DELETE",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+						var requestOptions = {
+							method: "DELETE",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
 
-				fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+						fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions)
+							.then(response => response.text())
+							.then(result => console.log(result))
+							.catch(error => console.log("error", error));
+						Swal.fire("Borrado!", "El horario ha sido borrada.", "success");
+						const store = getStore();
+						const newList = store.horarios.filter(item => item.id !== id);
+						setStore({ horarios: newList });
+					}
+				});
+			},
+			editLinea: async (id_empresa, id, nombre_linea) => {
+				try {
+					const store = getStore();
+					Swal.fire({
+						title: "Estas seguro?",
+						text: "Deseas modificar la linea?",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						cancelButtonText: "Cancelar",
+						confirmButtonText: "Confirmar!"
+					}).then(async result => {
+						if (result.isConfirmed) {
+							var myHeaders = new Headers();
+							myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+							myHeaders.append("Content-Type", "application/json");
 
+							var raw = JSON.stringify({
+								id_empresa: id_empresa,
+								nombre_linea: nombre_linea
+							});
+
+							var requestOptions = {
+								method: "PUT",
+								headers: myHeaders,
+								body: raw,
+								redirect: "follow"
+							};
+							const response = await fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions);
+							const data = await response.json();
+							if (data) {
+								Swal.fire("Modificada!", "La linea ha sido modificada.", "success");
+								setStore({ reload: true });
+							}
+						}
+					});
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			editParada: async (id, ubicacion) => {
 				const store = getStore();
-				const newList = store.horarios.filter(item => item.id !== id);
-				setStore({ horarios: newList });
-			},
-			editLinea: (id_empresa, id, nombre_linea) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "Deseas modificar la parada?",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(async result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					id_empresa: id_empresa,
-					nombre_linea: nombre_linea
+						var raw = JSON.stringify({
+							ubicacion: ubicacion
+						});
+
+						var requestOptions = {
+							method: "PUT",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
+						const response = await fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions);
+						const data = await response.json();
+						if (data) {
+							Swal.fire("Modificada!", "La parada ha sido modificada.", "success");
+							setStore({ reload: true });
+						}
+					}
 				});
-
-				var requestOptions = {
-					method: "PUT",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
-				fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
 			},
-			editParada: (id, ubicacion) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
+			editHorario: async (id, id_linea, id_parada, tipo_dia, hora) => {
+				const store = getStore();
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "Deseas modificar los datos del horario?",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(async result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					ubicacion: ubicacion
+						var raw = JSON.stringify({
+							id_linea: id_linea,
+							id_parada: id_parada,
+							tipo_dia: tipo_dia,
+							hora: hora
+						});
+
+						var requestOptions = {
+							method: "PUT",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
+
+						const response = await fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions);
+						const data = await response.json();
+						if (data) {
+							Swal.fire("Modificado!", "El horario ha sido modificada.", "success");
+							setStore({ reload: true });
+						}
+					}
 				});
-
-				var requestOptions = {
-					method: "PUT",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
-				fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
-			},
-			editHorario: (id, id_linea, id_parada, tipo_dia, hora) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("empresa"));
-				myHeaders.append("Content-Type", "application/json");
-
-				var raw = JSON.stringify({
-					id_linea: id_linea,
-					id_parada: id_parada,
-					tipo_dia: tipo_dia,
-					hora: hora
-				});
-
-				var requestOptions = {
-					method: "PUT",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
-				fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
 			},
 			getReservas: async () => {
 				const store = getStore();
-				if (localStorage.getItem("reservas") == null) {
-					try {
-						const response = await fetch(process.env.BACKEND_URL + "/api/reserva");
-						const responseBody = await response.json();
-						setStore({ reservas: responseBody });
-						localStorage.setItem("reservas", JSON.stringify(store.reservas));
-						console.log(responseBody);
-					} catch (error) {
-						console.log(error);
-					}
-				} else {
-					setStore({ reservas: JSON.parse(localStorage.getItem("reservas")) });
+
+				try {
+					const response = await fetch(process.env.BACKEND_URL + "/api/reserva");
+					const responseBody = await response.json();
+					setStore({ reservas: responseBody });
+
+					console.log(responseBody);
+				} catch (error) {
+					console.log(error);
 				}
 			},
-			addReserva: (id_linea, id_horario, id_usuario, asiento) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Content-Type", "application/json");
+			addReserva: async (id_linea, id_horario, id_usuario, asiento, fecha) => {
+				localStorage.removeItem("infoReserva");
+				try {
+					var codigo = Math.floor(Math.random() * 90000) + 10000;
+					var myHeaders = new Headers();
+					myHeaders.append("Authorization", "Bearer " + localStorage.getItem("user"));
+					myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					id_linea: id_linea,
-					id_horario: id_horario,
-					id_usuario: id_usuario,
-					asiento: asiento
-				});
+					var raw = JSON.stringify({
+						codigo_reserva: codigo,
+						id_linea: id_linea,
+						id_horario: id_horario,
+						id_usuario: id_usuario,
+						asiento: asiento,
+						fecha: fecha
+					});
 
-				var requestOptions = {
-					method: "POST",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
 
-				fetch(process.env.BACKEND_URL + "/api/reserva/registrar", requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+					const response = await fetch(process.env.BACKEND_URL + "/api/reserva/", requestOptions);
+					const responseBody = await response.json();
+					console.log(response.status);
+					if (response.status == 200) {
+						let reservaConfirmada = [
+							{
+								codigo: codigo,
+								id_linea: id_linea,
+								id_horario: id_horario,
+								id_usuario: id_usuario,
+								asiento: asiento,
+								fecha: fecha
+							}
+						];
+						localStorage.setItem("infoReserva", JSON.stringify(reservaConfirmada));
+						setStore({
+							reservaConfirmada: [localStorage.getItem("infoReserva")]
+						});
+						setStore({ reload: true });
+					} else if (response.status == 400) {
+						Swal.fire({
+							icon: "error",
+							title: "Oops...",
+							text: "Complete todos los datos y vuelva a intentarlo"
+						});
+					}
+				} catch (error) {
+					console.log(error);
+				}
 			},
-			editReserva: (id_linea, id_horario, id_usuario, asiento) => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-				myHeaders.append("Content-Type", "application/json");
+			editReserva: async (id_linea, id_horario, id_usuario, asiento) => {
+				const store = getStore();
+				Swal.fire({
+					title: "Estas seguro?",
+					text: "Deseas modificar los datos del horario?",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(async result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("user"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = JSON.stringify({
-					id_linea: id_linea,
-					id_horario: id_horario,
-					id_usuario: id_usuario,
-					asiento: asiento
+						var raw = JSON.stringify({
+							id_linea: id_linea,
+							id_horario: id_horario,
+							id_usuario: id_usuario,
+							asiento: asiento
+						});
+
+						var requestOptions = {
+							method: "PUT",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
+
+						const response = await fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions);
+						const data = await response.json();
+						if (data) {
+							setStore({ reload: true });
+							Swal.fire("Modificada!", "La reserva ha sido modificada.", "success");
+						}
+					}
 				});
-
-				var requestOptions = {
-					method: "PUT",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
-
-				fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
 			},
 			deleteReserva: id => {
-				var myHeaders = new Headers();
-				myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-				myHeaders.append("Content-Type", "application/json");
+				Swal.fire({
+					title: "Deseas borrar esta reserva?",
+					text: "No podras revertir este cambio!",
+					icon: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					cancelButtonText: "Cancelar",
+					confirmButtonText: "Confirmar!"
+				}).then(result => {
+					if (result.isConfirmed) {
+						var myHeaders = new Headers();
+						myHeaders.append("Authorization", "Bearer " + localStorage.getItem("user"));
+						myHeaders.append("Content-Type", "application/json");
 
-				var raw = "";
+						var raw = "";
 
-				var requestOptions = {
-					method: "DELETE",
-					headers: myHeaders,
-					body: raw,
-					redirect: "follow"
-				};
+						var requestOptions = {
+							method: "DELETE",
+							headers: myHeaders,
+							body: raw,
+							redirect: "follow"
+						};
 
-				fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions)
-					.then(response => response.text())
-					.then(result => console.log(result))
-					.catch(error => console.log("error", error));
+						fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions)
+							.then(response => response.text())
+							.then(result => console.log(result))
+							.catch(error => console.log("error", error));
 
+						Swal.fire("Borrado!", "La reserva ha sido borrada.", "success");
+						const store = getStore();
+						setStore();
+						const newList = store.reservas.filter(item => item.id !== id);
+						setStore({ reservas: newList });
+						if (newList.length === 0) {
+							setStore({ reservas: [] });
+						}
+					}
+				});
+			},
+			solicitudContraseña: async email => {
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
+
+					var raw = JSON.stringify({
+						email: email
+					});
+
+					var requestOptions = {
+						method: "POST",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/recuperar", requestOptions);
+					const responseBody = await response.json();
+
+					if (responseBody.msg == "email enviado") {
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Revise su casilla de email!",
+							showConfirmButton: false,
+							timer: 1500
+						});
+					}
+				} catch (error) {
+					console.log(error);
+				}
+			},
+			resetPassword: async (token, nueva_contraseña) => {
 				const store = getStore();
-				const newList = store.reservas.filter(item => item.id !== id);
-				setStore({ reservas: newList });
-				if (newList.length === 0) {
-					setStore({ reservas: [] });
+				try {
+					var myHeaders = new Headers();
+					myHeaders.append("Content-Type", "application/json");
+
+					var raw = JSON.stringify({
+						token: token,
+						nueva_contraseña: nueva_contraseña
+					});
+
+					var requestOptions = {
+						method: "PUT",
+						headers: myHeaders,
+						body: raw,
+						redirect: "follow"
+					};
+					const response = await fetch(process.env.BACKEND_URL + "/api/resetcontraseña", requestOptions);
+					const responseBody = await response.json();
+
+					if (responseBody.msg == "contraseña cambiada") {
+						setStore({ reload: true });
+						Swal.fire({
+							position: "center",
+							icon: "success",
+							title: "Contraseña cambiada!",
+							showConfirmButton: false,
+							timer: 1500
+						});
+					}
+				} catch (error) {
+					console.log(error);
 				}
 			}
 		}
