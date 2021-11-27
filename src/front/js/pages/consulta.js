@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import "../../styles/home.scss";
 import { useHistory } from "react-router";
+import Mapa from "../component/mapa";
 export const Consulta = () => {
 	const history = useHistory();
 	const { store, actions } = useContext(Context);
@@ -51,7 +52,30 @@ export const Consulta = () => {
 										key={parada.ubicacion}
 										className="col border border-secondary rounded tabla container bg-dark text-light ">
 										<ul className="parada list-group  my-2 list-group-flush">
-											{parada.ubicacion}
+											<span className="form-inline m-auto">
+												{parada.ubicacion}{" "}
+												<i
+													className="fas fa-map-marker-alt fa-sm ms-2"
+													data-toggle="modal"
+													data-target={"#" + parada.id}
+												/>
+												<div
+													className="modal fade"
+													id={parada.id}
+													tabIndex="-1"
+													role="dialog"
+													aria-hidden="true">
+													<div className="modal-dialog" role="document">
+														<div className="modal-content">
+															<Mapa
+																latitud={parada.latitud}
+																longitud={parada.longitud}
+																ubicacion={parada.ubicacion}
+															/>
+														</div>
+													</div>
+												</div>
+											</span>
 											{store.horarios.map(horario => {
 												return (
 													<>

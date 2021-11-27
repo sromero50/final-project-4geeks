@@ -1,11 +1,14 @@
 
 body{
+    
     background-image: url(https://i.pinimg.com/originals/b6/a4/20/b6a420803f582395034f7d45970517e5.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     padding-bottom: 35px;
-
+   
 }
+
+
 
 .footer {
     font-weight: lighter;
@@ -13,9 +16,16 @@ body{
     line-height: 30px;
 }
 
+.modal-open {
+    padding-right: 0 !important;
+  }
+  html {
+    overflow-y: scroll !important;
+  }
+
 .body {
-    
-    height: 100vh;
+      height: 100vh;
+   
     background-color: rgba(0, 0, 0, 0.452);
   }
 
@@ -190,3 +200,8 @@ select{
 font-size: 20px;
  font-weight: 100;
 }
+
+.botonEditar{
+    display:none;
+}
+

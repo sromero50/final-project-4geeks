@@ -19,6 +19,7 @@ import { Context } from "./store/appContext";
 import Confirmacion from "./pages/confirmacion";
 import RecuperarPassword from "./pages/recuperarPassword";
 import NuevaContraseña from "./pages/nuevaContraseña";
+import Prueba from "./pages/prueba";
 //create your first component
 const Layout = () => {
 	const { store, actions } = useContext(Context);
@@ -34,6 +35,9 @@ const Layout = () => {
 					<Switch>
 						<Route exact path="/">
 							<Home />
+						</Route>
+						<Route exact path="/prueba">
+							<Prueba />
 						</Route>
 						<Route exact path="/consulta">
 							<Consulta />

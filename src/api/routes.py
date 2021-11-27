@@ -241,8 +241,11 @@ def add_new_reserva():
     if 'id_usuario' not in body:
         raise APIException('You need to specify the id_usuario', status_code=400)
     if 'asiento' not in body:
-        raise APIException('You need to specify the asiento', status_code=400)                                   
-    reserva = Reserva(id_linea=body['id_linea'], id_horario=body['id_horario'], id_usuario=body['id_usuario'], asiento=body['asiento'])
+        raise APIException('You need to specify the asiento', status_code=400)
+    if 'fecha' not in body:
+        raise APIException('You need to specify the fecha', status_code=400)   
+
+    reserva = Reserva(id_linea=body['id_linea'], id_horario=body['id_horario'], id_usuario=body['id_usuario'], asiento=body['asiento'], fecha=body['fecha'], codigo_reserva=body['codigo_reserva'])
     db.session.add(reserva)
     db.session.commit()
     reserva_query = Reserva.query.all()

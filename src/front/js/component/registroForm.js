@@ -1,19 +1,28 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { Context } from "../store/appContext";
+import Swal from "sweetalert2";
 const RegistroForm = () => {
 	const { store, actions } = useContext(Context);
-	const [form, setForm] = useState({ email: "", password: "", nombre: "" });
+	const [form, setForm] = useState({ email: "", password: "", nombre: "", password_confirm: "" });
 	const [checkbox, setCheckbox] = useState(false);
 
 	const [hide, setHide] = useState(false);
 
 	const handleSubmit = event => {
 		event.preventDefault();
-		if (checkbox === true) {
-			actions.registroEmpresa(form.nombre, form.email, form.password);
+		if (form.password == form.password_confirm) {
+			if (checkbox === true) {
+				actions.registroEmpresa(form.nombre, form.email, form.password);
+			} else {
+				actions.registroUsuario(form.nombre, form.email, form.password);
+			}
 		} else {
-			actions.registroUsuario(form.nombre, form.email, form.password);
+			Swal.fire({
+				icon: "error",
+				title: "Las contraseñas no son iguales",
+				text: "Intente escribirlas otra vez"
+			});
 		}
 	};
 
@@ -81,6 +90,28 @@ const RegistroForm = () => {
 									value={form.password}
 									name="password"
 									placeholder="Ingrese su contraseña"
+									onChange={handleChange}
+									required
+								/>{" "}
+								<span className="input-group-addon" onClick={() => setHide(!hide)}>
+									<i className="far fa-eye iconoInput" />
+								</span>
+							</div>
+						</div>
+					</div>
+					<div className="row">
+						<div className="form-group my-3 mx-auto">
+							<label className="labelRegistros">Confirmar contraseña</label>
+							<div className="input-group ">
+								<span className="input-group-addon">
+									<i className="fas fa-lock iconoInput" />
+								</span>
+								<input
+									className="form-control input-group "
+									type={hide == false ? "password" : "text"}
+									value={form.password_confirm}
+									name="password_confirm"
+									placeholder="Confirme su contraseña"
 									onChange={handleChange}
 									required
 								/>{" "}

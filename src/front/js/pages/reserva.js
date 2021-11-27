@@ -4,7 +4,7 @@ import "../../styles/home.scss";
 import { useHistory } from "react-router";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Link } from "react-router-dom";
+import Mapa from "../component/mapa";
 import { Redirect } from "react-router";
 export const Reserva = () => {
 	const history = useHistory();
@@ -13,24 +13,43 @@ export const Reserva = () => {
 	const [linea, setLinea] = useState();
 	const [asiento, setAsiento] = useState(1);
 
+	const [value, onChange] = useState(new Date());
+	const [fecha, setFecha] = useState();
+	console.log(fecha);
 	const [form, setForm] = useState();
-	console.log(store.reservaConfirmada);
+
 	useEffect(() => {
 		setUsuario(JSON.parse(localStorage.getItem("info")).usuario_id);
 	}, []);
 
+	useEffect(
+		() => {
+			let date = value;
+			let day = date.getDate();
+			let month = date.getMonth() + 1;
+			let year = date.getFullYear();
+
+			if (month < 10) {
+				setFecha(`${day}-0${month}-${year}`);
+			} else {
+				setFecha(`${day}-${month}-${year}`);
+			}
+		},
+		[value]
+	);
+
 	const handleSubmit = event => {
 		event.preventDefault();
-		actions.addReserva(linea, form, usuario, asiento);
+		actions.addReserva(linea, form, usuario, asiento, fecha);
 	};
 
 	return (
 		<>
 			<div className="text-center body">
-				<h1 className="display-2 text-white p-5">Reservas</h1>
+				<h1 className="display-2 text-light pb-3">Reservas</h1>
 				<form onSubmit={handleSubmit}>
 					<div className="pb-5">
-						<div className="row w-75 mx-auto">
+						<div className="row w-25 mx-auto">
 							<select
 								id="mySelect"
 								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
@@ -44,7 +63,7 @@ export const Reserva = () => {
 									);
 								})}
 							</select>
-							<select
+							{/* <select
 								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
 								aria-label="Default select example">
 								<option defaultValue>Tipo de Día</option>
@@ -55,7 +74,7 @@ export const Reserva = () => {
 										</option>
 									);
 								})}
-							</select>
+							</select> */}
 						</div>
 					</div>
 					<div className="row container m-auto w-50">
@@ -68,7 +87,30 @@ export const Reserva = () => {
 												key={parada.ubicacion}
 												className="col border border-secondary rounded tabla container bg-dark text-light ">
 												<ul className="parada list-group  my-2 list-group-flush">
-													{parada.ubicacion}
+													<span className="form-inline m-auto">
+														{parada.ubicacion}{" "}
+														<i
+															className="fas fa-map-marker-alt fa-sm ms-2"
+															data-toggle="modal"
+															data-target={"#" + parada.id}
+														/>
+														<div
+															className="modal fade"
+															id={parada.id}
+															tabIndex="-1"
+															role="dialog"
+															aria-hidden="true">
+															<div className="modal-dialog" role="document">
+																<div className="modal-content">
+																	<Mapa
+																		latitud={parada.latitud}
+																		longitud={parada.longitud}
+																		ubicacion={parada.ubicacion}
+																	/>
+																</div>
+															</div>
+														</div>
+													</span>
 													{store.horarios.map(horario => {
 														return (
 															<>
@@ -100,7 +142,15 @@ export const Reserva = () => {
 							);
 						})}
 					</div>
-					<div className="container selectorAsientos tabla bg-dark border-secondary border rounded  mt-5 m-auto">
+					<div className="container mt-5">
+						<Calendar
+							className="m-auto tabla border border-rounded border-secondary"
+							onChange={onChange}
+							value={value}
+						/>
+					</div>
+
+					<div className="container selectorAsientos tabla bg-dark border-secondary border rounded  mt-3 m-auto mb-3">
 						<div className="text-light d-flex align-items-center">
 							<div className="ms-3 mt-2">
 								<p className="asientos"> Cantidad de asientos: {asiento} </p>
@@ -116,111 +166,6 @@ export const Reserva = () => {
 							Reservar
 						</button>
 					</div>
-					{/* <div className="container mt-5">
-				<Calendar className="m-auto" onChange={onChange} value={value} />
-			</div> */}
-					{/* <div className="m-auto container text-light w-25 mt-5">
-				<div className="row bg-dark ">
-					<input className="inputAsiento" id="1" type="checkbox" name="1" value="1" />
-					<label className="labelAsiento col border" htmlFor="1">
-						1
-					</label>
-
-					<input className="inputAsiento" id="2" type="checkbox" name="2" value="2" />
-					<label className="labelAsiento col border" htmlFor="2">
-						2
-					</label>
-					<div className="col-1" />
-					<input className="inputAsiento" id="3" type="checkbox" name="3" value="3" />
-					<label className="labelAsiento col border" htmlFor="3">
-						3
-					</label>
-					<input className="inputAsiento" id="4" type="checkbox" name="4" value="4" />
-					<label className="labelAsiento col border" htmlFor="4">
-						4
-					</label>
-				</div>
-				<div className="row bg-dark ">
-					<input className="inputAsiento" id="5" type="checkbox" name="5" value="5" />
-					<label className="labelAsiento col border" htmlFor="5">
-						5
-					</label>
-
-					<input className="inputAsiento" id="6" type="checkbox" name="6" value="6" />
-					<label className="labelAsiento col border" htmlFor="6">
-						6
-					</label>
-					<div className="col-1" />
-					<input className="inputAsiento" id="7" type="checkbox" name="7" value="7" />
-					<label className="labelAsiento col border" htmlFor="7">
-						7
-					</label>
-					<input className="inputAsiento" id="8" type="checkbox" name="8" value="8" />
-					<label className="labelAsiento col border" htmlFor="8">
-						8
-					</label>
-				</div>
-				<div className="row bg-dark ">
-					<input className="inputAsiento" id="9" type="checkbox" name="9" value="9" />
-					<label className="labelAsiento col border" htmlFor="9">
-						9
-					</label>
-
-					<input className="inputAsiento" id="10" type="checkbox" name="10" value="10" />
-					<label className="labelAsiento col border" htmlFor="10">
-						10
-					</label>
-					<div className="col-1" />
-					<input className="inputAsiento" id="11" type="checkbox" name="11" value="11" />
-					<label className="labelAsiento col border" htmlFor="11">
-						11
-					</label>
-					<input className="inputAsiento" id="12" type="checkbox" name="12" value="12" />
-					<label className="labelAsiento col border" htmlFor="12">
-						12
-					</label>
-				</div>
-				<div className="row bg-dark ">
-					<input className="inputAsiento" id="13" type="checkbox" name="13" value="13" />
-					<label className="labelAsiento col border" htmlFor="13">
-						13
-					</label>
-
-					<input className="inputAsiento" id="14" type="checkbox" name="14" value="14" />
-					<label className="labelAsiento col border" htmlFor="14">
-						14
-					</label>
-					<div className="col-1" />
-					<input className="inputAsiento" id="15" type="checkbox" name="15" value="15" />
-					<label className="labelAsiento col border" htmlFor="15">
-						15
-					</label>
-					<input className="inputAsiento" id="16" type="checkbox" name="16" value="16" />
-					<label className="labelAsiento col border" htmlFor="16">
-						16
-					</label>
-				</div>
-				<div className="row bg-dark ">
-					<input className="inputAsiento" id="17" type="checkbox" name="17" value="17" />
-					<label className="labelAsiento col border" htmlFor="17">
-						17
-					</label>
-
-					<input className="inputAsiento" id="18" type="checkbox" name="18" value="18" />
-					<label className="labelAsiento col border" htmlFor="18">
-						18
-					</label>
-					<div className="col-1" />
-					<input className="inputAsiento" id="19" type="checkbox" name="19" value="19" />
-					<label className="labelAsiento col border" htmlFor="19">
-						19
-					</label>
-					<input className="inputAsiento" id="20" type="checkbox" name="20" value="20" />
-					<label className="labelAsiento col border" htmlFor="20">
-						20
-					</label>
-				</div>
-			</div> */}
 				</form>
 			</div>
 			{store.reload && <Redirect to="/confirmacion/" />}

@@ -30,50 +30,46 @@ const Confirmacion = () => {
 														<>
 															{reserva.id_linea == linea.id ? (
 																<>
-																	<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																		<h3 className="datosReserva">
-																			Codigo de reserva: {reserva.codigo}
-																		</h3>
-																	</div>
-																	<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																		<h3 className="datosReserva">
-																			Linea: {linea.nombre_linea}
-																		</h3>
-																	</div>
-																</>
-															) : null}
-															{empresa.id == linea.id_empresa ? (
-																<>
-																	<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																		<h3 className="datosReserva">
-																			Empresa: {empresa.nombre}
-																		</h3>
-																	</div>
-																</>
-															) : null}
-															{reserva.id_horario == horario.id ? (
-																<>
-																	<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																		<h3 className="datosReserva">
-																			Horario de salida: {horario.hora}
-																		</h3>
-																	</div>
-																	<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																		<h3 className="datosReserva">Día: 25/11</h3>
-																	</div>
-																	{reserva.asiento > 1 ? (
-																		<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																			<h3 className="datosReserva">
-																				Asientos: {reserva.asiento}
-																			</h3>
-																		</div>
-																	) : (
-																		<div className="border rounded border-secondary infoReserva my-2 ps-2">
-																			<h3 className="datosReserva">
-																				Asiento: {reserva.asiento}
-																			</h3>
-																		</div>
-																	)}
+																	{empresa.id == linea.id_empresa ? (
+																		<>
+																			{reserva.id_horario == horario.id ? (
+																				<>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Codigo de reserva:{" "}
+																							{reserva.codigo}
+																						</h3>
+																					</div>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Linea: {linea.nombre_linea}
+																						</h3>
+																					</div>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Empresa: {empresa.nombre}
+																						</h3>
+																					</div>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Horario de salida:{" "}
+																							{horario.hora}
+																						</h3>
+																					</div>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Fecha: {reserva.fecha}
+																						</h3>
+																					</div>
+																					<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																						<h3 className="datosReserva">
+																							Asientos: {reserva.asiento}
+																						</h3>
+																					</div>
+																				</>
+																			) : null}
+																		</>
+																	) : null}
 																</>
 															) : null}
 														</>
