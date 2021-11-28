@@ -11,11 +11,6 @@ const EditHora = props => {
 		const value = event.target.value;
 		setForm({ ...form, [name]: value });
 	};
-	console.log(form);
-	const handleSubmit = event => {
-		event.preventDefault();
-		actions.editHorario(props.id, props.id_linea, props.id_parada, form.tipo_dia, form.hora);
-	};
 	return (
 		<>
 			<form className="horaEmpresa" onSubmit={handleSubmit}>
