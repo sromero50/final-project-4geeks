@@ -17,7 +17,7 @@ export const Consulta = () => {
 				<div className="row w-75 mx-auto">
 					<select
 						id="mySelect"
-						className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
+						className="form-select col mx-5 tabla text-light  border border-secondary rounded text-center"
 						onChange={e => setLinea(e.target.value)}>
 						<option defaultValue>Linea</option>
 						{store.lineas.map((item, index) => {
@@ -35,8 +35,7 @@ export const Consulta = () => {
 						<option defaultValue>Tipo de Día</option>
 
 						<option value="Habil">Habil</option>
-						<option value="Feriado">Feriado</option>
-						<option value="Fin de semana">Fin de semana</option>
+						<option value="Fin de semana">Sabados y domingos</option>
 					</select>
 				</div>
 			</div>
@@ -45,7 +44,7 @@ export const Consulta = () => {
 					return (
 						<React.Fragment key={parada.id}>
 							{linea == parada.id_linea ? (
-								<div className="col border border-secondary rounded tabla container bg-dark text-light ">
+								<div className="col border border-secondary rounded tabla container text-light ">
 									<ul className="parada list-group  my-2 list-group-flush">
 										<span className="form-inline m-auto">
 											{parada.ubicacion}{" "}
@@ -79,7 +78,7 @@ export const Consulta = () => {
 															{parada.id == horario.id_parada ? (
 																<li
 																	key={horario.id}
-																	className="hora border border-secondary rounded list-group-item text-light bg-dark my-2">
+																	className="hora border border-secondary rounded list-group-item text-light tabla my-2">
 																	{horario.hora}
 																</li>
 															) : null}
