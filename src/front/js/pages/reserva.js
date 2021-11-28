@@ -12,12 +12,11 @@ export const Reserva = () => {
 	const [usuario, setUsuario] = useState(false);
 	const [linea, setLinea] = useState();
 	const [asiento, setAsiento] = useState(1);
-
 	const [value, onChange] = useState(new Date());
 	const [fecha, setFecha] = useState();
-	console.log(fecha);
 	const [form, setForm] = useState();
-
+	const [tipoDia, setTipoDia] = useState();
+	console.log();
 	useEffect(() => {
 		setUsuario(JSON.parse(localStorage.getItem("info")).usuario_id);
 	}, []);
@@ -33,6 +32,19 @@ export const Reserva = () => {
 				setFecha(`${day}-0${month}-${year}`);
 			} else {
 				setFecha(`${day}-${month}-${year}`);
+			}
+		},
+		[value]
+	);
+
+	useEffect(
+		() => {
+			let x = value.toString();
+
+			if (x.includes("Mon")) {
+				setTipoDia("Habil");
+			} else if (x.includes("Sat")) {
+				setTipoDia("Fin de semana");
 			}
 		},
 		[value]
@@ -114,22 +126,16 @@ export const Reserva = () => {
 													{store.horarios.map(horario => {
 														return (
 															<>
-																{parada.id == horario.id_parada ? (
-																	<li className="list-group-item text-light bg-dark">
-																		<input
-																			className="inputReserva"
-																			id={horario.hora}
-																			type="checkbox"
-																			name={horario.hora_id}
-																			value={horario.id}
-																			onClick={e => setForm(e.target.value)}
-																		/>
-																		<label
-																			className="labelReserva pt-1 hora border border-secondary rounded"
-																			htmlFor={horario.hora}>
-																			{horario.hora}
-																		</label>
-																	</li>
+																{horario.tipo_dia == actions.getDayName(value) ? (
+																	<>
+																		{parada.id == horario.id_parada ? (
+																			<li
+																				key={horario.id}
+																				className="hora border border-secondary rounded list-group-item text-light tabla my-2">
+																				{horario.hora}
+																			</li>
+																		) : null}
+																	</>
 																) : null}
 															</>
 														);
@@ -144,6 +150,7 @@ export const Reserva = () => {
 					</div>
 					<div className="container mt-5">
 						<Calendar
+							onClickMonth={console.log(value)}
 							className="m-auto tabla border border-rounded border-secondary"
 							onChange={onChange}
 							value={value}

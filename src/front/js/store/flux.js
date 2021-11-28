@@ -835,6 +835,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				} catch (error) {
 					console.log(error);
 				}
+			},
+			getDayName: date => {
+				let x = date.toString();
+
+				if (x.includes("Mon")) {
+					console.log("Habil");
+					return "Habil";
+				}
 			}
 		}
 	};
