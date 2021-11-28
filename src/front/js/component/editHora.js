@@ -25,13 +25,17 @@ const EditHora = props => {
 					type="text"
 					value={form.hora}
 					className="form-control  text-center"
-					readOnly={edit}
 				/>
 				<span className="mt-1 mx-2">
 					<i onClick={() => actions.deleteHorario(props.id)} className="far fa-trash-alt" />
 				</span>
 				<span className="mt-1">
-					<i onClick={() => setEdit(!edit)} className="far fa-edit" />
+					<i
+						onClick={() =>
+							actions.editHorario(props.id, props.id_linea, props.id_parada, form.tipo_dia, form.hora)
+						}
+						className="far fa-edit"
+					/>
 				</span>
 			</form>
 		</>
