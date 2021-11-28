@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			tipo_dia: "",
 			horarios: [],
 			paradas: [],
 			lineas: [],
@@ -138,7 +139,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						Swal.fire({
 							position: "center",
 							icon: "success",
-							title: "Registro exitoso!",
+							title: "¡Registro exitoso!",
 							showConfirmButton: false,
 							timer: 1500
 						});
@@ -176,7 +177,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						Swal.fire({
 							position: "center",
 							icon: "success",
-							title: "Registro exitoso!",
+							title: "¡Registro exitoso!",
 							showConfirmButton: false,
 							timer: 1500
 						});
@@ -201,14 +202,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteEmpresa: id => {
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "No podras revertir este cambio!",
+					title: "¿Estas seguro?",
+					text: "¡No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -235,7 +236,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						if (newList.length === 0) {
 							setStore({ empresas: [] });
 						}
-						Swal.fire("Borrado!", "La empresa ha sido borrada.", "success");
+						Swal.fire("¡Eliminada!", "La empresa ha sido eliminada", "success");
 					}
 				});
 			},
@@ -243,14 +244,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				try {
 					Swal.fire({
-						title: "Estas seguro?",
-						text: "Deseas modificar los datos de la empresa?",
+						title: "¿Estas seguro?",
+						text: "¿Deseas modificar los datos de la empresa?",
 						icon: "warning",
 						showCancelButton: true,
 						confirmButtonColor: "#3085d6",
 						cancelButtonColor: "#d33",
 						cancelButtonText: "Cancelar",
-						confirmButtonText: "Confirmar!"
+						confirmButtonText: "Confirmar"
 					}).then(async result => {
 						if (result.isConfirmed) {
 							var myHeaders = new Headers();
@@ -276,7 +277,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							const responseBody = await response.json();
 							if (responseBody) {
 								setStore({ reload: true });
-								Swal.fire("Modificados!", "La empresa ha sido modificada.", "success");
+								Swal.fire("¡Modificada!", "La empresa ha sido modificada", "success");
 							}
 						}
 					});
@@ -311,7 +312,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						position: "center",
 						icon: "success",
-						title: "Registro exitoso!",
+						title: "¡Registro exitoso!",
 						showConfirmButton: false,
 						timer: 1500
 					});
@@ -319,7 +320,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
-						text: "Fallo al crear la linea!"
+						text: "Fallo al crear la linea"
 					});
 				}
 			},
@@ -347,7 +348,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						position: "center",
 						icon: "success",
-						title: "Registro exitoso!",
+						title: "¡Registro exitoso!",
 						showConfirmButton: false,
 						timer: 1500
 					});
@@ -355,7 +356,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
-						text: "Fallo al crear la parada!"
+						text: "Fallo al crear la parada"
 					});
 				}
 				console.log(data);
@@ -387,7 +388,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						position: "center",
 						icon: "success",
-						title: "Registro exitoso!",
+						title: "¡Registro exitoso!",
 						showConfirmButton: false,
 						timer: 1500
 					});
@@ -395,21 +396,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
-						text: "Fallo al crear el horario!"
+						text: "Fallo al crear el horario"
 					});
 				}
 				console.log(data);
 			},
 			deleteLinea: async id => {
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "No podras revertir este cambio!",
+					title: "¡Estas seguro?",
+					text: "¡No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(async result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -428,7 +429,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const response = await fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions);
 						const responseBody = await response.json();
 						if (responseBody) {
-							Swal.fire("Borrado!", "La linea ha sido borrada.", "success");
+							Swal.fire("¡Eliminada!", "La linea ha sido eliminada", "success");
 							setStore({ reload: true });
 						}
 					}
@@ -436,14 +437,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteParada: id => {
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "No podras revertir este cambio!",
+					title: "¿Estas seguro?",
+					text: "¡No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -463,7 +464,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							.then(response => response.text())
 							.then(result => console.log(result))
 							.catch(error => console.log("error", error));
-						Swal.fire("Borrado!", "La parada ha sido borrada.", "success");
+						Swal.fire("¡Eliminada!", "La parada ha sido eliminada", "success");
 						const store = getStore();
 						const newList = store.paradas.filter(item => item.id !== id);
 						setStore({ paradas: newList });
@@ -472,14 +473,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			deleteHorario: id => {
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "No podras revertir este cambio!",
+					title: "¿Estas seguro?",
+					text: "¡No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -499,7 +500,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							.then(response => response.text())
 							.then(result => console.log(result))
 							.catch(error => console.log("error", error));
-						Swal.fire("Borrado!", "El horario ha sido borrada.", "success");
+						Swal.fire("¡Eliminado!", "El horario ha sido eliminado", "success");
 						const store = getStore();
 						const newList = store.horarios.filter(item => item.id !== id);
 						setStore({ horarios: newList });
@@ -510,14 +511,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 				try {
 					const store = getStore();
 					Swal.fire({
-						title: "Estas seguro?",
-						text: "Deseas modificar la linea?",
+						title: "¿Estas seguro?",
+						text: "¿Deseas modificar la linea?",
 						icon: "warning",
 						showCancelButton: true,
 						confirmButtonColor: "#3085d6",
 						cancelButtonColor: "#d33",
 						cancelButtonText: "Cancelar",
-						confirmButtonText: "Confirmar!"
+						confirmButtonText: "Confirmar"
 					}).then(async result => {
 						if (result.isConfirmed) {
 							var myHeaders = new Headers();
@@ -538,7 +539,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							const response = await fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions);
 							const data = await response.json();
 							if (data) {
-								Swal.fire("Modificada!", "La linea ha sido modificada.", "success");
+								Swal.fire("¡Modificada!", "La linea ha sido modificada", "success");
 								setStore({ reload: true });
 							}
 						}
@@ -550,14 +551,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editParada: async (id, ubicacion) => {
 				const store = getStore();
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "Deseas modificar la parada?",
+					title: "¿Estas seguro?",
+					text: "¿Deseas modificar la parada?",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(async result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -577,7 +578,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const response = await fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions);
 						const data = await response.json();
 						if (data) {
-							Swal.fire("Modificada!", "La parada ha sido modificada.", "success");
+							Swal.fire("¡Modificada!", "La parada ha sido modificada", "success");
 							setStore({ reload: true });
 						}
 					}
@@ -586,14 +587,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 			editHorario: async (id, id_linea, id_parada, tipo_dia, hora) => {
 				const store = getStore();
 				Swal.fire({
-					title: "Estas seguro?",
-					text: "Deseas modificar los datos del horario?",
+					title: "¿Estas seguro?",
+					text: "¿Deseas modificar los datos del horario?",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(async result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -617,7 +618,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const response = await fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions);
 						const data = await response.json();
 						if (data) {
-							Swal.fire("Modificado!", "El horario ha sido modificada.", "success");
+							Swal.fire("¡Modificado!", "El horario ha sido modificado", "success");
 							setStore({ reload: true });
 						}
 					}
@@ -694,13 +695,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const store = getStore();
 				Swal.fire({
 					title: "Estas seguro?",
-					text: "Deseas modificar los datos del horario?",
+					text: "¿Deseas modificar los datos del horario?",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(async result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -725,21 +726,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const data = await response.json();
 						if (data) {
 							setStore({ reload: true });
-							Swal.fire("Modificada!", "La reserva ha sido modificada.", "success");
+							Swal.fire("¡Modificada!", "La reserva ha sido modificada", "success");
 						}
 					}
 				});
 			},
 			deleteReserva: id => {
 				Swal.fire({
-					title: "Deseas borrar esta reserva?",
-					text: "No podras revertir este cambio!",
+					title: "¿Deseas borrar esta reserva?",
+					text: "¡No podras revertir este cambio!",
 					icon: "warning",
 					showCancelButton: true,
 					confirmButtonColor: "#3085d6",
 					cancelButtonColor: "#d33",
 					cancelButtonText: "Cancelar",
-					confirmButtonText: "Confirmar!"
+					confirmButtonText: "Confirmar"
 				}).then(result => {
 					if (result.isConfirmed) {
 						var myHeaders = new Headers();
@@ -760,7 +761,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							.then(result => console.log(result))
 							.catch(error => console.log("error", error));
 
-						Swal.fire("Borrado!", "La reserva ha sido borrada.", "success");
+						Swal.fire("¡Eliminada!", "La reserva ha sido eliminada", "success");
 						const store = getStore();
 						setStore();
 						const newList = store.reservas.filter(item => item.id !== id);
@@ -793,7 +794,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						Swal.fire({
 							position: "center",
 							icon: "success",
-							title: "Revise su casilla de email!",
+							title: "Revise su casilla de email",
 							showConfirmButton: false,
 							timer: 1500
 						});
@@ -827,21 +828,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 						Swal.fire({
 							position: "center",
 							icon: "success",
-							title: "Contraseña cambiada!",
+							title: "¡Contraseña cambiada!",
 							showConfirmButton: false,
 							timer: 1500
 						});
 					}
 				} catch (error) {
 					console.log(error);
-				}
-			},
-			getDayName: date => {
-				let x = date.toString();
-
-				if (x.includes("Mon")) {
-					console.log("Habil");
-					return "Habil";
 				}
 			}
 		}

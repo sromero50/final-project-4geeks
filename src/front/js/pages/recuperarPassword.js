@@ -21,8 +21,8 @@ const RecuperarPassword = () => {
 			{" "}
 			{store.login && <NotFound />}
 			{!store.login && (
-				<div className="body text-center p-3">
-					<div className="panel panel-default recover m-auto mt-3 p-3 border border-secondary rounded">
+				<div className="body text-center p-5">
+					<div className="panel panel-default recover bg-dark m-auto mt-3 p-3 border border-secondary rounded">
 						<div className="panel-body">
 							<div className="text-center text-light">
 								<h3>

@@ -37,18 +37,31 @@ export const Reserva = () => {
 		[value]
 	);
 
-	useEffect(
-		() => {
-			let x = value.toString();
+	useEffect(() => {
+		let x = value.toString();
 
-			if (x.includes("Mon")) {
-				setTipoDia("Habil");
-			} else if (x.includes("Sat")) {
-				setTipoDia("Fin de semana");
-			}
-		},
-		[value]
-	);
+		if (
+			x.includes("Jan 01") ||
+			x.includes("May 01") ||
+			x.includes("Jul 18") ||
+			x.includes("Aug 25") ||
+			x.includes("Dec 25")
+		) {
+			setTipoDia("Feriado");
+		} else if (
+			x.includes("Mon") ||
+			x.includes("Tue") ||
+			x.includes("Wed") ||
+			x.includes("Thu") ||
+			x.includes("Fri")
+		) {
+			setTipoDia("Habil");
+		} else if (x.includes("Sat")) {
+			setTipoDia("Sabado");
+		} else if (x.includes("Sun")) {
+			setTipoDia("Domingo");
+		}
+	});
 
 	const handleSubmit = event => {
 		event.preventDefault();
@@ -58,13 +71,13 @@ export const Reserva = () => {
 	return (
 		<>
 			<div className="text-center body">
-				<h1 className="display-2 text-light pb-3">Reservas</h1>
+				<h1 className="display-2 text-light p-5">Reservas</h1>
 				<form onSubmit={handleSubmit}>
-					<div className="pb-5">
+					<div className="pb-3">
 						<div className="row w-25 mx-auto">
 							<select
 								id="mySelect"
-								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
+								className="form-select col mx-5 bg-dark text-light border border-secondary rounded text-center"
 								onChange={e => setLinea(e.target.value)}>
 								<option defaultValue>Linea</option>
 								{store.lineas.map((item, index) => {
@@ -75,19 +88,14 @@ export const Reserva = () => {
 									);
 								})}
 							</select>
-							{/* <select
-								className="form-select col mx-5 bg-dark text-light  border border-secondary rounded text-center"
-								aria-label="Default select example">
-								<option defaultValue>Tipo de Día</option>
-								{store.horarios.map((item, index) => {
-									return (
-										<option className="text-center" key={index} value={item.tipo_dia}>
-											{item.tipo_dia}
-										</option>
-									);
-								})}
-							</select> */}
 						</div>
+					</div>
+					<div className="container pb-3">
+						<Calendar
+							className="m-auto tabla border border-rounded border-secondary"
+							onChange={onChange}
+							value={value}
+						/>
 					</div>
 					<div className="row container m-auto w-50">
 						{store.paradas.map(parada => {
@@ -126,12 +134,12 @@ export const Reserva = () => {
 													{store.horarios.map(horario => {
 														return (
 															<>
-																{horario.tipo_dia == actions.getDayName(value) ? (
+																{horario.tipo_dia == tipoDia ? (
 																	<>
 																		{parada.id == horario.id_parada ? (
 																			<li
 																				key={horario.id}
-																				className="hora border border-secondary rounded list-group-item text-light tabla my-2">
+																				className="hora border border-secondary rounded list-group-item bg-dark text-light tabla my-2">
 																				{horario.hora}
 																			</li>
 																		) : null}
@@ -148,14 +156,6 @@ export const Reserva = () => {
 							);
 						})}
 					</div>
-					<div className="container mt-5">
-						<Calendar
-							onClickMonth={console.log(value)}
-							className="m-auto tabla border border-rounded border-secondary"
-							onChange={onChange}
-							value={value}
-						/>
-					</div>
 
 					<div className="container selectorAsientos tabla bg-dark border-secondary border rounded  mt-3 m-auto mb-3">
 						<div className="text-light d-flex align-items-center">
@@ -169,7 +169,7 @@ export const Reserva = () => {
 								<i className="fas fa-minus botonAsiento" />
 							</span>
 						</div>
-						<button type="submit" className="btn btn-light btn-block mb-1">
+						<button type="submit" className="btn btn-light btn-block mb-5">
 							Reservar
 						</button>
 					</div>

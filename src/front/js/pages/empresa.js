@@ -89,8 +89,9 @@ export const Empresa = () => {
 									<option defaultValue>Tipo de Día</option>
 
 									<option value="Habil">Habil</option>
+									<option value="Sabado">Sabado</option>
+									<option value="Domingo">Domingo</option>
 									<option value="Feriado">Feriado</option>
-									<option value="Fin de semana">Fin de semana</option>
 								</select>
 							</div>
 						</div>

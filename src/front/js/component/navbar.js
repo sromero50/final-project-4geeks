@@ -45,7 +45,6 @@ export const Navbar = () => {
 										{store.info.map(item => {
 											return (
 												<li className="nav-item form-inline " key={item.id}>
-													<i className="fas fa-user ms-1" />
 													<a className="nav-link ms-1" href="/usuario/">
 														{item.nombre}
 													</a>
@@ -54,10 +53,7 @@ export const Navbar = () => {
 										})}
 										<></>
 										<li className="nav-item">
-											<a
-												className="nav-link ms-1"
-												href="/consulta/"
-												onClick={() => actions.logout()}>
+											<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
 												Salir
 											</a>
 										</li>
@@ -70,7 +66,6 @@ export const Navbar = () => {
 										{store.info.map(item => {
 											return (
 												<li className="nav-item form-inline" key={item.id}>
-													<i className="fas fa-user-tie ms-2" />
 													<a className="nav-link ms-1" href="/administrador/">
 														{item.nombre}
 													</a>
@@ -79,10 +74,7 @@ export const Navbar = () => {
 										})}
 										<></>
 										<li className="nav-item form-inline">
-											<a
-												className="nav-link ms-1"
-												href="/consulta/"
-												onClick={() => actions.logout()}>
+											<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
 												Salir
 											</a>
 										</li>
@@ -94,7 +86,6 @@ export const Navbar = () => {
 									{store.info.map(item => {
 										return (
 											<li className="nav-item m-start form-inline" key={item.id}>
-												<i className="fas fa-user-tie ms-2" />
 												<a className="nav-link ms-1" href="/empresa">
 													{item.nombre}
 												</a>
@@ -103,7 +94,7 @@ export const Navbar = () => {
 									})}
 									<></>
 									<li className="nav-item form-inline">
-										<a className="nav-link ms-1" href="/consulta/" onClick={() => actions.logout()}>
+										<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
 											Salir
 										</a>
 									</li>

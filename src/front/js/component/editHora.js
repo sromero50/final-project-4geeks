@@ -28,7 +28,7 @@ const EditHora = props => {
 					readOnly={edit}
 				/>
 				<span className="mt-1 mx-2">
-					<i onClick={() => actions.deleteHorario(props.id)} className="fas fa-times" />
+					<i onClick={() => actions.deleteHorario(props.id)} className="far fa-trash-alt" />
 				</span>
 				<span className="mt-1">
 					<i onClick={() => setEdit(!edit)} className="far fa-edit" />
