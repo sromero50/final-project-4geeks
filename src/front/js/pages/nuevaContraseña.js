@@ -26,8 +26,8 @@ const NuevaContraseña = () => {
 			{" "}
 			{store.login && <NotFound />}
 			{!store.login && (
-				<div className="body text-center p-3">
-					<div className="login container p-3 mt-4 border rounded border-secondary text-light">
+				<div className="body text-center p-5">
+					<div className="login container p-3 mt-4 border rounded border-secondary bg-dark text-light">
 						<h2 className="olvidaste">Ingrese su nueva contraseña</h2>
 						<div className="mt-3">
 							<form onSubmit={handleSubmit}>

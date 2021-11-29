@@ -16,15 +16,8 @@ export const Home = () => {
 				</p>
 				{!store.login && (
 					<p className="lead p-5">
-						<a className="btn btn-light btn-lg boton" href="/registrate" role="button">
+						<a className="btn btn-dark btn-lg boton" href="/registrate" role="button">
 							Registrate
-						</a>
-					</p>
-				)}
-				{store.login && (
-					<p className="lead p-5">
-						<a className="btn btn-light btn-lg boton" href="/consulta" role="button">
-							Horarios
 						</a>
 					</p>
 				)}

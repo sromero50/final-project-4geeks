@@ -11,11 +11,6 @@ const EditHora = props => {
 		const value = event.target.value;
 		setForm({ ...form, [name]: value });
 	};
-	console.log(form);
-	const handleSubmit = event => {
-		event.preventDefault();
-		actions.editHorario(props.id, props.id_linea, props.id_parada, form.tipo_dia, form.hora);
-	};
 	return (
 		<>
 			<form className="horaEmpresa" onSubmit={handleSubmit}>
@@ -25,13 +20,17 @@ const EditHora = props => {
 					type="text"
 					value={form.hora}
 					className="form-control  text-center"
-					readOnly={edit}
 				/>
 				<span className="mt-1 mx-2">
-					<i onClick={() => actions.deleteHorario(props.id)} className="fas fa-times" />
+					<i onClick={() => actions.deleteHorario(props.id)} className="far fa-trash-alt" />
 				</span>
 				<span className="mt-1">
-					<i onClick={() => setEdit(!edit)} className="far fa-edit" />
+					<i
+						onClick={() =>
+							actions.editHorario(props.id, props.id_linea, props.id_parada, form.tipo_dia, form.hora)
+						}
+						className="far fa-edit"
+					/>
 				</span>
 			</form>
 		</>

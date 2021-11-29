@@ -54,7 +54,7 @@ def recover_contraseña():
     
     if usuario or empresa or admin:
         tokenUser = s.dumps([email], salt='emailconfirm')
-        link = f"https://3000-salmon-koi-9tn6avbq.ws-us17.gitpod.io/resetcontraseña/{tokenUser}"
+        link = f"https://3000-teal-rodent-5oyb4dde.ws-us17.gitpod.io/resetcontraseña/{tokenUser}"
         msg = Message()
         msg.subject = "Recupera tu contraseña"
         msg.recipients = [email]

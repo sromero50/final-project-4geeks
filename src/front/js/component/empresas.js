@@ -24,7 +24,7 @@ const Empresas = props => {
 						<div className="inputEmpresa row">
 							<input
 								type="text"
-								className="form-control my-2 col"
+								className="form-control my-2 col bg-dark text-light"
 								name="nombre"
 								defaultValue={props.nombre}
 								readOnly={edit}
