@@ -13,7 +13,7 @@ const EditHora = props => {
 	};
 	return (
 		<>
-			<form className="horaEmpresa" onSubmit={handleSubmit}>
+			<form className="horaEmpresa">
 				<input
 					name="hora"
 					onChange={handleChange}

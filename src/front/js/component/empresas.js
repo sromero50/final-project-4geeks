@@ -11,23 +11,17 @@ const Empresas = props => {
 		setForm({ ...form, [name]: value });
 	};
 
-	const handleSubmit = event => {
-		event.preventDefault();
-		actions.editEmpresa(props.id, form.nombre, form.email);
-	};
-
 	return (
 		<>
 			<div className="empresaInput">
 				<div>
-					<form onSubmit={handleSubmit}>
+					<form>
 						<div className="inputEmpresa row">
 							<input
 								type="text"
 								className="form-control my-2 col bg-dark text-light"
 								name="nombre"
 								defaultValue={props.nombre}
-								readOnly={edit}
 								onChange={handleChange}
 							/>
 							<span className="col-1 my-3" onClick={() => actions.deleteEmpresa(props.id)}>
@@ -36,7 +30,7 @@ const Empresas = props => {
 							<span
 								className="my-3 col-1"
 								onClick={() => {
-									setEdit(!edit);
+									actions.editEmpresa(props.id, form.nombre, form.email);
 								}}>
 								<i className="far fa-edit" />
 							</span>
@@ -46,30 +40,8 @@ const Empresas = props => {
 								className="form-control my-2 bg-dark text-light"
 								name="email"
 								defaultValue={props.email}
-								readOnly={edit}
 								onChange={handleChange}
 							/>
-							<button type="submit" className="btn botonEditar">
-								Modificar
-							</button>
-
-							{/* {edit == false ? (
-								<>
-									<input
-										type="text"
-										className="form-control my-2 bg-dark text-light"
-										name="email"
-										defaultValue={props.email}
-										readOnly={edit}
-										onChange={handleChange}
-									/>
-									<button type="submit" className="btn botonEditar">
-										Modificar
-									</button>
-								</>
-							) : (
-								false
-							)} */}
 						</div>
 					</form>
 				</div>
