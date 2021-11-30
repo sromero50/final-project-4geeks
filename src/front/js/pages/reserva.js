@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import "../../styles/home.scss";
 import { useHistory } from "react-router";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import "../../styles/Calendar.css";
 import Mapa from "../component/mapa";
 import { Redirect } from "react-router";
 export const Reserva = () => {

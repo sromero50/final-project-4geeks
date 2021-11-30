@@ -5,7 +5,7 @@ const Confirmacion = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="body">
+		<div className="body pb-3">
 			<div className="ms-4 form-inline">
 				<i className="fas fa-chevron-left me-2" />
 				<Link to="/reserva" className="irAtras text-light">
