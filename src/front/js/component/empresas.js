@@ -40,11 +40,24 @@ const Empresas = props => {
 								}}>
 								<i className="far fa-edit" />
 							</span>
-							{edit == false ? (
+
+							<input
+								type="text"
+								className="form-control my-2 bg-dark text-light"
+								name="email"
+								defaultValue={props.email}
+								readOnly={edit}
+								onChange={handleChange}
+							/>
+							<button type="submit" className="btn botonEditar">
+								Modificar
+							</button>
+
+							{/* {edit == false ? (
 								<>
 									<input
 										type="text"
-										className="form-control my-3"
+										className="form-control my-2 bg-dark text-light"
 										name="email"
 										defaultValue={props.email}
 										readOnly={edit}
@@ -56,7 +69,7 @@ const Empresas = props => {
 								</>
 							) : (
 								false
-							)}
+							)} */}
 						</div>
 					</form>
 				</div>

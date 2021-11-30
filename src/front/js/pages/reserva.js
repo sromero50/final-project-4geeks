@@ -137,11 +137,25 @@ export const Reserva = () => {
 																{horario.tipo_dia == tipoDia ? (
 																	<>
 																		{parada.id == horario.id_parada ? (
-																			<li
-																				key={horario.id}
-																				className="hora border border-secondary rounded list-group-item bg-dark text-light tabla my-2">
-																				{horario.hora}
-																			</li>
+																			<>
+																				<li className="list-group-item text-light bg-dark">
+																					<input
+																						className="inputReserva"
+																						id={horario.hora}
+																						type="checkbox"
+																						name={horario.hora_id}
+																						value={horario.id}
+																						onClick={e =>
+																							setForm(e.target.value)
+																						}
+																					/>
+																					<label
+																						className="labelReserva pt-1 hora border border-secondary rounded"
+																						htmlFor={horario.hora}>
+																						{horario.hora}
+																					</label>
+																				</li>
+																			</>
 																		) : null}
 																	</>
 																) : null}
