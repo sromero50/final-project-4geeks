@@ -14,9 +14,11 @@ export const MisReservas = () => {
 				{" "}
 				{store.user && (
 					<div className="text-center body">
-						<h1 className="display-4 text-light ">Mis reservas</h1>
+						<h1 className="display-4 text-light pt-5">Mis reservas</h1>
 						{store.reservas.length == 0 ? (
-							<h2 className="display-5 text-light">Usted no ha hecho ninguna reserva</h2>
+							<h5 className="display-5 text-light">
+								Usted no ha hecho ninguna reserva
+							</h5>
 						) : (
 							<>
 								{store.reservas.map(reserva => {

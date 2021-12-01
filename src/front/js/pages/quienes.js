@@ -18,27 +18,27 @@ const Quienes = () => {
 			<div className="container marketing mt-5">
 				<div className="row text-light" style={{ fontWeight: "lighter" }}>
 					<div className="col-lg-4 bg-dark p-3 w-25 m-auto border rounded border-secondary tabla">
-						<img src={maria} alt="..." className="bd-placeholder-img rounded-circle" />
+						<img src={maria} alt="..." className="quienes-img bd-placeholder-img m-auto rounded-circle" />
 
-						<h2 className="mt-2">Maria Perrone</h2>
+						<h3 className="mt-2">Maria Perrone</h3>
 						<p>Full-Stack Developer</p>
-						<p>Estudiante LTI</p>
+						<p>Estudiante licenciatura en TI</p>
 						<p>Profesora de inglés</p>
 					</div>
 					<div className="col-lg-4 bg-dark p-3 w-25 m-auto border rounded border-secondary tabla">
-						<img src={seba} alt="..." className="bd-placeholder-img rounded-circle" />
+						<img src={seba} alt="..." className="quienes-img bd-placeholder-img rounded-circle" />
 
-						<h2 className="mt-2">Sebastian Romero</h2>
+						<h3 className="mt-2">Sebastian Romero</h3>
 						<p>Full-Stack Developer</p>
 						<p>Estudiante de traductorado de inglés</p>
 						<p>Estudiante de analista programador</p>
 					</div>
 					<div className="col-lg-4 bg-dark p-3 w-25 m-auto border rounded border-secondary tabla">
-						<img src={fabian} alt="..." className="bd-placeholder-img rounded-circle" />
+						<img src={fabian} alt="..." className="quienes-img bd-placeholder-img rounded-circle" />
 
-						<h2 className="mt-2">Fabian Lopez</h2>
+						<h3 className="mt-2">Fabian Lopez</h3>
 						<p>Full-Stack Developer</p>
-						<p>Estudiante LTI</p>
+						<p>Estudiante licenciatura en TI</p>
 						<p>MT Redes y telecomunicaciones</p>
 					</div>
 				</div>

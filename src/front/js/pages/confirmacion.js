@@ -8,12 +8,12 @@ const Confirmacion = () => {
 		<div className="body pb-3">
 			<div className="ms-4 form-inline">
 				<i className="fas fa-chevron-left me-2" />
-				<Link to="/reserva" className="irAtras text-light">
+				<Link to="/reserva" className="irAtras text-light p-3">
 					{" "}
 					Hacer otra reserva{" "}
 				</Link>
 			</div>
-			<h1 className="display-4 text-light text-center">Reserva confirmada!</h1>
+			<h1 className="display-4 pb-3 text-light text-center">¡Reserva confirmada!</h1>
 			{JSON.parse(store.reservaConfirmada).map((reserva, index) => {
 				return (
 					<div

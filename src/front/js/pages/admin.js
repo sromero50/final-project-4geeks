@@ -14,7 +14,7 @@ const Admin = () => {
 			<Loading active={store.admin}>
 				{store.admin && (
 					<div className="text-center body">
-						<h1 className="display-2 text-white pb-3">Administración</h1>
+						<h1 className="display-2 text-white p-5">Administración</h1>
 						<ListaEmpresas />
 						<span onClick={() => setAdd(!add)}>
 							<i className="fas fa-plus" />
