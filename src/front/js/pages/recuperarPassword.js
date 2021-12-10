@@ -21,16 +21,16 @@ const RecuperarPassword = () => {
 			{" "}
 			{store.login && <NotFound />}
 			{!store.login && (
-				<div className="body text-center p-5">
-					<div className="panel panel-default recover bg-dark m-auto mt-3 p-3 border border-secondary rounded">
-						<div className="panel-body">
+				<div className="text-center p-5 ">
+					<div className="card recover bg-dark m-auto mt-3 p-3 border border-secondary rounded">
+						<div className="card-body">
 							<div className="text-center text-light">
 								<h3>
-									<i className="fa fa-lock fa-4x" />
+									<i className="fa fa-lock text-light fa-4x" />
 								</h3>
 								<h2 className="text-center olvidaste ">Olvidaste tu contraseña?</h2>
 								<h6 className="my-3 restablecer ">Puedes restablecer tu contraseña aquí.</h6>
-								<div className="panel-body">
+								<div className="card-body">
 									<form id="register-form" className="form" onSubmit={handleSubmit}>
 										<div className="form-group">
 											<div className="input-group">
@@ -49,7 +49,7 @@ const RecuperarPassword = () => {
 											</div>
 										</div>
 										<div className="form-group">
-											<button type="submit" className="btn btn-block btn-light">
+											<button type="submit" className="btn btn-block btn-dark">
 												Restablecer contraseña
 											</button>
 										</div>

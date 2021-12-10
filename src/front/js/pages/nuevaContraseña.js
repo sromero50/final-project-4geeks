@@ -26,10 +26,10 @@ const NuevaContraseña = () => {
 			{" "}
 			{store.login && <NotFound />}
 			{!store.login && (
-				<div className="body text-center p-5">
-					<div className="login container p-3 mt-4 border rounded border-secondary bg-dark text-light">
-						<h2 className="olvidaste">Ingrese su nueva contraseña</h2>
-						<div className="mt-3">
+				<div className="container bg-dark card col-md-12 text-center mt-4 w-50 p-5">
+					<div className="container mt-2 text-light">
+						<h2 className="olvidaste mb-5">Ingrese su nueva contraseña</h2>
+						<div className="mt-3 card-body ">
 							<form onSubmit={handleSubmit}>
 								<div className="input-group my-2">
 									<span className="input-group-addon">
@@ -48,7 +48,7 @@ const NuevaContraseña = () => {
 										<i className="far fa-eye iconoInput" />
 									</span>
 								</div>
-								<button type="submit" className="btn btn-block btn-light">
+								<button type="submit" className="btn btn-block btn-dark">
 									Cambiar contraseña
 								</button>
 							</form>
