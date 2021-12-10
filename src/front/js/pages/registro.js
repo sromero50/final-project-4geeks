@@ -4,9 +4,8 @@ import "../../styles/home.scss";
 
 const Registro = () => {
 	return (
-		<div className="body p-5">
-			<div className="container border-secondary bg-dark text-light p-3 login border rounded">
-				<h2 className="text-light text-center display-4">Registrate</h2>
+		<div className="container p-5">
+			<div>
 				<RegistroForm />
 			</div>
 		</div>

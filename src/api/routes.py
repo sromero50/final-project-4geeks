@@ -144,7 +144,9 @@ def add_new_linea():
         raise APIException("You need to specify the request body as a json object", status_code=400)
     if 'nombre_linea' not in body:
         raise APIException('You need to specify the nombre_linea', status_code=400)
-    linea = Linea(id_empresa=logged_empresa, nombre_linea=body['nombre_linea'])
+    if 'destino' not in body:
+        raise APIException('You need to specify the nombre_linea', status_code=400)
+    linea = Linea(id_empresa=logged_empresa, nombre_linea=body['nombre_linea'], destino=body['destino'])
     db.session.add(linea)
     db.session.commit()
     linea_query = Linea.query.all()
@@ -243,7 +245,8 @@ def add_new_reserva():
     if 'asiento' not in body:
         raise APIException('You need to specify the asiento', status_code=400)
     if 'fecha' not in body:
-        raise APIException('You need to specify the fecha', status_code=400)   
+        raise APIException('You need to specify the fecha', status_code=400)  
+
 
     reserva = Reserva(id_linea=body['id_linea'], id_horario=body['id_horario'], id_usuario=body['id_usuario'], asiento=body['asiento'], fecha=body['fecha'], codigo_reserva=body['codigo_reserva'])
     db.session.add(reserva)

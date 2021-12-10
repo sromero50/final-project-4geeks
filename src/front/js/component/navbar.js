@@ -9,7 +9,7 @@ export const Navbar = () => {
 				<div className="container">
 					<a className="navbar-brand" href="/">
 						SmartTravel
-						<i className="fas fa-bus ms-3" />
+						<i className="fas fa-bus ms-3 iconoNavbar " />
 					</a>
 					<button
 						className="navbar-toggler"

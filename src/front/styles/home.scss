@@ -1,12 +1,45 @@
 
 body{
+    background-color: #1D1B1F;
+    font-family:  Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+    background: hsla(221, 45%, 73%, 1);
+
+    background: radial-gradient(circle, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%);
     
-    background-image: url(https://i.pinimg.com/originals/b6/a4/20/b6a420803f582395034f7d45970517e5.jpg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    padding-bottom: 35px;
+    background: -moz-radial-gradient(circle, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%);
+    
+    background: -webkit-radial-gradient(circle, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%);
+    
    
-   
+}
+
+
+.bg-dark{
+    // background-color: #4c61bd57 !important;
+    background-color: #9bafd934 !important;
+    box-shadow: rgba(0, 0, 0, 0.507) 0px 4px 12px !important;
+    border-radius: 5px !important;
+    border: none !important;
+}
+
+.bg-select{
+    background-color: #9BAFD9 !important;
+}
+
+.btn-dark{
+    background-color: #103783 !important;
+    box-shadow: rgba(0, 0, 0, 0.63) 0px 4px 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-dark:hover{
+    background-color: #10368369 !important;
+}
+
+.navbar-dark{
+    background-color: #103783 !important;
+    border-radius: 5px;
 }
 
 .footer {
@@ -22,11 +55,6 @@ body{
     overflow-y: scroll !important;
   }
 
-.body {
-      height: 100vh;
-   
-    background-color: rgba(0, 0, 0, 0.452);
-  }
 
 .quienes{
      font-size: 40px;
@@ -36,9 +64,7 @@ a{
     color: black;
 }
 
-.empresaInput{
-    width:400px;
-}
+
 
 .labelReserva {
     height: 45px;
@@ -53,8 +79,9 @@ a{
 }
 
 .inputReserva:checked + .labelReserva {
-    border: solid 1px rgb(253, 196, 7) !important;
-    color: rgb(253, 196, 7) !important;
+    border: solid 1px rgb(0, 0, 0) !important;
+    color: rgb(255, 255, 255) !important;
+    background-color: #103783 !important;
 }
 
 .inputReserva:checked + .labelReserva:before {
@@ -62,12 +89,17 @@ a{
 }
 
 
-i{color:white;
+i{color:rgb(0, 0, 0);
 font-size:150%;
 }
+
+.iconoNavbar, .iconoMap{
+    color: white;
+}
+
 .iconoParada{
 color:white;
-font-size:80%
+font-size:80% 
 }
 
 
@@ -76,12 +108,7 @@ font-size:80%
     font-weight: 200;
 }
 
-.login{
-    
-    width: 400px;
-   
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
+
 
 .olvidasteAnchor{
     font-size: 13px;
@@ -91,30 +118,52 @@ font-size:80%
 }
 
 .tabla{
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border: none !important;
+    border-radius: 5px !important;
+    background-color: #5371AC;
+    box-shadow: rgba(0, 0, 0, 0.664) 0px 4px 12px;
 }
+   
 
 select{
+    transition: 0.3s !important;
     font-weight: 300 !important;
     font-size: 20px !important;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    
 }
+
+
+
+
 
 .boton{
     font-weight: lighter !important;
-}
-
-
-
-.parada{
-    font-weight: 300;
-    font-size: 25px;
-}
-
-.hora{
     font-size: 20px;
 }
 
+.userBotones{
+    transition: 0.3s;
+    font-size: 30px;
+    font-weight: 300;
+}
+.userBotones:hover{
+    background-color: #103783 !important;
+}
+
+.parada{
+    font-weight: 300;
+    font-size: 25px !important;
+}
+
+.liColor{
+    background-color: #2d2d4900;
+}
+
+.hora{
+    
+    font-size: 20x;
+    transition: 0.3s;
+}
 
 .horaEmpresa{
     font-size: 20px;
@@ -124,11 +173,10 @@ select{
 
 .editLinea{
     display: inline-flex;
-    width: 500px;
 }
 
 .hora:hover{
-    background-color: rgba(114, 114, 114, 0.459) !important;
+    background-color: #10368369 !important;
 }
 
 .alerta{
@@ -136,20 +184,20 @@ select{
 }
 
 .asientos{
-    font-size: 20px;
+    transition: 0.3s;
+    font-size: 25px;
     font-weight: 200;
 }
 
-.selectorAsientos{
-    width: 350px;
-}
 
 .botonAsiento{
-    font-size: 120%;
+    font-size: 20px;
+    color: white;
 }
 
 .reservas{
-    width: 280px;
+    
+    transition: 0.3s !important;
     font-size: 20px;
     font-weight: 200;
 }
@@ -158,8 +206,19 @@ select{
     font-weight: 200;
 }
 
+.iconosEmpresa{
+    color: white;
+    font-size: 33px;
+}
+
+.infoReserva{
+    transition: 0.3s;
+    background-color: #9bafd934 !important;
+    box-shadow: rgba(0, 0, 0, 0.199) 0px 4px 12px;
+    border-radius: 5px;
+}
 .infoReserva:hover{
-    background-color: rgba(114, 114, 114, 0.459) !important;
+    background-color: #10368369 !important;
 }
 
 .fa-user{
@@ -168,6 +227,11 @@ select{
 
 .me-auto{
     margin-left: 500px;
+}
+
+.iconoAtras{
+    font-size: 30px;
+    color: white;
 }
 
 .irAtras{

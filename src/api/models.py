@@ -63,9 +63,11 @@ class Linea(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     id_empresa = db.Column(db.Integer, db.ForeignKey('empresa.id'))
     nombre_linea = db.Column(db.String(120), unique=True, nullable=False)
+    destino = db.Column(db.String(120), unique=True, nullable=False)
     horario = db.relationship("Horario", backref="linea")
     parada = db.relationship("Parada", backref="linea")
     reserva = db.relationship("Reserva", backref="linea")
+
 
     def __repr__(self):
         return '<Linea %r>' % self.nombre_linea
@@ -74,7 +76,8 @@ class Linea(db.Model):
         return {
             "id": self.id,
             "nombre_linea": self.nombre_linea,
-            "id_empresa": self.id_empresa
+            "id_empresa": self.id_empresa,
+            "destino": self.destino
                        
         }
 
@@ -130,6 +133,7 @@ class Reserva(db.Model):
     asiento = db.Column(db.String(80), unique=False, nullable=False)
     fecha = db.Column(db.String(80), unique=False, nullable=False)
     codigo_reserva = db.Column(db.String(80), unique=True, nullable=False)
+
     def __repr__(self):
         return '<Reserva %r>' % self.id
 
@@ -141,7 +145,8 @@ class Reserva(db.Model):
             "asiento": self.asiento,
             "id_usuario": self.id_usuario,
             "fecha": self.fecha,
-            "codigo_reserva": self.codigo_reserva
+            "codigo_reserva": self.codigo_reserva,
+
            
         }
 

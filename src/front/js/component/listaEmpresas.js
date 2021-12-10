@@ -6,7 +6,7 @@ const ListaEmpresas = () => {
 
 	return (
 		<>
-			<div className="empresaInput container">
+			<div className="container">
 				{store.empresas.map(item => {
 					return <Empresas nombre={item.nombre} key={item.id} id={item.id} email={item.email} />;
 				})}

@@ -5,9 +5,8 @@ import "../../styles/home.scss";
 
 const Login = () => {
 	return (
-		<div className="body p-5">
-			<div className="container border-secondary text-light bg-dark p-3 mt-4 login border rounded">
-				<h2 className="text-light text-center display-4">Ingresa</h2>
+		<div className="container p-5">
+			<div>
 				<LoginForm />
 			</div>
 		</div>

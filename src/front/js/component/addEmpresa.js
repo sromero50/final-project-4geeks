@@ -19,10 +19,10 @@ const AddEmpresa = props => {
 
 	return (
 		<>
-			<div className="empresaInput container">
-				<div>
+			<div className="container tabla">
+				<div className="p-4">
 					<form onSubmit={handleSubmit}>
-						<div className="empresaInput row">
+						<div className="row">
 							<input
 								type="text"
 								className="form-control my-2"
@@ -49,7 +49,7 @@ const AddEmpresa = props => {
 							/>
 						</div>
 						<div className="text-center mt-2">
-							<button type="submit" className="btn btn-light btn-lg">
+							<button type="submit" className="btn btn-dark btn-lg">
 								Registrar
 							</button>
 						</div>

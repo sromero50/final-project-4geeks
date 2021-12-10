@@ -6,6 +6,7 @@ import Calendar from "react-calendar";
 import "../../styles/Calendar.css";
 import Mapa from "../component/mapa";
 import { Redirect } from "react-router";
+import Swal from "sweetalert2";
 export const Reserva = () => {
 	const history = useHistory();
 	const { store, actions } = useContext(Context);
@@ -35,6 +36,23 @@ export const Reserva = () => {
 			}
 		},
 		[value]
+	);
+
+	useEffect(
+		() => {
+			if (asiento < 1) {
+				setAsiento(1);
+			}
+			if (asiento > 5) {
+				setAsiento(5);
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "Solo se permiten 5 asientos por reserva"
+				});
+			}
+		},
+		[asiento]
 	);
 
 	useEffect(() => {
@@ -70,47 +88,58 @@ export const Reserva = () => {
 
 	return (
 		<>
-			<div className="text-center body">
+			<div className="text-center bg-dark container mt-5 border border-dark rounded">
 				<h1 className="display-2 text-light p-5">Reservas</h1>
 				<form onSubmit={handleSubmit}>
 					<div className="pb-3">
-						<div className="row w-25 mx-auto">
+						<div className="container row mx-auto">
 							<select
 								id="mySelect"
-								className="form-select col mx-5 bg-dark text-light border border-secondary rounded text-center"
+								className="form-select parada col-md tabla mx-1 text-light border border-dark rounded text-center"
 								onChange={e => setLinea(e.target.value)}>
-								<option defaultValue>Linea</option>
+								<option className="bg-select parada" defaultValue>
+									Linea
+								</option>
 								{store.lineas.map((item, index) => {
 									return (
-										<option className="text-center" key={index} value={item.id}>
+										<option className="text-center bg-select parada" key={index} value={item.id}>
 											{item.nombre_linea}
 										</option>
 									);
 								})}
 							</select>
+							{store.lineas.map(item => {
+								return (
+									<>
+										{linea == item.id ? (
+											<div className="col-md tabla text-light mx-1 border border-dark rounded text-center parada">
+												<p className="mt-3">{item.destino}</p>
+											</div>
+										) : null}
+									</>
+								);
+							})}
 						</div>
 					</div>
-					<div className="container pb-3">
+					<div className="container pb-3 my-5">
 						<Calendar
-							className="m-auto tabla border border-rounded border-secondary"
+							className="m-auto bg-dark border rounded border-dark"
 							onChange={onChange}
 							value={value}
 						/>
 					</div>
-					<div className="row container m-auto w-50">
+					<div className="row container m-auto my-5">
 						{store.paradas.map(parada => {
 							return (
 								<>
 									{linea == parada.id_linea ? (
 										<>
-											<div
-												key={parada.ubicacion}
-												className="col border border-secondary rounded tabla container bg-dark text-light ">
+											<div key={parada.ubicacion} className="col-md container tabla text-light ">
 												<ul className="parada list-group  my-2 list-group-flush">
 													<span className="form-inline m-auto">
 														{parada.ubicacion}{" "}
 														<i
-															className="fas fa-map-marker-alt fa-sm ms-2"
+															className="fas fa-map-marker-alt fa-sm ms-2 iconoParada"
 															data-toggle="modal"
 															data-target={"#" + parada.id}
 														/>
@@ -138,7 +167,7 @@ export const Reserva = () => {
 																	<>
 																		{parada.id == horario.id_parada ? (
 																			<>
-																				<li className="list-group-item text-light bg-dark">
+																				<li className="list-group-item liColor text-light">
 																					<input
 																						className="inputReserva"
 																						id={horario.hora}
@@ -150,7 +179,7 @@ export const Reserva = () => {
 																						}
 																					/>
 																					<label
-																						className="labelReserva pt-1 hora border border-secondary rounded"
+																						className="labelReserva pt-1 hora bg-dark border border-dark rounded"
 																						htmlFor={horario.hora}>
 																						{horario.hora}
 																					</label>
@@ -170,23 +199,26 @@ export const Reserva = () => {
 							);
 						})}
 					</div>
-
-					<div className="container selectorAsientos tabla bg-dark border-secondary border rounded  mt-3 m-auto mb-3">
-						<div className="text-light d-flex align-items-center">
-							<div className="ms-3 mt-2">
-								<p className="asientos"> Cantidad de asientos: {asiento} </p>
+					{form && (
+						<>
+							<div className="container col-xs-12 tabla  p-3 my-5 m-auto">
+								<div className="text-light d-flex justify-content-center">
+									<div className=" mt-2">
+										<p className="asientos"> Cantidad de asientos: {asiento} </p>
+									</div>
+									<span className="ms-3 mt-3" onClick={() => setAsiento(asiento + 1)}>
+										<i className="fas fa-plus botonAsiento" />
+									</span>
+									<span className="ms-3 mt-3 " onClick={() => setAsiento(asiento - 1)}>
+										<i className="fas fa-minus botonAsiento" />
+									</span>
+								</div>
+								<button type="submit" className="btn btn-dark btn-block mt-3 boton">
+									Confirmar
+								</button>
 							</div>
-							<span className="ms-3 mb-1" onClick={() => setAsiento(asiento + 1)}>
-								<i className="fas fa-plus botonAsiento" />
-							</span>
-							<span className="ms-3 mb-1 " onClick={() => setAsiento(asiento - 1)}>
-								<i className="fas fa-minus botonAsiento" />
-							</span>
-						</div>
-						<button type="submit" className="btn btn-light btn-block mb-5">
-							Reservar
-						</button>
-					</div>
+						</>
+					)}
 				</form>
 			</div>
 			{store.reload && <Redirect to="/confirmacion/" />}

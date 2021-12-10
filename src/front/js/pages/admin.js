@@ -13,11 +13,11 @@ const Admin = () => {
 		<>
 			<Loading active={store.admin}>
 				{store.admin && (
-					<div className="text-center body">
-						<h1 className="display-2 text-white p-5">Administración</h1>
+					<div className="text-center container w-50 m-auto p-4">
+						<h1 className="display-2 text-light text-center">Administración</h1>
 						<ListaEmpresas />
-						<span onClick={() => setAdd(!add)}>
-							<i className="fas fa-plus" />
+						<span className="mt-5" onClick={() => setAdd(!add)}>
+							<i className="fas fa-plus fa-2x text-light mt-5 mb-3" />
 						</span>
 						{add == true ? <AddEmpresa /> : null}
 					</div>

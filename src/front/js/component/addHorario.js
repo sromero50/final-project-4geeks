@@ -40,7 +40,7 @@ const AddHorario = props => {
 							/>
 						</div>
 						<div className="text-center">
-							<button type="submit" className="btn btn-light">
+							<button type="submit" className="btn btn-dark">
 								Registrar
 							</button>
 						</div>

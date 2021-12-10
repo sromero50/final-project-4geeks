@@ -41,102 +41,87 @@ const RegistroForm = () => {
 		<>
 			{!store.signup && (
 				<form action="" id="login" name="registroForm" onSubmit={handleSubmit}>
-					<div className="row">
-						<div className="form-group my-3">
-							<label className="labelRegistros">Nombre</label>
-							<div className="input-group">
-								<span className="input-group-addon ">
-									<i className="fas fa-user-circle iconoInput" />
-								</span>
-								<input
-									className="form-control input-group"
-									type="text"
-									value={form.nombre}
-									name="nombre"
-									placeholder="Ingrese su nombre"
-									onChange={handleChange}
-									required
-								/>
+					<div className="row d-flex align-items-center justify-content-center">
+						<div className="col-md-6">
+							<div className="card px-5 py-5 tabla text-light border border-dark rounded">
+								<h1 className="text-light text-center display-5 my-3">Registrate</h1>
+								<label className="form-label">
+									<h4>Nombre</h4>
+								</label>
+								<div className="form-input input-group mb-3">
+									<span className="input-group-text">
+										<i className="fa fa-envelope fa-sm" />
+									</span>
+									<input
+										name="nombre"
+										required
+										onChange={handleChange}
+										type="text"
+										className="form-control"
+										value={form.Nombre}
+										placeholder="Ingrese su nombre"
+									/>{" "}
+								</div>
+								<label className="form-label">
+									<h4>Email</h4>
+								</label>
+								<div className="form-input input-group mb-3">
+									<span className="input-group-text">
+										<i className="fa fa-envelope fa-sm" />
+									</span>
+									<input
+										name="email"
+										required
+										onChange={handleChange}
+										type="text"
+										className="form-control"
+										value={form.email}
+										placeholder="Ingrese su email"
+									/>{" "}
+								</div>
+								<label className="form-label mt-3">
+									<h4>Password</h4>
+								</label>
+								<div className="form-input input-group mb-3">
+									<span className="input-group-text">
+										<i className="fas fa-lock fa-md" />
+									</span>
+									<input
+										name="password"
+										required
+										onChange={handleChange}
+										type={hide ? "text" : "password"}
+										className="form-control"
+										placeholder="Ingrese su contraseña"
+										value={form.password}
+									/>{" "}
+									<span className="input-group-text" onClick={() => setHide(!hide)}>
+										<i className="far fa-eye" />
+									</span>
+								</div>
+								<label className="form-label mt-3">
+									<h4>Confirmar Password</h4>
+								</label>
+								<div className="form-input input-group mb-3">
+									<span className="input-group-text">
+										<i className="fas fa-lock fa-md" />
+									</span>
+									<input
+										name="password_confirm"
+										required
+										onChange={handleChange}
+										type={hide ? "text" : "password"}
+										className="form-control"
+										placeholder="Confirme su contraseña"
+										value={form.password_confirm}
+									/>{" "}
+									<span className="input-group-text" onClick={() => setHide(!hide)}>
+										<i className="far fa-eye" />
+									</span>
+								</div>
+								<button className="btn btn-dark fw-bold mt-4">Registrar</button>
 							</div>
 						</div>
-						<div className="form-group my-3">
-							<label className="labelRegistros">Email</label>
-							<div className="input-group">
-								<span className="input-group-addon ">
-									<i className="fas fa-envelope iconoInput" />
-								</span>
-								<input
-									className="form-control input-group "
-									type="email"
-									value={form.email}
-									name="email"
-									placeholder="Ingrese su email"
-									onChange={handleChange}
-									required
-								/>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="form-group my-3 mx-auto">
-							<label className="labelRegistros">Contraseña</label>
-							<div className="input-group ">
-								<span className="input-group-addon">
-									<i className="fas fa-lock iconoInput" />
-								</span>
-								<input
-									className="form-control input-group "
-									type={hide == false ? "password" : "text"}
-									value={form.password}
-									name="password"
-									placeholder="Ingrese su contraseña"
-									onChange={handleChange}
-									required
-								/>{" "}
-								<span className="input-group-addon" onClick={() => setHide(!hide)}>
-									<i className="far fa-eye iconoInput" />
-								</span>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="form-group my-3 mx-auto">
-							<label className="labelRegistros">Confirmar contraseña</label>
-							<div className="input-group ">
-								<span className="input-group-addon">
-									<i className="fas fa-lock iconoInput" />
-								</span>
-								<input
-									className="form-control input-group "
-									type={hide == false ? "password" : "text"}
-									value={form.password_confirm}
-									name="password_confirm"
-									placeholder="Confirme su contraseña"
-									onChange={handleChange}
-									required
-								/>{" "}
-								<span className="input-group-addon" onClick={() => setHide(!hide)}>
-									<i className="far fa-eye iconoInput" />
-								</span>
-							</div>
-						</div>
-					</div>
-					<div className="form-check text-center my-3">
-						<input
-							type="checkbox"
-							className="form-check-input"
-							id="empresa"
-							value={checkbox}
-							onClick={handleCheck}
-						/>
-						<label className="form-check-label" htmlFor="empresa">
-							Soy una empresa
-						</label>
-					</div>
-					<div className="text-center">
-						<button type="submit" className="btn btn-light btn-block">
-							Registrarse
-						</button>
 					</div>
 				</form>
 			)}

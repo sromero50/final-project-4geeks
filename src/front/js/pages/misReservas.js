@@ -13,12 +13,10 @@ export const MisReservas = () => {
 			<Loading active={store.user}>
 				{" "}
 				{store.user && (
-					<div className="text-center body">
+					<div className="text-center">
 						<h1 className="display-4 text-light pt-5">Mis reservas</h1>
 						{store.reservas.length == 0 ? (
-							<h5 className="display-5 text-light">
-								Usted no ha hecho ninguna reserva
-							</h5>
+							<h5 className="display-5 text-light">Usted no ha hecho ninguna reserva</h5>
 						) : (
 							<>
 								{store.reservas.map(reserva => {
@@ -26,7 +24,7 @@ export const MisReservas = () => {
 										<>
 											{usuario == reserva.id_usuario ? (
 												<div
-													className="container border-secondary text-light p-3 mt-4 bg-dark border rounded reservas tabla w-25 text-left"
+													className="container text-light p-3 mt-4 reservas tabla w-25 text-left"
 													key={reserva.id}>
 													{store.lineas.map(linea => {
 														return (
@@ -46,7 +44,7 @@ export const MisReservas = () => {
 																										{reserva.id_horario ==
 																										horario.id ? (
 																											<>
-																												<div className="border rounded border-secondary  my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Codigo
 																														de
@@ -56,7 +54,7 @@ export const MisReservas = () => {
 																														}
 																													</h3>
 																												</div>
-																												<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Linea:{" "}
 																														{
@@ -64,7 +62,7 @@ export const MisReservas = () => {
 																														}
 																													</h3>
 																												</div>
-																												<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Empresa:{" "}
 																														{
@@ -72,7 +70,7 @@ export const MisReservas = () => {
 																														}
 																													</h3>
 																												</div>
-																												<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Horario
 																														de
@@ -82,7 +80,7 @@ export const MisReservas = () => {
 																														}
 																													</h3>
 																												</div>
-																												<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Fecha:{" "}
 																														{
@@ -90,7 +88,7 @@ export const MisReservas = () => {
 																														}
 																													</h3>
 																												</div>
-																												<div className="border rounded border-secondary infoReserva my-2 ps-2">
+																												<div className="infoReserva my-2 ps-2">
 																													<h3 className="datosReserva">
 																														Asientos:{" "}
 																														{
@@ -114,7 +112,7 @@ export const MisReservas = () => {
 														);
 													})}
 													<span onClick={() => actions.deleteReserva(reserva.id)}>
-														<i className="fas fa-trash-alt" />
+														<i className="fas fa-trash-alt iconoAtras" />
 													</span>
 												</div>
 											) : null}

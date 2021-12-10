@@ -286,7 +286,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			addLinea: async (id_empresa, nombre_linea) => {
+			addLinea: async (id_empresa, nombre_linea, destino) => {
 				const token = localStorage.getItem("empresa");
 
 				var myHeaders = new Headers();
@@ -295,7 +295,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				var raw = JSON.stringify({
 					id_empresa: id_empresa,
-					nombre_linea: nombre_linea
+					nombre_linea: nombre_linea,
+					destino: destino
 				});
 
 				var requestOptions = {
@@ -507,7 +508,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				});
 			},
-			editLinea: async (id_empresa, id, nombre_linea) => {
+			editLinea: async (id_empresa, id, nombre_linea, destino) => {
 				try {
 					const store = getStore();
 					Swal.fire({
@@ -527,7 +528,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 							var raw = JSON.stringify({
 								id_empresa: id_empresa,
-								nombre_linea: nombre_linea
+								nombre_linea: nombre_linea,
+								destino: destino
 							});
 
 							var requestOptions = {

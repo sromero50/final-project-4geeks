@@ -20,7 +20,7 @@ const EditLinea = props => {
 
 	return (
 		<>
-			<div className="container w-50">
+			<div className="container">
 				<div>
 					<form onSubmit={handleSubmit}>
 						<div>
