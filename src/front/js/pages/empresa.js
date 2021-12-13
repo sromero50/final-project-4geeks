@@ -77,6 +77,7 @@ export const Empresa = () => {
 																id_empresa={item.id_empresa}
 																id={item.id}
 																nombre_linea={item.nombre_linea}
+																destino={item.destino}
 															/>
 														) : null}
 													</>

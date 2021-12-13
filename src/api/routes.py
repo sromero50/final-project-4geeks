@@ -349,6 +349,7 @@ def modify_linea(id):
     
     linea.id_empresa = body["id_empresa"]
     linea.nombre_linea = body["nombre_linea"]
+    linea.destino = body["destino"]
     
     db.session.commit()
     linea_query = Linea.query.all()

@@ -308,7 +308,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const response = await fetch(process.env.BACKEND_URL + "/api/linea/", requestOptions);
 				const data = await response.json();
-				if (data) {
+				if (response.status === 200) {
 					setStore({ reload: true });
 					Swal.fire({
 						position: "center",
@@ -317,7 +317,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						showConfirmButton: false,
 						timer: 1500
 					});
-				} else if (response.status == 401) {
+				} else {
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
@@ -344,7 +344,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				};
 				const response = await fetch(process.env.BACKEND_URL + "/api/parada/", requestOptions);
 				const data = await response.json();
-				if (data) {
+				if (response.status === 200) {
 					setStore({ reload: true });
 					Swal.fire({
 						position: "center",
@@ -353,7 +353,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						showConfirmButton: false,
 						timer: 1500
 					});
-				} else if (response.status == 401) {
+				} else {
 					Swal.fire({
 						icon: "error",
 						title: "Oops...",
@@ -540,7 +540,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 							};
 							const response = await fetch(process.env.BACKEND_URL + "/api/linea/" + id, requestOptions);
 							const data = await response.json();
-							if (data) {
+							if (response.status === 200) {
 								Swal.fire("¡Modificada!", "La linea ha sido modificada", "success");
 								setStore({ reload: true });
 							}
@@ -579,7 +579,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						};
 						const response = await fetch(process.env.BACKEND_URL + "/api/parada/" + id, requestOptions);
 						const data = await response.json();
-						if (data) {
+						if (response.status === 200) {
 							Swal.fire("¡Modificada!", "La parada ha sido modificada", "success");
 							setStore({ reload: true });
 						}
@@ -619,7 +619,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						const response = await fetch(process.env.BACKEND_URL + "/api/horario/" + id, requestOptions);
 						const data = await response.json();
-						if (data) {
+						if (response.status === 200) {
 							Swal.fire("¡Modificado!", "El horario ha sido modificado", "success");
 							setStore({ reload: true });
 						}
@@ -726,7 +726,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 						const response = await fetch(process.env.BACKEND_URL + "/api/reserva/" + id, requestOptions);
 						const data = await response.json();
-						if (data) {
+						if (response.status === 200) {
 							setStore({ reload: true });
 							Swal.fire("¡Modificada!", "La reserva ha sido modificada", "success");
 						}
