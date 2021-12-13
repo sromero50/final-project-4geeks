@@ -41,11 +41,11 @@ export const Navbar = () => {
 											Reservar
 										</a>
 									</li>
-									<div className="form-inline">
+									<>
 										{store.info.map(item => {
 											return (
-												<li className="nav-item form-inline " key={item.id}>
-													<a className="nav-link ms-1" href="/usuario/">
+												<li className="nav-item" key={item.id}>
+													<a className="nav-link" href="/usuario/">
 														{item.nombre}
 													</a>
 												</li>
@@ -53,39 +53,39 @@ export const Navbar = () => {
 										})}
 										<></>
 										<li className="nav-item">
-											<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
+											<a className="nav-link " href="/" onClick={() => actions.logout()}>
 												Salir
 											</a>
 										</li>
-									</div>
+									</>
 								</>
 							)}
 							{store.admin && (
 								<>
-									<div className="form-inline">
+									<>
 										{store.info.map(item => {
 											return (
-												<li className="nav-item form-inline" key={item.id}>
-													<a className="nav-link ms-1" href="/administrador/">
+												<li className="nav-item" key={item.id}>
+													<a className="nav-link" href="/administrador/">
 														{item.nombre}
 													</a>
 												</li>
 											);
 										})}
 										<></>
-										<li className="nav-item form-inline">
-											<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
+										<li className="nav-item">
+											<a className="nav-link" href="/" onClick={() => actions.logout()}>
 												Salir
 											</a>
 										</li>
-									</div>
+									</>
 								</>
 							)}
 							{store.empresa && (
-								<div className="form-inline">
+								<div>
 									{store.info.map(item => {
 										return (
-											<li className="nav-item m-start form-inline" key={item.id}>
+											<li className="nav-item m-start" key={item.id}>
 												<a className="nav-link ms-1" href="/empresa">
 													{item.nombre}
 												</a>
@@ -93,7 +93,7 @@ export const Navbar = () => {
 										);
 									})}
 									<></>
-									<li className="nav-item form-inline">
+									<li className="nav-item">
 										<a className="nav-link ms-1" href="/" onClick={() => actions.logout()}>
 											Salir
 										</a>
@@ -101,18 +101,18 @@ export const Navbar = () => {
 								</div>
 							)}
 							{!store.login && (
-								<div className="form-inline">
+								<>
 									<li className="nav-item">
 										<a className="nav-link" href="/login/">
 											Ingresa
 										</a>
 									</li>
 									<li className="nav-item">
-										<a className="nav-link ms-1" href="/registrate/">
+										<a className="nav-link" href="/registrate/">
 											Registrate
 										</a>
 									</li>
-								</div>
+								</>
 							)}
 						</ul>
 					</div>

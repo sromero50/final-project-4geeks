@@ -16,7 +16,7 @@ const Quienes = () => {
 				</p>
 			</div>
 			<div className="container mt-5 row text-light m-auto" style={{ fontWeight: "lighter" }}>
-				<div className="col-sm-3 card bg-dark p-3 m-auto border rounded border-dark">
+				<div className="col-sm-3 my-1 card bg-dark p-3 m-auto border rounded border-dark">
 					<img src={maria} alt="..." className="quienes-img m-auto rounded-circle" />
 					<div className="card-body">
 						<h3 className="mt-2">Maria Perrone</h3>
@@ -25,7 +25,7 @@ const Quienes = () => {
 						<p>Profesora de inglés</p>
 					</div>
 				</div>
-				<div className="col-sm-3 card bg-dark p-3 border rounded border-dark">
+				<div className="col-sm-3 my-1 card bg-dark p-3 border rounded border-dark">
 					<img src={seba} alt="..." className="quienes-img m-auto rounded-circle" />
 
 					<h3 className="mt-2">Sebastian Romero</h3>
@@ -33,7 +33,7 @@ const Quienes = () => {
 					<p>Estudiante de traductorado de inglés</p>
 					<p>Estudiante de analista programador</p>
 				</div>
-				<div className="col-sm-3 card bg-dark p-3 m-auto border rounded border-dark">
+				<div className="col-sm-3 my-1 card bg-dark p-3 m-auto border rounded border-dark">
 					<img src={fabian} alt="..." className="quienes-img m-auto rounded-circle" />
 					<div className="card-body">
 						<h3 className="mt-2 card-title">Fabian Lopez</h3>

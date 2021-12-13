@@ -17,7 +17,7 @@ export const Consulta = () => {
 				<div className="row mx-auto p-4">
 					<select
 						id="mySelect"
-						className="form-select col-md text-light tabla mx-1 border border-dark parada rounded text-center"
+						className="form-select my-1 col-md text-light tabla mx-1 border border-dark parada rounded text-center"
 						onChange={e => setLinea(e.target.value)}>
 						<option className="bg-select" defaultValue>
 							Linea
@@ -31,7 +31,7 @@ export const Consulta = () => {
 						})}
 					</select>
 					<select
-						className="form-select col-md tabla text-light mx-1 parada border border-dark rounded text-center"
+						className="form-select my-1 col-md tabla text-light mx-1 parada border border-dark rounded text-center"
 						aria-label="Default select example"
 						onChange={e => setTipoDia(e.target.value)}>
 						<option className="bg-select parada" defaultValue>
@@ -55,7 +55,7 @@ export const Consulta = () => {
 						return (
 							<>
 								{linea == item.id ? (
-									<div className="col-md tabla text-light mx-1 border border-dark rounded text-center parada">
+									<div className="col-md my-1 tabla text-light mx-1 border border-dark rounded text-center parada">
 										<p className="mt-3">{item.destino}</p>
 									</div>
 								) : null}
@@ -69,7 +69,7 @@ export const Consulta = () => {
 					return (
 						<React.Fragment key={parada.ubicacion}>
 							{linea == parada.id_linea ? (
-								<div className="col border border-dark rounded container tabla text-light ">
+								<div className="col-md border my-1 border-dark rounded container tabla text-light ">
 									<ul className="parada list-group my-2 list-group-flush">
 										<span className="form-inline m-auto">
 											{parada.ubicacion}{" "}

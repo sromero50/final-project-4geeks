@@ -16,7 +16,7 @@ const Confirmacion = () => {
 			<h1 className="display-4 pb-3 text-light text-center">¡Reserva confirmada!</h1>
 			{JSON.parse(store.reservaConfirmada).map((reserva, index) => {
 				return (
-					<div className="container text-light tabla reservas p-3 text-start mt-4 w-25" key={index}>
+					<div className="container col-md-4 text-light tabla reservas p-3 text-start mt-4" key={index}>
 						{store.lineas.map(linea => {
 							return (
 								<>

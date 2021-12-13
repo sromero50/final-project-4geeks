@@ -13,7 +13,7 @@ export const MisReservas = () => {
 			<Loading active={store.user}>
 				{" "}
 				{store.user && (
-					<div className="text-center">
+					<div className="text-center container">
 						<h1 className="display-4 text-light pt-5">Mis reservas</h1>
 						{store.reservas.length == 0 ? (
 							<h5 className="display-5 text-light">Usted no ha hecho ninguna reserva</h5>
@@ -24,7 +24,7 @@ export const MisReservas = () => {
 										<>
 											{usuario == reserva.id_usuario ? (
 												<div
-													className="container text-light p-3 mt-4 reservas tabla w-25 text-left"
+													className="container col-md-4 text-light p-3 mt-4 reservas tabla text-left"
 													key={reserva.id}>
 													{store.lineas.map(linea => {
 														return (

@@ -95,7 +95,7 @@ export const Reserva = () => {
 						<div className="container row mx-auto">
 							<select
 								id="mySelect"
-								className="form-select parada col-md tabla mx-1 text-light border border-dark rounded text-center"
+								className="form-select my-1 parada col-md tabla mx-1 text-light border border-dark rounded text-center"
 								onChange={e => setLinea(e.target.value)}>
 								<option className="bg-select parada" defaultValue>
 									Linea
@@ -112,7 +112,7 @@ export const Reserva = () => {
 								return (
 									<>
 										{linea == item.id ? (
-											<div className="col-md tabla text-light mx-1 border border-dark rounded text-center parada">
+											<div className="col-md  my-1  tabla text-light mx-1 border border-dark rounded text-center parada">
 												<p className="mt-3">{item.destino}</p>
 											</div>
 										) : null}
@@ -134,7 +134,9 @@ export const Reserva = () => {
 								<>
 									{linea == parada.id_linea ? (
 										<>
-											<div key={parada.ubicacion} className="col-md container tabla text-light ">
+											<div
+												key={parada.ubicacion}
+												className="col-md  my-1  container tabla text-light ">
 												<ul className="parada list-group  my-2 list-group-flush">
 													<span className="form-inline m-auto">
 														{parada.ubicacion}{" "}
@@ -200,24 +202,22 @@ export const Reserva = () => {
 						})}
 					</div>
 					{form && (
-						<>
-							<div className="container col-xs-12 tabla  p-3 my-5 m-auto">
-								<div className="text-light d-flex justify-content-center">
-									<div className=" mt-2">
-										<p className="asientos"> Cantidad de asientos: {asiento} </p>
-									</div>
-									<span className="ms-3 mt-3" onClick={() => setAsiento(asiento + 1)}>
-										<i className="fas fa-plus botonAsiento" />
-									</span>
-									<span className="ms-3 mt-3 " onClick={() => setAsiento(asiento - 1)}>
-										<i className="fas fa-minus botonAsiento" />
-									</span>
+						<div className="container col-xs-12 tabla  p-3 mt-3 mb-3 m-auto">
+							<div className="text-light d-flex justify-content-center">
+								<div className=" mt-2">
+									<p className="asientos"> Cantidad de asientos: {asiento} </p>
 								</div>
-								<button type="submit" className="btn btn-dark btn-block mt-3 boton">
-									Confirmar
-								</button>
+								<span className="ms-3 mt-3" onClick={() => setAsiento(asiento + 1)}>
+									<i className="fas fa-plus botonAsiento" />
+								</span>
+								<span className="ms-3 mt-3 " onClick={() => setAsiento(asiento - 1)}>
+									<i className="fas fa-minus botonAsiento" />
+								</span>
 							</div>
-						</>
+							<button type="submit" className="btn btn-dark btn-block mt-3 boton">
+								Confirmar
+							</button>
+						</div>
 					)}
 				</form>
 			</div>
