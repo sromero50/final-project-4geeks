@@ -343,13 +343,6 @@
             "index": "pypi",
             "version": "==2.9.2"
         },
-        "pygraphviz": {
-            "hashes": [
-                "sha256:a7bec6609f37cf1e64898c59f075afd659106cf9356c5f387cecaa2e0cdb2304"
-            ],
-            "markers": "python_version >= '3.7'",
-            "version": "==1.7"
-        },
         "pyjwt": {
             "hashes": [
                 "sha256:b888b4d56f06f6dcd777210c334e69c737be74755d3e5e9ee3fe67dc18a0ee41",
