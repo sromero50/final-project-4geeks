@@ -54,7 +54,7 @@ def recover_contraseña():
     
     if usuario or empresa or admin:
         tokenUser = s.dumps([email], salt='emailconfirm')
-        link = f"https://3000-gold-mackerel-5o5zr225.ws-us23.gitpod.io/resetcontraseña/{tokenUser}"
+        link = f"https://final-proyect-smarttravel.herokuapp.com//resetcontraseña/{tokenUser}"
         msg = Message()
         msg.subject = "Recupera tu contraseña"
         msg.recipients = [email]
