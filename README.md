@@ -58,20 +58,20 @@ It is recomended to install the backend first, make sure you have Python 3.8, Pi
 
 ### Views
 ### User:
-![Imgur](https://imgur.com/ZTwN7re.gif)
+![Imgur](https://github.com/sromero50/final-project-4geeks/blob/main/demo/user.gif)
 
 ***Email: user-test-4geeks@hotmail.com***
 ***Password: usuario***
 
 ### Company:
-![Imgur](https://imgur.com/pTP3bo8.gif)
+![Imgur](https://github.com/sromero50/final-project-4geeks/blob/main/demo/company.gif)
 ![Imgur](https://imgur.com/igrgUVu.gif)
 
 ***Email: empresa-test-4geeks@hotmail.com***
 ***Password: empresa***
 
 ### Admin:
-![Imgur](https://imgur.com/kAyJLUG.gif)
+![Imgur](https://github.com/sromero50/final-project-4geeks/blob/main/demo/admin.gif)
 
 ***Email: 	admin-test-4geeks@hotmail.com***
 ***Password: admin***
