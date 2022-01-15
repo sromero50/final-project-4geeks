@@ -75,7 +75,7 @@ It is recomended to install the backend first, make sure you have Python 3.8, Pi
 
 ***Email: 	admin-test-4geeks@hotmail.com***
 ***Password: admin***
-### Heroku:
+### Heroku
 ### [Click Here]
 
    [mariaperrone]: <https://github.com/mariaperrone>
