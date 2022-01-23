@@ -789,7 +789,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: raw,
 						redirect: "follow"
 					};
-					const response = await fetch("https://final-project-smarttravel.herokuapp.com/api/recuperar", requestOptions);
+					const response = await fetch(process.env.BACKEND_URL+"/api/recuperar", requestOptions);
 					const responseBody = await response.json();
 
 					if (responseBody.msg == "email enviado") {
@@ -822,7 +822,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: raw,
 						redirect: "follow"
 					};
-					const response = await fetch("https://final-project-smarttravel.herokuapp.com/api/resetcontraseña", requestOptions);
+					const response = await fetch(process.env.BACKEND_URL+"/api/resetcontraseña", requestOptions);
 					const responseBody = await response.json();
 
 					if (responseBody.msg == "contraseña cambiada") {
